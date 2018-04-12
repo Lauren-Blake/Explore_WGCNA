@@ -1,0 +1,3590 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Lauren Blake" />
+
+<meta name="date" content="2018-04-11" />
+
+<title>Tutorial_1</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">WGCNA</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jdblischak/workflowr">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Tutorial_1</h1>
+<h4 class="author"><em>Lauren Blake</em></h4>
+<h4 class="date"><em>2018-04-11</em></h4>
+
+</div>
+
+
+<!-- The file analysis/chunks.R contains chunks that define default settings
+shared across the workflowr files. -->
+<!-- Update knitr chunk options -->
+<!-- Insert the date the file was last updated -->
+<p><strong>Last updated:</strong> 2018-04-12</p>
+<!-- Insert the code version (Git commit SHA1) if Git repository exists and R
+ package git2r is installed -->
+<p><strong>Code version:</strong> bcd4271</p>
+<!-- Add your analysis here -->
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The goal of this script is to install the WGCNA package and then to explore [tutorial 1]<a href="https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html" class="uri">https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html</a>. According to the website, “the first tutorial guides the reader through an analysis of a single empirical gene expression data set.”</p>
+<p>Note: Most of the code below was taken from the R scripts also provided by the WGCNA authors and can be found on the tutorial [website]<a href="https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html" class="uri">https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html</a>. Most of the annotation outside of the code chunks is my own.</p>
+<p>Note: The networks, modules, etc. below were build using parameters given in the tutorial. I will need to spend time learning about these parameters and exploring the robustness of these parameters.</p>
+</div>
+<div id="data-input-and-cleaning-including-re-formatting-the-data-for-consensus-analysis." class="section level1">
+<h1>Data input and cleaning, including re-formatting the data for consensus analysis.</h1>
+<pre class="r"><code># Display the current working directory
+getwd()</code></pre>
+<pre><code>[1] &quot;/Users/laurenblake/Desktop/WGCNA/analysis&quot;</code></pre>
+<pre class="r"><code># Load the package
+library(WGCNA)</code></pre>
+<pre><code>Loading required package: dynamicTreeCut</code></pre>
+<pre><code>Loading required package: fastcluster</code></pre>
+<pre><code>
+Attaching package: &#39;fastcluster&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:stats&#39;:
+
+    hclust</code></pre>
+<pre><code></code></pre>
+<pre><code>==========================================================================
+*
+*  Package WGCNA 1.63 loaded.
+*
+==========================================================================</code></pre>
+<pre><code>
+Attaching package: &#39;WGCNA&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:stats&#39;:
+
+    cor</code></pre>
+<pre class="r"><code>library(AnnotationDbi)</code></pre>
+<pre><code>Loading required package: stats4</code></pre>
+<pre><code>Loading required package: BiocGenerics</code></pre>
+<pre><code>Loading required package: parallel</code></pre>
+<pre><code>
+Attaching package: &#39;BiocGenerics&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:parallel&#39;:
+
+    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+    clusterExport, clusterMap, parApply, parCapply, parLapply,
+    parLapplyLB, parRapply, parSapply, parSapplyLB</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    IQR, mad, sd, var, xtabs</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    anyDuplicated, append, as.data.frame, cbind, colMeans,
+    colnames, colSums, do.call, duplicated, eval, evalq, Filter,
+    Find, get, grep, grepl, intersect, is.unsorted, lapply,
+    lengths, Map, mapply, match, mget, order, paste, pmax,
+    pmax.int, pmin, pmin.int, Position, rank, rbind, Reduce,
+    rowMeans, rownames, rowSums, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which, which.max, which.min</code></pre>
+<pre><code>Loading required package: Biobase</code></pre>
+<pre><code>Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    &#39;browseVignettes()&#39;. To cite Bioconductor, see
+    &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</code></pre>
+<pre><code>Loading required package: IRanges</code></pre>
+<pre><code>Loading required package: S4Vectors</code></pre>
+<pre><code>
+Attaching package: &#39;S4Vectors&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:base&#39;:
+
+    expand.grid</code></pre>
+<pre class="r"><code>library(anRichment)</code></pre>
+<pre><code>Loading required package: GO.db</code></pre>
+<pre><code>
+Attaching package: &#39;anRichment&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:WGCNA&#39;:
+
+    userListEnrichment</code></pre>
+<pre class="r"><code># The following setting is important, do not omit.
+options(stringsAsFactors = FALSE)
+enableWGCNAThreads()</code></pre>
+<pre><code>Allowing parallel execution with up to 7 working processes.</code></pre>
+<pre class="r"><code>allowWGCNAThreads()</code></pre>
+<pre><code>Allowing multi-threading with up to 8 threads.</code></pre>
+<pre class="r"><code>#Read in the female liver data set
+femData = read.csv(&quot;../data/LiverFemale3600.csv&quot;)
+# Read in the male liver data set
+maleData = read.csv(&quot;../data/LiverMale3600.csv&quot;);
+# Take a quick look at what is in the data sets:
+dim(femData)</code></pre>
+<pre><code>[1] 3600  143</code></pre>
+<pre class="r"><code>#names(femData)
+dim(maleData)</code></pre>
+<pre><code>[1] 3600  132</code></pre>
+<pre class="r"><code>#names(maleData)
+
+# Reshape the data so that we have 1 gene/microarray measurement per column and each sample name per row. 
+datExpr0 = as.data.frame(t(femData[, -c(1:8)]));
+dim(datExpr0)</code></pre>
+<pre><code>[1]  135 3600</code></pre>
+<pre class="r"><code>names(datExpr0) = femData$substanceBXH;
+rownames(datExpr0) = names(femData)[-c(1:8)];</code></pre>
+<p>Here, we have microarray data from 135 female mouse liver samples and 3600 genes/microarray positions.</p>
+<div id="filter-samples-and-genes-with-too-many-missing-entries" class="section level2">
+<h2>Filter samples and genes with too many missing entries</h2>
+<pre class="r"><code>gsg = goodSamplesGenes(datExpr0, verbose = 3);</code></pre>
+<pre><code> Flagging genes and samples with too many missing values...
+  ..step 1</code></pre>
+<pre class="r"><code>gsg$allOK</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<pre class="r"><code>if (!gsg$allOK)
+{
+  # Optionally, print the gene and sample names that were removed:
+  if (sum(!gsg$goodGenes)&gt;0) 
+     printFlush(paste(&quot;Removing genes:&quot;, paste(names(datExpr0)[!gsg$goodGenes], collapse = &quot;, &quot;)));
+  if (sum(!gsg$goodSamples)&gt;0) 
+     printFlush(paste(&quot;Removing samples:&quot;, paste(rownames(datExpr0)[!gsg$goodSamples], collapse = &quot;, &quot;)));
+  # Remove the offending genes and samples from the data:
+  datExpr0 = datExpr0[gsg$goodSamples, gsg$goodGenes]
+}</code></pre>
+<p>Our samples are ok.</p>
+</div>
+</div>
+<div id="sample-clustering-based-on-gene-expression-data" class="section level1">
+<h1>Sample clustering (based on gene expression data)</h1>
+<pre class="r"><code>sampleTree = hclust(dist(datExpr0), method = &quot;average&quot;);
+# Plot the sample tree: Open a graphic output window of size 12 by 9 inches
+# The user should change the dimensions if the window is too large or too small.
+sizeGrWindow(12,9)
+#pdf(file = &quot;Plots/sampleClustering.pdf&quot;, width = 12, height = 9);
+par(cex = 0.6);
+par(mar = c(0,4,2,0))
+plot(sampleTree, main = &quot;Sample clustering to detect outliers&quot;, sub=&quot;&quot;, xlab=&quot;&quot;, cex.lab = 1.5, 
+     cex.axis = 1.5, cex.main = 2)
+
+# Plot a line to show the cut
+abline(h = 15, col = &quot;red&quot;);
+# Determine cluster under the line
+clust = cutreeStatic(sampleTree, cutHeight = 15, minSize = 10)
+table(clust)</code></pre>
+<pre><code>clust
+  0   1 
+  1 134 </code></pre>
+<pre class="r"><code># clust 1 contains the samples we want to keep.
+keepSamples = (clust==1)
+datExpr = datExpr0[keepSamples, ]
+nGenes = ncol(datExpr)
+nSamples = nrow(datExpr)</code></pre>
+<p>134/135 samples do not have evidence of being outliers.</p>
+<div id="add-the-clinical-data" class="section level2">
+<h2>Add the clinical data</h2>
+<pre class="r"><code>traitData = read.csv(&quot;../data/ClinicalTraits.csv&quot;);
+dim(traitData)</code></pre>
+<pre><code>[1] 361  38</code></pre>
+<pre class="r"><code>names(traitData)</code></pre>
+<pre><code> [1] &quot;X&quot;                  &quot;Mice&quot;               &quot;Number&quot;            
+ [4] &quot;Mouse_ID&quot;           &quot;Strain&quot;             &quot;sex&quot;               
+ [7] &quot;DOB&quot;                &quot;parents&quot;            &quot;Western_Diet&quot;      
+[10] &quot;Sac_Date&quot;           &quot;weight_g&quot;           &quot;length_cm&quot;         
+[13] &quot;ab_fat&quot;             &quot;other_fat&quot;          &quot;total_fat&quot;         
+[16] &quot;comments&quot;           &quot;X100xfat_weight&quot;    &quot;Trigly&quot;            
+[19] &quot;Total_Chol&quot;         &quot;HDL_Chol&quot;           &quot;UC&quot;                
+[22] &quot;FFA&quot;                &quot;Glucose&quot;            &quot;LDL_plus_VLDL&quot;     
+[25] &quot;MCP_1_phys&quot;         &quot;Insulin_ug_l&quot;       &quot;Glucose_Insulin&quot;   
+[28] &quot;Leptin_pg_ml&quot;       &quot;Adiponectin&quot;        &quot;Aortic.lesions&quot;    
+[31] &quot;Note&quot;               &quot;Aneurysm&quot;           &quot;Aortic_cal_M&quot;      
+[34] &quot;Aortic_cal_L&quot;       &quot;CoronaryArtery_Cal&quot; &quot;Myocardial_cal&quot;    
+[37] &quot;BMD_all_limbs&quot;      &quot;BMD_femurs_only&quot;   </code></pre>
+<pre class="r"><code># remove columns that hold information we do not need.
+allTraits = traitData[, -c(31, 16)];
+allTraits = allTraits[, c(2, 11:36) ];
+dim(allTraits)</code></pre>
+<pre><code>[1] 361  27</code></pre>
+<pre class="r"><code>names(allTraits)</code></pre>
+<pre><code> [1] &quot;Mice&quot;               &quot;weight_g&quot;           &quot;length_cm&quot;         
+ [4] &quot;ab_fat&quot;             &quot;other_fat&quot;          &quot;total_fat&quot;         
+ [7] &quot;X100xfat_weight&quot;    &quot;Trigly&quot;             &quot;Total_Chol&quot;        
+[10] &quot;HDL_Chol&quot;           &quot;UC&quot;                 &quot;FFA&quot;               
+[13] &quot;Glucose&quot;            &quot;LDL_plus_VLDL&quot;      &quot;MCP_1_phys&quot;        
+[16] &quot;Insulin_ug_l&quot;       &quot;Glucose_Insulin&quot;    &quot;Leptin_pg_ml&quot;      
+[19] &quot;Adiponectin&quot;        &quot;Aortic.lesions&quot;     &quot;Aneurysm&quot;          
+[22] &quot;Aortic_cal_M&quot;       &quot;Aortic_cal_L&quot;       &quot;CoronaryArtery_Cal&quot;
+[25] &quot;Myocardial_cal&quot;     &quot;BMD_all_limbs&quot;      &quot;BMD_femurs_only&quot;   </code></pre>
+<pre class="r"><code># Form a data frame analogous to expression data that will hold the clinical traits.
+
+femaleSamples = rownames(datExpr);
+traitRows = match(femaleSamples, allTraits$Mice);
+datTraits = allTraits[traitRows, -1];
+rownames(datTraits) = allTraits[traitRows, 1];
+
+dim(datTraits)</code></pre>
+<pre><code>[1] 134  26</code></pre>
+<pre class="r"><code>collectGarbage()</code></pre>
+<p>There are 30 metabolic traits.</p>
+</div>
+<div id="cluster-samples-with-gene-expression-and-make-heatmap-of-the-clinical-traits" class="section level2">
+<h2>Cluster samples with gene expression and make heatmap of the clinical traits</h2>
+<pre class="r"><code># Re-cluster samples
+sampleTree2 = hclust(dist(datExpr), method = &quot;average&quot;)
+# Convert traits to a color representation: white means low, red means high, grey means missing entry
+traitColors = numbers2colors(datTraits, signed = FALSE);
+# Plot the sample dendrogram and the colors underneath.
+plotDendroAndColors(sampleTree2, traitColors,
+                    groupLabels = names(datTraits), 
+                    main = &quot;Sample dendrogram and trait heatmap&quot;)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>save(datExpr, datTraits, file = &quot;../data/FemaleLiver-01-dataInput.RData&quot;)</code></pre>
+</div>
+</div>
+<div id="network-construction-and-module-detection" class="section level1">
+<h1>Network construction and module detection</h1>
+<pre class="r"><code># Load the data saved in the previous section
+lnames = load(file = &quot;../data/FemaleLiver-01-dataInput.RData&quot;)
+
+# Choose a set of soft-thresholding powers
+powers = c(c(1:10), seq(from = 12, to=20, by=2))
+# Call the network topology analysis function
+sft = pickSoftThreshold(datExpr, powerVector = powers, verbose = 5)</code></pre>
+<pre><code>pickSoftThreshold: will use block size 3600.
+ pickSoftThreshold: calculating connectivity for given powers...
+   ..working on genes 1 through 3600 of 3600
+   Power SFT.R.sq  slope truncated.R.sq mean.k. median.k. max.k.
+1      1   0.0278  0.345          0.456  747.00  762.0000 1210.0
+2      2   0.1260 -0.597          0.843  254.00  251.0000  574.0
+3      3   0.3400 -1.030          0.972  111.00  102.0000  324.0
+4      4   0.5060 -1.420          0.973   56.50   47.2000  202.0
+5      5   0.6810 -1.720          0.940   32.20   25.1000  134.0
+6      6   0.9020 -1.500          0.962   19.90   14.5000   94.8
+7      7   0.9210 -1.670          0.917   13.20    8.6800   84.1
+8      8   0.9040 -1.720          0.876    9.25    5.3900   76.3
+9      9   0.8590 -1.700          0.836    6.80    3.5600   70.5
+10    10   0.8330 -1.660          0.831    5.19    2.3800   65.8
+11    12   0.8530 -1.480          0.911    3.33    1.1500   58.1
+12    14   0.8760 -1.380          0.949    2.35    0.5740   51.9
+13    16   0.9070 -1.300          0.970    1.77    0.3090   46.8
+14    18   0.9120 -1.240          0.973    1.39    0.1670   42.5
+15    20   0.9310 -1.210          0.977    1.14    0.0951   38.7</code></pre>
+<pre class="r"><code># Plot the results:
+sizeGrWindow(9, 5)
+par(mfrow = c(1,2));
+cex1 = 0.9;
+# Scale-free topology fit index as a function of the soft-thresholding power
+plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
+     xlab=&quot;Soft Threshold (power)&quot;,ylab=&quot;Scale Free Topology Model Fit,signed R^2&quot;,type=&quot;n&quot;,
+     main = paste(&quot;Scale independence&quot;));
+text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
+     labels=powers,cex=cex1,col=&quot;red&quot;);
+# this line corresponds to using an R^2 cut-off of h
+abline(h=0.90,col=&quot;red&quot;)
+# Mean connectivity as a function of the soft-thresholding power
+plot(sft$fitIndices[,1], sft$fitIndices[,5],
+     xlab=&quot;Soft Threshold (power)&quot;,ylab=&quot;Mean Connectivity&quot;, type=&quot;n&quot;,
+     main = paste(&quot;Mean connectivity&quot;))
+text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=cex1,col=&quot;red&quot;)
+
+softPower = 6;
+adjacency = adjacency(datExpr, power = softPower)
+
+# Turn adjacency into topological overlap
+TOM = TOMsimilarity(adjacency);</code></pre>
+<pre><code>..connectivity..
+..matrix multiplication (system BLAS)..
+..normalization..
+..done.</code></pre>
+<pre class="r"><code>dissTOM = 1-TOM</code></pre>
+<div id="hierarchical-clustering-with-tom-topological-overlap-matrix-based-dissimilarity" class="section level2">
+<h2>Hierarchical clustering with TOM (Topological Overlap Matrix)-based dissimilarity</h2>
+<pre class="r"><code>geneTree = hclust(as.dist(dissTOM), method = &quot;average&quot;);
+# Plot the resulting clustering tree (dendrogram)
+sizeGrWindow(12,9)
+plot(geneTree, xlab=&quot;&quot;, sub=&quot;&quot;, main = &quot;Gene clustering on TOM-based dissimilarity&quot;,
+     labels = FALSE, hang = 0.04)</code></pre>
+</div>
+<div id="divide-into-modules" class="section level2">
+<h2>Divide into modules</h2>
+<pre class="r"><code># We like large modules, so we set the minimum module size relatively high:
+minModuleSize = 30;
+# Module identification using dynamic tree cut:
+dynamicMods = cutreeDynamic(dendro = geneTree, distM = dissTOM,
+                deepSplit = 2, pamRespectsDendro = FALSE,
+                minClusterSize = minModuleSize);</code></pre>
+<pre><code> ..cutHeight not given, setting it to 0.996  ===&gt;  99% of the (truncated) height range in dendro.
+ ..done.</code></pre>
+<pre class="r"><code>table(dynamicMods)</code></pre>
+<pre><code>dynamicMods
+  0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17 
+ 88 614 316 311 257 235 225 212 158 153 121 106 102 100  94  91  78  76 
+ 18  19  20  21  22 
+ 65  58  58  48  34 </code></pre>
+<pre class="r"><code># Give each module a color
+
+# Convert numeric lables into colors
+dynamicColors = labels2colors(dynamicMods)
+table(dynamicColors)</code></pre>
+<pre><code>dynamicColors
+       black         blue        brown         cyan    darkgreen 
+         212          316          311           94           34 
+     darkred        green  greenyellow         grey       grey60 
+          48          235          106           88           76 
+   lightcyan   lightgreen  lightyellow      magenta midnightblue 
+          78           65           58          153           91 
+        pink       purple          red    royalblue       salmon 
+         158          121          225           58          100 
+         tan    turquoise       yellow 
+         102          614          257 </code></pre>
+<pre class="r"><code># Plot the dendrogram and colors underneath
+sizeGrWindow(8,6)
+plotDendroAndColors(geneTree, dynamicColors, &quot;Dynamic Tree Cut&quot;,
+                    dendroLabels = FALSE, hang = 0.03,
+                    addGuide = TRUE, guideHang = 0.05,
+                    main = &quot;Gene dendrogram and module colors&quot;)</code></pre>
+</div>
+<div id="calculate-cluster-and-merge-based-on-eigengenes" class="section level2">
+<h2>Calculate, cluster, and merge based on eigengenes</h2>
+<pre class="r"><code># Calculate eigengenes
+MEList = moduleEigengenes(datExpr, colors = dynamicColors)
+MEs = MEList$eigengenes
+# Calculate dissimilarity of module eigengenes
+MEDiss = 1-cor(MEs);
+# Cluster module eigengenes
+METree = hclust(as.dist(MEDiss), method = &quot;average&quot;);
+# Plot the result
+sizeGrWindow(7, 6)
+plot(METree, main = &quot;Clustering of module eigengenes&quot;,
+     xlab = &quot;&quot;, sub = &quot;&quot;)
+MEDissThres = 0.25
+# Plot the cut line into the dendrogram
+abline(h=MEDissThres, col = &quot;red&quot;)
+# Call an automatic merging function
+merge = mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)</code></pre>
+<pre><code> mergeCloseModules: Merging modules whose distance is less than 0.25
+   multiSetMEs: Calculating module MEs.
+     Working on set 1 ...
+     moduleEigengenes: Calculating 23 module eigengenes in given set.
+   multiSetMEs: Calculating module MEs.
+     Working on set 1 ...
+     moduleEigengenes: Calculating 19 module eigengenes in given set.
+   Calculating new MEs...
+   multiSetMEs: Calculating module MEs.
+     Working on set 1 ...
+     moduleEigengenes: Calculating 19 module eigengenes in given set.</code></pre>
+<pre class="r"><code># The merged module colors
+mergedColors = merge$colors;
+# Eigengenes of the new merged modules:
+mergedMEs = merge$newMEs;
+
+sizeGrWindow(12, 9)
+#pdf(file = &quot;Plots/geneDendro-3.pdf&quot;, wi = 9, he = 6)
+plotDendroAndColors(geneTree, cbind(dynamicColors, mergedColors),
+                    c(&quot;Dynamic Tree Cut&quot;, &quot;Merged dynamic&quot;),
+                    dendroLabels = FALSE, hang = 0.03,
+                    addGuide = TRUE, guideHang = 0.05)
+#dev.off()
+
+# Rename to moduleColors
+moduleColors = mergedColors
+# Construct numerical labels corresponding to the colors
+colorOrder = c(&quot;grey&quot;, standardColors(50));
+moduleLabels = match(moduleColors, colorOrder)-1;
+MEs = mergedMEs;
+# Save module colors and labels for use in subsequent parts
+save(MEs, moduleLabels, moduleColors, geneTree, file = &quot;../data/FemaleLiver-02-networkConstruction-stepByStep.RData&quot;)</code></pre>
+</div>
+</div>
+<div id="study-relationships-between-triats-and-modules-using-eigengene-networks" class="section level1">
+<h1>Study relationships between triats and modules using eigengene networks</h1>
+<pre class="r"><code># Load the expression and trait data saved in the first part
+lnames = load(file = &quot;../data/FemaleLiver-01-dataInput.RData&quot;);
+#The variable lnames contains the names of loaded variables.
+lnames</code></pre>
+<pre><code>[1] &quot;datExpr&quot;   &quot;datTraits&quot;</code></pre>
+<pre class="r"><code># Load network data saved in the second part.
+lnames = load(file = &quot;../data/FemaleLiver-02-networkConstruction-stepByStep.RData&quot;);
+lnames</code></pre>
+<pre><code>[1] &quot;MEs&quot;          &quot;moduleLabels&quot; &quot;moduleColors&quot; &quot;geneTree&quot;    </code></pre>
+<pre class="r"><code># Define numbers of genes and samples
+nGenes = ncol(datExpr);
+nSamples = nrow(datExpr);
+# Recalculate MEs with color labels
+MEs0 = moduleEigengenes(datExpr, moduleColors)$eigengenes
+MEs = orderMEs(MEs0)
+moduleTraitCor = cor(MEs, datTraits, use = &quot;p&quot;);
+moduleTraitPvalue = corPvalueStudent(moduleTraitCor, nSamples);
+
+sizeGrWindow(10,6)
+# Will display correlations and their p-values
+textMatrix =  paste(signif(moduleTraitCor, 2), &quot;\n(&quot;,
+                           signif(moduleTraitPvalue, 1), &quot;)&quot;, sep = &quot;&quot;);
+dim(textMatrix) = dim(moduleTraitCor)
+par(mar = c(6, 8.5, 3, 3));
+# Display the correlation values within a heatmap plot
+labeledHeatmap(Matrix = moduleTraitCor,
+               xLabels = names(datTraits),
+               yLabels = names(MEs),
+               ySymbols = names(MEs),
+               colorLabels = FALSE,
+               colors = greenWhiteRed(50),
+               textMatrix = textMatrix,
+               setStdMargins = FALSE,
+               cex.text = 0.5,
+               zlim = c(-1,1),
+               main = paste(&quot;Module-trait relationships&quot;))</code></pre>
+<pre><code>Warning in greenWhiteRed(50): WGCNA::greenWhiteRed: this palette is not suitable for people
+with green-red color blindness (the most common kind of color blindness).
+Consider using the function blueWhiteRed instead.</code></pre>
+</div>
+<div id="find-key-drivers-in-interesting-modules" class="section level1">
+<h1>Find key drivers in interesting modules</h1>
+<p>In this example, we will identify the key genes in the brown module.</p>
+<pre class="r"><code># Define variable weight containing the weight column of datTrait
+weight = as.data.frame(datTraits$weight_g);
+names(weight) = &quot;weight&quot;
+# names (colors) of the modules
+modNames = substring(names(MEs), 3)
+
+geneModuleMembership = as.data.frame(cor(datExpr, MEs, use = &quot;p&quot;));
+MMPvalue = as.data.frame(corPvalueStudent(as.matrix(geneModuleMembership), nSamples));
+
+names(geneModuleMembership) = paste(&quot;MM&quot;, modNames, sep=&quot;&quot;);
+names(MMPvalue) = paste(&quot;p.MM&quot;, modNames, sep=&quot;&quot;);
+
+geneTraitSignificance = as.data.frame(cor(datExpr, weight, use = &quot;p&quot;));
+GSPvalue = as.data.frame(corPvalueStudent(as.matrix(geneTraitSignificance), nSamples));
+
+names(geneTraitSignificance) = paste(&quot;GS.&quot;, names(weight), sep=&quot;&quot;);
+names(GSPvalue) = paste(&quot;p.GS.&quot;, names(weight), sep=&quot;&quot;)
+
+module = &quot;brown&quot;
+column = match(module, modNames);
+moduleGenes = moduleColors==module;
+
+
+
+# Identify genes in the brown module
+names(datExpr)[moduleColors==&quot;brown&quot;]</code></pre>
+<pre><code>  [1] &quot;MMT00000149&quot; &quot;MMT00000283&quot; &quot;MMT00000550&quot; &quot;MMT00000701&quot; &quot;MMT00001190&quot;
+  [6] &quot;MMT00001555&quot; &quot;MMT00002022&quot; &quot;MMT00002304&quot; &quot;MMT00002597&quot; &quot;MMT00003530&quot;
+ [11] &quot;MMT00003950&quot; &quot;MMT00003980&quot; &quot;MMT00004086&quot; &quot;MMT00004142&quot; &quot;MMT00004888&quot;
+ [16] &quot;MMT00004979&quot; &quot;MMT00005744&quot; &quot;MMT00005990&quot; &quot;MMT00006144&quot; &quot;MMT00006263&quot;
+ [21] &quot;MMT00006429&quot; &quot;MMT00006538&quot; &quot;MMT00006662&quot; &quot;MMT00006957&quot; &quot;MMT00007272&quot;
+ [26] &quot;MMT00007407&quot; &quot;MMT00007435&quot; &quot;MMT00007440&quot; &quot;MMT00007878&quot; &quot;MMT00008036&quot;
+ [31] &quot;MMT00009295&quot; &quot;MMT00009359&quot; &quot;MMT00009945&quot; &quot;MMT00010174&quot; &quot;MMT00010351&quot;
+ [36] &quot;MMT00010888&quot; &quot;MMT00010910&quot; &quot;MMT00011143&quot; &quot;MMT00011445&quot; &quot;MMT00011731&quot;
+ [41] &quot;MMT00011790&quot; &quot;MMT00011900&quot; &quot;MMT00011968&quot; &quot;MMT00012128&quot; &quot;MMT00012280&quot;
+ [46] &quot;MMT00012401&quot; &quot;MMT00012409&quot; &quot;MMT00012891&quot; &quot;MMT00013033&quot; &quot;MMT00013096&quot;
+ [51] &quot;MMT00013656&quot; &quot;MMT00013815&quot; &quot;MMT00013831&quot; &quot;MMT00014327&quot; &quot;MMT00014634&quot;
+ [56] &quot;MMT00014725&quot; &quot;MMT00014928&quot; &quot;MMT00016194&quot; &quot;MMT00016725&quot; &quot;MMT00017539&quot;
+ [61] &quot;MMT00017636&quot; &quot;MMT00018346&quot; &quot;MMT00018639&quot; &quot;MMT00019118&quot; &quot;MMT00019132&quot;
+ [66] &quot;MMT00019497&quot; &quot;MMT00019554&quot; &quot;MMT00019943&quot; &quot;MMT00020565&quot; &quot;MMT00020566&quot;
+ [71] &quot;MMT00020651&quot; &quot;MMT00020843&quot; &quot;MMT00021077&quot; &quot;MMT00021725&quot; &quot;MMT00021925&quot;
+ [76] &quot;MMT00022137&quot; &quot;MMT00022223&quot; &quot;MMT00022622&quot; &quot;MMT00022665&quot; &quot;MMT00023085&quot;
+ [81] &quot;MMT00023162&quot; &quot;MMT00023212&quot; &quot;MMT00023406&quot; &quot;MMT00023455&quot; &quot;MMT00023638&quot;
+ [86] &quot;MMT00024043&quot; &quot;MMT00024332&quot; &quot;MMT00024414&quot; &quot;MMT00024533&quot; &quot;MMT00024618&quot;
+ [91] &quot;MMT00024811&quot; &quot;MMT00025239&quot; &quot;MMT00025271&quot; &quot;MMT00025321&quot; &quot;MMT00025851&quot;
+ [96] &quot;MMT00026215&quot; &quot;MMT00026361&quot; &quot;MMT00026530&quot; &quot;MMT00026541&quot; &quot;MMT00027108&quot;
+[101] &quot;MMT00027676&quot; &quot;MMT00028649&quot; &quot;MMT00028983&quot; &quot;MMT00029096&quot; &quot;MMT00029361&quot;
+[106] &quot;MMT00029749&quot; &quot;MMT00030264&quot; &quot;MMT00030627&quot; &quot;MMT00030705&quot; &quot;MMT00031294&quot;
+[111] &quot;MMT00031547&quot; &quot;MMT00031592&quot; &quot;MMT00032015&quot; &quot;MMT00032296&quot; &quot;MMT00033081&quot;
+[116] &quot;MMT00033582&quot; &quot;MMT00033844&quot; &quot;MMT00034010&quot; &quot;MMT00034321&quot; &quot;MMT00034683&quot;
+[121] &quot;MMT00034749&quot; &quot;MMT00034900&quot; &quot;MMT00035287&quot; &quot;MMT00035498&quot; &quot;MMT00035527&quot;
+[126] &quot;MMT00036239&quot; &quot;MMT00036275&quot; &quot;MMT00036444&quot; &quot;MMT00036701&quot; &quot;MMT00037414&quot;
+[131] &quot;MMT00037437&quot; &quot;MMT00038021&quot; &quot;MMT00038301&quot; &quot;MMT00038528&quot; &quot;MMT00040228&quot;
+[136] &quot;MMT00040558&quot; &quot;MMT00040562&quot; &quot;MMT00040999&quot; &quot;MMT00041350&quot; &quot;MMT00041468&quot;
+[141] &quot;MMT00041491&quot; &quot;MMT00041503&quot; &quot;MMT00041698&quot; &quot;MMT00041757&quot; &quot;MMT00041844&quot;
+[146] &quot;MMT00041965&quot; &quot;MMT00042003&quot; &quot;MMT00042025&quot; &quot;MMT00042479&quot; &quot;MMT00042488&quot;
+[151] &quot;MMT00042643&quot; &quot;MMT00042735&quot; &quot;MMT00044280&quot; &quot;MMT00044497&quot; &quot;MMT00044523&quot;
+[156] &quot;MMT00045146&quot; &quot;MMT00045469&quot; &quot;MMT00045533&quot; &quot;MMT00045544&quot; &quot;MMT00045670&quot;
+[161] &quot;MMT00045674&quot; &quot;MMT00045825&quot; &quot;MMT00046040&quot; &quot;MMT00046132&quot; &quot;MMT00046207&quot;
+[166] &quot;MMT00046594&quot; &quot;MMT00046867&quot; &quot;MMT00047041&quot; &quot;MMT00047053&quot; &quot;MMT00047335&quot;
+[171] &quot;MMT00047455&quot; &quot;MMT00047493&quot; &quot;MMT00047844&quot; &quot;MMT00047848&quot; &quot;MMT00047857&quot;
+[176] &quot;MMT00047884&quot; &quot;MMT00048205&quot; &quot;MMT00048288&quot; &quot;MMT00049000&quot; &quot;MMT00049225&quot;
+[181] &quot;MMT00050033&quot; &quot;MMT00050076&quot; &quot;MMT00050113&quot; &quot;MMT00050435&quot; &quot;MMT00050551&quot;
+[186] &quot;MMT00050876&quot; &quot;MMT00050978&quot; &quot;MMT00051013&quot; &quot;MMT00051300&quot; &quot;MMT00051489&quot;
+[191] &quot;MMT00052098&quot; &quot;MMT00052148&quot; &quot;MMT00052162&quot; &quot;MMT00052236&quot; &quot;MMT00053080&quot;
+[196] &quot;MMT00053249&quot; &quot;MMT00053389&quot; &quot;MMT00053515&quot; &quot;MMT00053583&quot; &quot;MMT00053732&quot;
+[201] &quot;MMT00054611&quot; &quot;MMT00054724&quot; &quot;MMT00054802&quot; &quot;MMT00054901&quot; &quot;MMT00054929&quot;
+[206] &quot;MMT00054945&quot; &quot;MMT00054967&quot; &quot;MMT00055034&quot; &quot;MMT00055129&quot; &quot;MMT00055401&quot;
+[211] &quot;MMT00055600&quot; &quot;MMT00056129&quot; &quot;MMT00056149&quot; &quot;MMT00056241&quot; &quot;MMT00056282&quot;
+[216] &quot;MMT00056768&quot; &quot;MMT00057173&quot; &quot;MMT00057391&quot; &quot;MMT00058126&quot; &quot;MMT00058475&quot;
+[221] &quot;MMT00058673&quot; &quot;MMT00058675&quot; &quot;MMT00059006&quot; &quot;MMT00059223&quot; &quot;MMT00059295&quot;
+[226] &quot;MMT00059743&quot; &quot;MMT00060205&quot; &quot;MMT00060276&quot; &quot;MMT00060366&quot; &quot;MMT00060382&quot;
+[231] &quot;MMT00060809&quot; &quot;MMT00060830&quot; &quot;MMT00061063&quot; &quot;MMT00061169&quot; &quot;MMT00061267&quot;
+[236] &quot;MMT00062170&quot; &quot;MMT00062579&quot; &quot;MMT00063950&quot; &quot;MMT00064106&quot; &quot;MMT00064144&quot;
+[241] &quot;MMT00064358&quot; &quot;MMT00065921&quot; &quot;MMT00066012&quot; &quot;MMT00066301&quot; &quot;MMT00066391&quot;
+[246] &quot;MMT00066585&quot; &quot;MMT00067321&quot; &quot;MMT00067495&quot; &quot;MMT00067556&quot; &quot;MMT00067716&quot;
+[251] &quot;MMT00067969&quot; &quot;MMT00068273&quot; &quot;MMT00068433&quot; &quot;MMT00068599&quot; &quot;MMT00068696&quot;
+[256] &quot;MMT00068980&quot; &quot;MMT00069854&quot; &quot;MMT00070151&quot; &quot;MMT00070211&quot; &quot;MMT00070300&quot;
+[261] &quot;MMT00070333&quot; &quot;MMT00070493&quot; &quot;MMT00070974&quot; &quot;MMT00071599&quot; &quot;MMT00072785&quot;
+[266] &quot;MMT00072855&quot; &quot;MMT00072866&quot; &quot;MMT00074104&quot; &quot;MMT00074235&quot; &quot;MMT00074309&quot;
+[271] &quot;MMT00074352&quot; &quot;MMT00074398&quot; &quot;MMT00074854&quot; &quot;MMT00075041&quot; &quot;MMT00075170&quot;
+[276] &quot;MMT00075201&quot; &quot;MMT00075508&quot; &quot;MMT00076216&quot; &quot;MMT00076232&quot; &quot;MMT00076251&quot;
+[281] &quot;MMT00076395&quot; &quot;MMT00076623&quot; &quot;MMT00077107&quot; &quot;MMT00077125&quot; &quot;MMT00077139&quot;
+[286] &quot;MMT00077157&quot; &quot;MMT00077178&quot; &quot;MMT00077685&quot; &quot;MMT00078059&quot; &quot;MMT00078102&quot;
+[291] &quot;MMT00078455&quot; &quot;MMT00078543&quot; &quot;MMT00078940&quot; &quot;MMT00078950&quot; &quot;MMT00079131&quot;
+[296] &quot;MMT00079520&quot; &quot;MMT00080097&quot; &quot;MMT00080406&quot; &quot;MMT00080624&quot; &quot;MMT00080630&quot;
+[301] &quot;MMT00080717&quot; &quot;MMT00080721&quot; &quot;MMT00081122&quot; &quot;MMT00081213&quot; &quot;MMT00081218&quot;
+[306] &quot;MMT00081264&quot; &quot;MMT00081880&quot; &quot;MMT00082034&quot; &quot;MMT00082126&quot; &quot;MMT00082651&quot;
+[311] &quot;MMT00082877&quot;</code></pre>
+<p>These are all genes that were assigned to the brown module (based on gene expression values across the mice samples).</p>
+<div id="identify-genes-in-the-brown-module-that-are-significant-for-body-weight" class="section level2">
+<h2>Identify genes in the brown module that are significant for body weight</h2>
+<pre class="r"><code>sizeGrWindow(7, 7);
+par(mfrow = c(1,1));
+verboseScatterplot(abs(geneModuleMembership[moduleGenes, column]),
+                   abs(geneTraitSignificance[moduleGenes, 1]),
+                   xlab = paste(&quot;Module Membership in&quot;, module, &quot;module&quot;),
+                   ylab = &quot;Gene significance for body weight&quot;,
+                   main = paste(&quot;Module membership vs. gene significance\n&quot;),
+                   cex.main = 1.2, cex.lab = 1.2, cex.axis = 1.2, col = module)</code></pre>
+</div>
+<div id="annotate-the-genes-in-the-brown-module" class="section level2">
+<h2>Annotate the genes in the brown module</h2>
+<pre class="r"><code>annot = read.csv(file = &quot;../data/GeneAnnotation.csv&quot;);
+dim(annot)</code></pre>
+<pre><code>[1] 23388    34</code></pre>
+<pre class="r"><code>names(annot)</code></pre>
+<pre><code> [1] &quot;X&quot;                        &quot;ID&quot;                      
+ [3] &quot;arrayname&quot;                &quot;substanceBXH&quot;            
+ [5] &quot;gene_symbol&quot;              &quot;LocusLinkID&quot;             
+ [7] &quot;OfficialGeneSymbol&quot;       &quot;OfficialGeneName&quot;        
+ [9] &quot;LocusLinkSymbol&quot;          &quot;LocusLinkName&quot;           
+[11] &quot;ProteomeShortDescription&quot; &quot;UnigeneCluster&quot;          
+[13] &quot;LocusLinkCode&quot;            &quot;ProteomeID&quot;              
+[15] &quot;ProteomeCode&quot;             &quot;SwissprotID&quot;             
+[17] &quot;OMIMCode&quot;                 &quot;DirectedTilingPriority&quot;  
+[19] &quot;AlternateSymbols&quot;         &quot;AlternateNames&quot;          
+[21] &quot;SpeciesID&quot;                &quot;cytogeneticLoc&quot;          
+[23] &quot;Organism&quot;                 &quot;clustername&quot;             
+[25] &quot;reporterid&quot;               &quot;probeid&quot;                 
+[27] &quot;sequenceid&quot;               &quot;clusterid&quot;               
+[29] &quot;chromosome&quot;               &quot;startcoordinate&quot;         
+[31] &quot;endcoordinate&quot;            &quot;strand&quot;                  
+[33] &quot;sequence_3_to_5_prime&quot;    &quot;sequence_5_to_3_prime&quot;   </code></pre>
+<pre class="r"><code>probes = names(datExpr)
+probes2annot = match(probes, annot$substanceBXH)
+# The following is the number or probes without annotation:
+sum(is.na(probes2annot))</code></pre>
+<pre><code>[1] 0</code></pre>
+<pre class="r"><code># Should return 0.
+
+# Create the starting data frame
+geneInfo0 = data.frame(substanceBXH = probes,
+                      geneSymbol = annot$gene_symbol[probes2annot],
+                      LocusLinkID = annot$LocusLinkID[probes2annot],
+                      moduleColor = moduleColors,
+                      geneTraitSignificance,
+                      GSPvalue)
+# Order modules by their significance for weight
+modOrder = order(-abs(cor(MEs, weight, use = &quot;p&quot;)));
+# Add module membership information in the chosen order
+for (mod in 1:ncol(geneModuleMembership))
+{
+  oldNames = names(geneInfo0)
+  geneInfo0 = data.frame(geneInfo0, geneModuleMembership[, modOrder[mod]], 
+                         MMPvalue[, modOrder[mod]]);
+  names(geneInfo0) = c(oldNames, paste(&quot;MM.&quot;, modNames[modOrder[mod]], sep=&quot;&quot;),
+                       paste(&quot;p.MM.&quot;, modNames[modOrder[mod]], sep=&quot;&quot;))
+}
+# Order the genes in the geneInfo variable first by module color, then by geneTraitSignificance
+geneOrder = order(geneInfo0$moduleColor, -abs(geneInfo0$GS.weight));
+geneInfo = geneInfo0[geneOrder, ]
+
+# Save the file
+write.csv(geneInfo, file = &quot;../data/geneInfo.csv&quot;)</code></pre>
+</div>
+</div>
+<div id="integrate-the-network-analysis-with-functional-enrichmentgo-analysis" class="section level1">
+<h1>Integrate the network analysis with functional enrichment/GO analysis</h1>
+<pre class="r"><code># Load the expression and trait data saved in the first part
+lnames = load(file = &quot;../data/FemaleLiver-01-dataInput.RData&quot;)
+#The variable lnames contains the names of loaded variables.
+lnames</code></pre>
+<pre><code>[1] &quot;datExpr&quot;   &quot;datTraits&quot;</code></pre>
+<pre class="r"><code># Load network data saved in the second part.
+lnames = load(file = &quot;../data/FemaleLiver-02-networkConstruction-stepByStep.RData&quot;)
+lnames</code></pre>
+<pre><code>[1] &quot;MEs&quot;          &quot;moduleLabels&quot; &quot;moduleColors&quot; &quot;geneTree&quot;    </code></pre>
+<pre class="r"><code># Read in the probe annotation
+annot = read.csv(file = &quot;../data/GeneAnnotation.csv&quot;);
+# Match probes in the data set to the probe IDs in the annotation file 
+probes = names(datExpr)
+probes2annot = match(probes, annot$substanceBXH)
+# Get the corresponding Locuis Link IDs
+allLLIDs = annot$LocusLinkID[probes2annot];
+# $ Choose interesting modules
+intModules = c(&quot;brown&quot;, &quot;red&quot;, &quot;salmon&quot;)
+for (module in intModules)
+{
+  # Select module probes
+  modGenes = (moduleColors==module)
+  # Get their entrez ID codes
+  modLLIDs = allLLIDs[modGenes];
+  # Write them into a file
+  fileName = paste(&quot;LocusLinkIDs-&quot;, module, &quot;.txt&quot;, sep=&quot;&quot;);
+  write.table(as.data.frame(modLLIDs), file = fileName,
+              row.names = FALSE, col.names = FALSE)
+}
+# As background in the enrichment analysis, we will use all probes in the analysis.
+fileName = paste(&quot;LocusLinkIDs-all.txt&quot;, sep=&quot;&quot;);
+write.table(as.data.frame(allLLIDs), file = fileName,
+            row.names = FALSE, col.names = FALSE)</code></pre>
+<div id="perform-go-enrichment" class="section level2">
+<h2>Perform GO enrichment</h2>
+<p>Note: Since the function GoEnrichmentAnalysis is defunction, per the author’s suggestion, we are using the function enrichmentAnalysis from the package “AnRichment” from the same authors. For more information about this package, <a href="https://labs.genetics.ucla.edu/horvath/htdocs/CoexpressionNetwork/GeneAnnotation/Tutorials/anRichment-Tutorial1.pdf" class="uri">https://labs.genetics.ucla.edu/horvath/htdocs/CoexpressionNetwork/GeneAnnotation/Tutorials/anRichment-Tutorial1.pdf</a>.</p>
+<pre class="r"><code># Use the GO collection for mouse GO terms. 
+GOcollection = buildGOcollection(organism = &quot;mouse&quot;)</code></pre>
+<pre><code>Loading required package: org.Mm.eg.db</code></pre>
+<pre><code></code></pre>
+<pre><code> GOcollection: loading annotation data...
+  ..preparing term lists... </code></pre>
+<pre class="r"><code># Run the GO enrichment
+
+GOenr = enrichmentAnalysis(
+     classLabels = moduleColors, identifiers = allLLIDs,
+     refCollection = GOcollection,
+     useBackground = &quot;allOrgGenes&quot;,
+     threshold = 1e-4,
+     thresholdType = &quot;Bonferroni&quot;,
+     getOverlapEntrez = TRUE,
+     getOverlapSymbols = TRUE,
+     ignoreLabels = &quot;grey&quot;)</code></pre>
+<pre><code> enrichmentAnalysis: preparing data..
+  ..working on label set 1 ..</code></pre>
+<pre class="r"><code>names(GOenr)</code></pre>
+<pre><code> [1] &quot;enrichmentIsValid&quot;        &quot;enrichmentTable&quot;         
+ [3] &quot;pValues&quot;                  &quot;Bonferroni&quot;              
+ [5] &quot;FDR&quot;                      &quot;countsInDataSet&quot;         
+ [7] &quot;effectiveBackgroundSize&quot;  &quot;dataSetDetails&quot;          
+ [9] &quot;identifierIsInCollection&quot; &quot;effectiveClassLabels&quot;    </code></pre>
+<pre class="r"><code>names(GOenr$dataSetDetails)</code></pre>
+<pre><code> [1] &quot;black&quot;        &quot;blue&quot;         &quot;brown&quot;        &quot;cyan&quot;        
+ [5] &quot;darkgreen&quot;    &quot;darkred&quot;      &quot;green&quot;        &quot;greenyellow&quot; 
+ [9] &quot;grey60&quot;       &quot;lightcyan&quot;    &quot;lightgreen&quot;   &quot;magenta&quot;     
+[13] &quot;midnightblue&quot; &quot;pink&quot;         &quot;purple&quot;       &quot;royalblue&quot;   
+[17] &quot;salmon&quot;       &quot;turquoise&quot;   </code></pre>
+<pre class="r"><code>GOenr$dataSetDetails$black</code></pre>
+<pre><code>$GO.0008150
+$GO.0008150$dataSetID
+[1] &quot;GO:0008150&quot;
+
+$GO.0008150$dataSetName
+[1] &quot;biological_process&quot;
+
+$GO.0008150$dataSetDescription
+[1] &quot;Any process specifically pertinent to the functioning of integrated living units: cells, tissues, organs, and organisms. A process is a collection of molecular events with a defined beginning and end.&quot;
+
+$GO.0008150$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0008150$enrichmentP
+[1] 2.438238e-58
+
+$GO.0008150$commonGeneEntrez
+  [1] 215280  70846  15379  26356 331524  18996  72333  14459  14897  12295
+ [11]  17311 242466 387132  53902 277939  56613  16530 239134 329972  67653
+ [21]  21949  22420  30878 233437 320923  19017 218490  57315 268686 258740
+ [31]  16181  74068  18441  18679 231045  71602  54635 243548  19158  22526
+ [41]  14160  12724  14067 271887 329872 319653 241520 243538 231201 105005
+ [51] 243634  14563  11731  26930  11839 213603  54393 353047  19289 231452
+ [61] 215654 207921  64934 243385 244310 213765  75725  57257 246080  13349
+ [71]  18703  60510 244650 244646 223642  21823  30046 192188  78896  20234
+ [81] 236904  80718 208583 213788 320982  21952 269800  71063  18150  66942
+ [91]  64113  66125  56735  76757 171228 214162  80976  21784 230751  71562
+[101]  19724  20666 235497  76441  13510  83428 192663 319848 258558  67781
+[111]  22635 219094  75777 380842  77805 268747 231760  19317  75645 320869
+[121]  20299 140488  14177  66323  76895  19193 110829 212391 381535  54388
+[131] 193003 230119 320790  30959  60367  59310 258610 108012 234373  16192
+[141] 258590  22634
+
+$GO.0008150$commonGenePositions
+  [1]   75   85   94   97  191  281  282  295  297  304  317  331  364  375
+ [15]  420  432  488  495  497  509  528  531  532  543  561  565  579  588
+ [29]  619  625  638  674  735  752  768  785  790  805  813  833  869  878
+ [43]  895  933 1013 1071 1084 1136 1167 1246 1256 1278 1291 1303 1319 1358
+ [57] 1406 1420 1448 1449 1452 1453 1489 1517 1528 1559 1562 1586 1595 1615
+ [71] 1635 1653 1663 1667 1671 1704 1708 1709 1710 1757 1759 1794 1805 1828
+ [85] 1848 1856 1865 1894 1897 1909 1915 1941 1947 1978 1991 2004 2010 2016
+ [99] 2054 2067 2077 2087 2148 2174 2234 2240 2247 2263 2269 2273 2358 2404
+[113] 2418 2424 2429 2431 2439 2456 2477 2497 2525 2580 2612 2637 2646 2648
+[127] 2744 2755 2770 2798 2835 2842 2878 2893 2925 2927 2992 2998 3116 3125
+[141] 3209 3216
+
+
+$GO.0005575
+$GO.0005575$dataSetID
+[1] &quot;GO:0005575&quot;
+
+$GO.0005575$dataSetName
+[1] &quot;cellular_component&quot;
+
+$GO.0005575$dataSetDescription
+[1] &quot;The part of a cell, extracellular environment or virus in which a gene product is located. A gene product may be located in one or more parts of a cell and its location may be as specific as a particular macromolecular complex, that is, a stable, persistent association of macromolecules that function together.&quot;
+
+$GO.0005575$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0005575$enrichmentP
+[1] 5.715e-57
+
+$GO.0005575$commonGeneEntrez
+  [1] 215280  70846  15379  26356 331524  18996  72333  14459  14897  12295
+ [11]  17311 242466  53902 277939  56613  16530 239134 329972  67653  21949
+ [21]  22420  30878 240921 233437 320923  19017 218490  57315 268686 258740
+ [31]  16181  74068  18441  18679 231045  71602  54635 243548  19158  22526
+ [41]  14160  12724  14067 271887 329872 319653 241520 243538 231201 105005
+ [51] 243634  14563  11731  26930  11839 213603  54393 353047  19289 231452
+ [61] 215654 207921  64934 243385 244310 213765  75725  57257 246080  13349
+ [71]  18703  60510 244650 244646 223642  21823  30046 192188  78896  20234
+ [81] 236904  80718 208583 213788 320982  21952 269800  71063  18150  66942
+ [91]  64113  66125  56735  76757 171228 214162  80976  21784 230751  71562
+[101]  19724  20666 235497  76441  13510  83428 192663 319848 258558  67781
+[111]  22635 219094  75777  77805 268747 231760  19317  75645 320869  20299
+[121] 140488  14177  66323  76895  19193 110829 212391 381535  54388 193003
+[131] 230119 320790  30959  60367  59310 258610 108012 234373  16192 258590
+[141]  22634
+
+$GO.0005575$commonGenePositions
+  [1]   75   85   94   97  191  281  282  295  297  304  317  331  375  420
+ [15]  432  488  495  497  509  528  531  532  533  543  561  565  579  588
+ [29]  619  625  638  674  735  752  768  785  790  805  813  833  869  878
+ [43]  895  933 1013 1071 1084 1136 1167 1246 1256 1278 1291 1303 1319 1358
+ [57] 1406 1420 1448 1449 1452 1453 1489 1517 1528 1559 1562 1586 1595 1615
+ [71] 1635 1653 1663 1667 1671 1704 1708 1709 1710 1757 1759 1794 1805 1828
+ [85] 1848 1856 1865 1894 1897 1909 1915 1941 1947 1978 1991 2004 2010 2016
+ [99] 2054 2067 2077 2087 2148 2174 2234 2240 2247 2263 2269 2273 2358 2404
+[113] 2418 2429 2431 2439 2456 2477 2497 2525 2580 2612 2637 2646 2648 2744
+[127] 2755 2770 2798 2835 2842 2878 2893 2925 2927 2992 2998 3116 3125 3209
+[141] 3216
+
+
+$GO.0003674
+$GO.0003674$dataSetID
+[1] &quot;GO:0003674&quot;
+
+$GO.0003674$dataSetName
+[1] &quot;molecular_function&quot;
+
+$GO.0003674$dataSetDescription
+[1] &quot;The actions of a single gene product or complex at the molecular level consisting of a single biochemical activity or multiple causally linked biochemical activities. A given gene product may exhibit one or more molecular functions.&quot;
+
+$GO.0003674$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.MF&quot;
+
+$GO.0003674$enrichmentP
+[1] 9.508689e-57
+
+$GO.0003674$commonGeneEntrez
+  [1] 215280  70846  15379  26356 331524  18996  72333  14459  14897  12295
+ [11]  17311 242466 387132  53902 277939  56613  16530 239134 329972  67653
+ [21]  21949  22420  30878 240921 233437 320923  19017 218490  57315 268686
+ [31] 258740  16181  74068  18441  18679 231045  71602  54635 243548  19158
+ [41]  22526  14160  12724  14067 271887 329872 319653 241520 243538 231201
+ [51] 105005 243634  14563  11731  26930  11839 213603  54393 353047  19289
+ [61] 231452 215654 207921  64934 243385 244310 213765  75725  57257 246080
+ [71]  13349  18703  60510 244650 244646 223642  21823  30046 192188  78896
+ [81]  20234 236904  80718 208583 213788 320982  21952 269800  71063  18150
+ [91]  66942  64113  66125  56735  76757 171228 214162  80976  21784  71562
+[101]  19724  20666 235497  76441  13510  83428 192663 319848 258558  67781
+[111]  22635 219094  75777  77805 268747  19317  75645 320869  20299 140488
+[121]  14177  66323  76895  19193 110829 212391 381535  54388 193003 230119
+[131] 320790  30959  60367  59310 258610 108012 234373  16192 258590  22634
+
+$GO.0003674$commonGenePositions
+  [1]   75   85   94   97  191  281  282  295  297  304  317  331  364  375
+ [15]  420  432  488  495  497  509  528  531  532  533  543  561  565  579
+ [29]  588  619  625  638  674  735  752  768  785  790  805  813  833  869
+ [43]  878  895  933 1013 1071 1084 1136 1167 1246 1256 1278 1291 1303 1319
+ [57] 1358 1406 1420 1448 1449 1452 1453 1489 1517 1528 1559 1562 1586 1595
+ [71] 1615 1635 1653 1663 1667 1671 1704 1708 1709 1710 1757 1759 1794 1805
+ [85] 1828 1848 1856 1865 1894 1897 1909 1915 1941 1947 1978 1991 2004 2010
+ [99] 2016 2067 2077 2087 2148 2174 2234 2240 2247 2263 2269 2273 2358 2404
+[113] 2418 2429 2431 2456 2477 2497 2525 2580 2612 2637 2646 2648 2744 2755
+[127] 2770 2798 2835 2842 2878 2893 2925 2927 2992 2998 3116 3125 3209 3216
+
+
+$GO.0044464
+$GO.0044464$dataSetID
+[1] &quot;GO:0044464&quot;
+
+$GO.0044464$dataSetName
+[1] &quot;cell part&quot;
+
+$GO.0044464$dataSetDescription
+[1] &quot;Any constituent part of a cell, the basic structural and functional unit of all organisms.&quot;
+
+$GO.0044464$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0044464$enrichmentP
+[1] 1.289221e-39
+
+$GO.0044464$commonGeneEntrez
+  [1] 215280  15379  26356  18996  72333  14897  12295  17311 242466  53902
+ [11] 277939  56613  16530 239134  22420  30878 240921 320923  19017 218490
+ [21]  57315  16181  74068  18441  18679  71602  54635 243548  19158  22526
+ [31]  14160  12724  14067 319653 243538 231201 243634  14563  11731  11839
+ [41]  54393 353047 231452 215654  64934 244310 213765  75725  57257  13349
+ [51]  18703  60510 244650 244646 223642  21823  30046 192188  78896 236904
+ [61]  80718 208583 213788 320982  21952 269800  18150  66942  64113  66125
+ [71]  56735  76757 171228 214162  80976  21784 230751  71562  19724  20666
+ [81] 235497  13510  83428 192663 319848  67781  22635  75777  77805 268747
+ [91] 231760  19317  75645 320869 140488  14177  76895  19193 110829 212391
+[101]  54388 193003 230119 320790  30959  59310 108012 234373  22634
+
+$GO.0044464$commonGenePositions
+  [1]   75   94   97  281  282  297  304  317  331  375  420  432  488  495
+ [15]  531  532  533  561  565  579  588  638  674  735  752  785  790  805
+ [29]  813  833  869  878  895 1071 1136 1167 1256 1278 1291 1319 1406 1420
+ [43] 1449 1452 1489 1528 1559 1562 1586 1615 1635 1653 1663 1667 1671 1704
+ [57] 1708 1709 1710 1759 1794 1805 1828 1848 1856 1865 1897 1909 1915 1941
+ [71] 1947 1978 1991 2004 2010 2016 2054 2067 2077 2087 2148 2234 2240 2247
+ [85] 2263 2273 2358 2418 2429 2431 2439 2456 2477 2497 2580 2612 2646 2648
+ [99] 2744 2755 2798 2835 2842 2878 2893 2927 2998 3116 3216
+
+
+$GO.0005623
+$GO.0005623$dataSetID
+[1] &quot;GO:0005623&quot;
+
+$GO.0005623$dataSetName
+[1] &quot;cell&quot;
+
+$GO.0005623$dataSetDescription
+[1] &quot;The basic structural and functional unit of all organisms. Includes the plasma membrane and any external encapsulating structures such as the cell wall and cell envelope.&quot;
+
+$GO.0005623$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0005623$enrichmentP
+[1] 1.339126e-39
+
+$GO.0005623$commonGeneEntrez
+  [1] 215280  15379  26356  18996  72333  14897  12295  17311 242466  53902
+ [11] 277939  56613  16530 239134  22420  30878 240921 320923  19017 218490
+ [21]  57315  16181  74068  18441  18679  71602  54635 243548  19158  22526
+ [31]  14160  12724  14067 319653 243538 231201 243634  14563  11731  11839
+ [41]  54393 353047 231452 215654  64934 244310 213765  75725  57257  13349
+ [51]  18703  60510 244650 244646 223642  21823  30046 192188  78896 236904
+ [61]  80718 208583 213788 320982  21952 269800  18150  66942  64113  66125
+ [71]  56735  76757 171228 214162  80976  21784 230751  71562  19724  20666
+ [81] 235497  13510  83428 192663 319848  67781  22635  75777  77805 268747
+ [91] 231760  19317  75645 320869 140488  14177  76895  19193 110829 212391
+[101]  54388 193003 230119 320790  30959  59310 108012 234373  22634
+
+$GO.0005623$commonGenePositions
+  [1]   75   94   97  281  282  297  304  317  331  375  420  432  488  495
+ [15]  531  532  533  561  565  579  588  638  674  735  752  785  790  805
+ [29]  813  833  869  878  895 1071 1136 1167 1256 1278 1291 1319 1406 1420
+ [43] 1449 1452 1489 1528 1559 1562 1586 1615 1635 1653 1663 1667 1671 1704
+ [57] 1708 1709 1710 1759 1794 1805 1828 1848 1856 1865 1897 1909 1915 1941
+ [71] 1947 1978 1991 2004 2010 2016 2054 2067 2077 2087 2148 2234 2240 2247
+ [85] 2263 2273 2358 2418 2429 2431 2439 2456 2477 2497 2580 2612 2646 2648
+ [99] 2744 2755 2798 2835 2842 2878 2893 2927 2998 3116 3216
+
+
+$GO.0009987
+$GO.0009987$dataSetID
+[1] &quot;GO:0009987&quot;
+
+$GO.0009987$dataSetName
+[1] &quot;cellular process&quot;
+
+$GO.0009987$dataSetDescription
+[1] &quot;Any process that is carried out at the cellular level, but not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level.&quot;
+
+$GO.0009987$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0009987$enrichmentP
+[1] 7.187382e-36
+
+$GO.0009987$commonGeneEntrez
+  [1] 215280  15379  26356  18996  72333  14459  14897  12295  17311 242466
+ [11] 387132  53902 277939  56613  16530 239134  21949  22420  30878 320923
+ [21]  19017 218490  57315 258740  16181  74068  18441  18679  71602  54635
+ [31] 243548  19158  22526  14160  12724 329872 231201  14563  11731  11839
+ [41]  54393 353047 231452  64934 244310  75725  57257  13349  18703  60510
+ [51] 244650 244646 223642  21823  30046  78896 236904  80718 208583 213788
+ [61] 320982 269800  18150  66942  64113  66125  56735  76757 214162  80976
+ [71]  21784 230751  71562  19724  20666 235497  76441  83428 192663 258558
+ [81]  67781  22635 380842  77805 231760  19317  20299 140488  14177  76895
+ [91]  19193 110829 212391  54388 193003 230119 320790  30959  60367 258610
+[101] 108012 234373  16192 258590  22634
+
+$GO.0009987$commonGenePositions
+  [1]   75   94   97  281  282  295  297  304  317  331  364  375  420  432
+ [15]  488  495  528  531  532  561  565  579  588  625  638  674  735  752
+ [29]  785  790  805  813  833  869  878 1013 1167 1278 1291 1319 1406 1420
+ [43] 1449 1489 1528 1562 1586 1615 1635 1653 1663 1667 1671 1704 1708 1710
+ [57] 1759 1794 1805 1828 1848 1865 1897 1909 1915 1941 1947 1978 2004 2010
+ [71] 2016 2054 2067 2077 2087 2148 2174 2240 2247 2269 2273 2358 2424 2429
+ [85] 2439 2456 2525 2580 2612 2646 2648 2744 2755 2798 2835 2842 2878 2893
+ [99] 2925 2992 2998 3116 3125 3209 3216
+
+
+$GO.0005488
+$GO.0005488$dataSetID
+[1] &quot;GO:0005488&quot;
+
+$GO.0005488$dataSetName
+[1] &quot;binding&quot;
+
+$GO.0005488$dataSetDescription
+[1] &quot;The selective, non-covalent, often stoichiometric, interaction of a molecule with one or more specific sites on another molecule.&quot;
+
+$GO.0005488$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.MF&quot;
+
+$GO.0005488$enrichmentP
+[1] 1.35211e-34
+
+$GO.0005488$commonGeneEntrez
+ [1] 215280  15379  26356  18996  72333  14459  14897  12295  17311  53902
+[11] 277939  56613 239134 329972  21949  22420  30878 240921 320923  19017
+[21] 218490  57315 258740  16181  74068  18441  18679 231045  71602  54635
+[31] 243548  19158  14067 329872 243634  14563  11731  11839  54393 353047
+[41] 215654  64934 244310  75725  57257  13349  18703  60510 244650 244646
+[51] 223642  21823  30046 192188  20234  80718 208583 320982  21952 269800
+[61]  18150  66942  64113  76757 171228 214162  80976  21784  19724  20666
+[71] 235497  76441  13510  83428 192663  67781  22635  77805  19317  20299
+[81] 140488  14177  76895  19193 110829 212391  54388 193003 230119 320790
+[91]  30959  59310 258610 108012 234373  22634
+
+$GO.0005488$commonGenePositions
+ [1]   75   94   97  281  282  295  297  304  317  375  420  432  495  497
+[15]  528  531  532  533  561  565  579  588  625  638  674  735  752  768
+[29]  785  790  805  813  895 1013 1256 1278 1291 1319 1406 1420 1452 1489
+[43] 1528 1562 1586 1615 1635 1653 1663 1667 1671 1704 1708 1709 1757 1794
+[57] 1805 1848 1856 1865 1897 1909 1915 1978 1991 2004 2010 2016 2077 2087
+[71] 2148 2174 2234 2240 2247 2273 2358 2429 2456 2525 2580 2612 2646 2648
+[85] 2744 2755 2798 2835 2842 2878 2893 2927 2992 2998 3116 3216
+
+
+$GO.0065007
+$GO.0065007$dataSetID
+[1] &quot;GO:0065007&quot;
+
+$GO.0065007$dataSetName
+[1] &quot;biological regulation&quot;
+
+$GO.0065007$dataSetDescription
+[1] &quot;Any process that modulates a measurable attribute of any biological process, quality or function.&quot;
+
+$GO.0065007$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0065007$enrichmentP
+[1] 9.885065e-30
+
+$GO.0065007$commonGeneEntrez
+ [1] 215280  15379  26356  18996  72333  14459  14897  12295  17311 242466
+[11] 387132  53902 277939  56613  16530 239134  21949  22420  30878  19017
+[21] 218490  57315 258740  16181  74068  18441  71602  54635  19158  14160
+[31]  12724  14067  14563  11731  11839  54393 353047  64934  75725  57257
+[41]  13349  18703  60510 244650 223642  21823  30046 192188 236904  80718
+[51] 208583 213788 320982  21952 269800  64113  76757 214162  80976  21784
+[61] 230751  19724  20666 235497  83428 258558  67781  22635 380842  77805
+[71] 231760  19317  20299 140488  14177 110829 212391  54388 193003 230119
+[81] 320790  30959  60367 258610  16192 258590  22634
+
+$GO.0065007$commonGenePositions
+ [1]   75   94   97  281  282  295  297  304  317  331  364  375  420  432
+[15]  488  495  528  531  532  565  579  588  625  638  674  735  785  790
+[29]  813  869  878  895 1278 1291 1319 1406 1420 1489 1562 1586 1615 1635
+[43] 1653 1663 1671 1704 1708 1709 1759 1794 1805 1828 1848 1856 1865 1915
+[57] 1978 2004 2010 2016 2054 2077 2087 2148 2240 2269 2273 2358 2424 2429
+[71] 2439 2456 2525 2580 2612 2744 2755 2798 2835 2842 2878 2893 2925 2992
+[85] 3125 3209 3216
+
+
+$GO.0050789
+$GO.0050789$dataSetID
+[1] &quot;GO:0050789&quot;
+
+$GO.0050789$dataSetName
+[1] &quot;regulation of biological process&quot;
+
+$GO.0050789$dataSetDescription
+[1] &quot;Any process that modulates the frequency, rate or extent of a biological process. Biological processes are regulated by many means; examples include the control of gene expression, protein modification or interaction with a protein or substrate molecule.&quot;
+
+$GO.0050789$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0050789$enrichmentP
+[1] 1.648543e-29
+
+$GO.0050789$commonGeneEntrez
+ [1] 215280  15379  26356  18996  72333  14459  14897  12295  17311 242466
+[11] 387132  53902 277939  56613  16530 239134  21949  22420  30878  19017
+[21] 218490  57315 258740  16181  74068  18441  71602  54635  19158  14160
+[31]  12724  14563  11839  54393 353047  64934  75725  57257  13349  18703
+[41]  60510 244650 223642  21823  30046 192188 236904  80718 208583 213788
+[51] 320982  21952 269800  64113  76757 214162  80976  21784 230751  19724
+[61]  20666 235497  83428 258558  67781  22635 380842  77805 231760  19317
+[71]  20299 140488  14177 110829 212391  54388 193003 230119 320790  30959
+[81]  60367 258610  16192 258590  22634
+
+$GO.0050789$commonGenePositions
+ [1]   75   94   97  281  282  295  297  304  317  331  364  375  420  432
+[15]  488  495  528  531  532  565  579  588  625  638  674  735  785  790
+[29]  813  869  878 1278 1319 1406 1420 1489 1562 1586 1615 1635 1653 1663
+[43] 1671 1704 1708 1709 1759 1794 1805 1828 1848 1856 1865 1915 1978 2004
+[57] 2010 2016 2054 2077 2087 2148 2240 2269 2273 2358 2424 2429 2439 2456
+[71] 2525 2580 2612 2744 2755 2798 2835 2842 2878 2893 2925 2992 3125 3209
+[85] 3216
+
+
+$GO.0044424
+$GO.0044424$dataSetID
+[1] &quot;GO:0044424&quot;
+
+$GO.0044424$dataSetName
+[1] &quot;intracellular part&quot;
+
+$GO.0044424$dataSetDescription
+[1] &quot;Any constituent part of the living contents of a cell; the matter contained within (but not including) the plasma membrane, usually taken to exclude large vacuoles and masses of secretory or ingested material. In eukaryotes it includes the nucleus and cytoplasm.&quot;
+
+$GO.0044424$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0044424$enrichmentP
+[1] 1.90121e-29
+
+$GO.0044424$commonGeneEntrez
+ [1] 215280  15379  26356  18996  72333  14897  12295  17311 242466  53902
+[11] 277939  56613 239134  30878 240921 320923  19017 218490  57315  16181
+[21]  74068  18441  18679  71602  54635 243548  19158  22526  14160  14067
+[31] 319653 243538 231201 243634  11731  11839  54393 353047 231452  64934
+[41] 213765  75725  57257  13349  18703  60510 244650 223642  21823  30046
+[51] 192188  78896 236904  80718 208583 320982  21952 269800  18150  66942
+[61]  64113  66125  56735  76757 214162  80976  21784  71562  19724  20666
+[71] 235497  67781  75777  77805 268747  19317  75645 320869 140488  76895
+[81]  19193 110829 212391  54388 230119 320790  30959  59310 108012 234373
+[91]  22634
+
+$GO.0044424$commonGenePositions
+ [1]   75   94   97  281  282  297  304  317  331  375  420  432  495  532
+[15]  533  561  565  579  588  638  674  735  752  785  790  805  813  833
+[29]  869  895 1071 1136 1167 1256 1291 1319 1406 1420 1449 1489 1559 1562
+[43] 1586 1615 1635 1653 1663 1671 1704 1708 1709 1710 1759 1794 1805 1848
+[57] 1856 1865 1897 1909 1915 1941 1947 1978 2004 2010 2016 2067 2077 2087
+[71] 2148 2273 2418 2429 2431 2456 2477 2497 2580 2646 2648 2744 2755 2798
+[85] 2842 2878 2893 2927 2998 3116 3216
+
+
+$GO.0005622
+$GO.0005622$dataSetID
+[1] &quot;GO:0005622&quot;
+
+$GO.0005622$dataSetName
+[1] &quot;intracellular&quot;
+
+$GO.0005622$dataSetDescription
+[1] &quot;The living contents of a cell; the matter contained within (but not including) the plasma membrane, usually taken to exclude large vacuoles and masses of secretory or ingested material. In eukaryotes it includes the nucleus and cytoplasm.&quot;
+
+$GO.0005622$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0005622$enrichmentP
+[1] 3.668046e-29
+
+$GO.0005622$commonGeneEntrez
+ [1] 215280  15379  26356  18996  72333  14897  12295  17311 242466  53902
+[11] 277939  56613 239134  30878 240921 320923  19017 218490  57315  16181
+[21]  74068  18441  18679  71602  54635 243548  19158  22526  14160  14067
+[31] 319653 243538 231201 243634  11731  11839  54393 353047 231452  64934
+[41] 213765  75725  57257  13349  18703  60510 244650 223642  21823  30046
+[51] 192188  78896 236904  80718 208583 320982  21952 269800  18150  66942
+[61]  64113  66125  56735  76757 214162  80976  21784  71562  19724  20666
+[71] 235497  67781  75777  77805 268747  19317  75645 320869 140488  76895
+[81]  19193 110829 212391  54388 230119 320790  30959  59310 108012 234373
+[91]  22634
+
+$GO.0005622$commonGenePositions
+ [1]   75   94   97  281  282  297  304  317  331  375  420  432  495  532
+[15]  533  561  565  579  588  638  674  735  752  785  790  805  813  833
+[29]  869  895 1071 1136 1167 1256 1291 1319 1406 1420 1449 1489 1559 1562
+[43] 1586 1615 1635 1653 1663 1671 1704 1708 1709 1710 1759 1794 1805 1848
+[57] 1856 1865 1897 1909 1915 1941 1947 1978 2004 2010 2016 2067 2077 2087
+[71] 2148 2273 2418 2429 2431 2456 2477 2497 2580 2646 2648 2744 2755 2798
+[85] 2842 2878 2893 2927 2998 3116 3216
+
+
+$GO.0043226
+$GO.0043226$dataSetID
+[1] &quot;GO:0043226&quot;
+
+$GO.0043226$dataSetName
+[1] &quot;organelle&quot;
+
+$GO.0043226$dataSetDescription
+[1] &quot;Organized structure of distinctive morphology and function. Includes the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton, and prokaryotic structures such as anammoxosomes and pirellulosomes. Excludes the plasma membrane.&quot;
+
+$GO.0043226$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0043226$enrichmentP
+[1] 1.330148e-25
+
+$GO.0043226$commonGeneEntrez
+ [1] 215280  15379  26356  18996  72333  14897  12295  17311 242466 277939
+[11]  56613 240921 320923  19017 218490  57315  16181  74068  18441  71602
+[21]  54635 243548  22526  14160  14067 319653 243538 231201 243634  11731
+[31]  11839  54393 353047 231452  64934 213765  75725  57257  13349  18703
+[41]  60510 244650 244646 223642  21823  30046  78896 236904  80718 208583
+[51]  21952 269800  18150  66942  64113  66125  56735  76757 214162  80976
+[61]  71562  19724  20666 235497  76441  13510  67781  75777  77805  19317
+[71]  75645 320869 140488  76895  19193 212391  54388 230119 320790  30959
+[81]  59310 108012 234373  22634
+
+$GO.0043226$commonGenePositions
+ [1]   75   94   97  281  282  297  304  317  331  420  432  533  561  565
+[15]  579  588  638  674  735  785  790  805  833  869  895 1071 1136 1167
+[29] 1256 1291 1319 1406 1420 1449 1489 1559 1562 1586 1615 1635 1653 1663
+[43] 1667 1671 1704 1708 1710 1759 1794 1805 1856 1865 1897 1909 1915 1941
+[57] 1947 1978 2004 2010 2067 2077 2087 2148 2174 2234 2273 2418 2429 2456
+[71] 2477 2497 2580 2646 2648 2755 2798 2842 2878 2893 2927 2998 3116 3216
+
+
+$GO.0050794
+$GO.0050794$dataSetID
+[1] &quot;GO:0050794&quot;
+
+$GO.0050794$dataSetName
+[1] &quot;regulation of cellular process&quot;
+
+$GO.0050794$dataSetDescription
+[1] &quot;Any process that modulates the frequency, rate or extent of a cellular process, any of those that are carried out at the cellular level, but are not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level.&quot;
+
+$GO.0050794$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0050794$enrichmentP
+[1] 4.997529e-24
+
+$GO.0050794$commonGeneEntrez
+ [1]  15379  26356  18996  72333  14459  14897  17311 242466 387132  53902
+[11] 277939  56613 239134  21949  22420  30878  19017 218490  57315 258740
+[21]  16181  18441  71602  54635  19158  14160  14563  11839  54393 353047
+[31]  64934  75725  57257  13349  18703  60510 244650 223642  30046 236904
+[41]  80718 208583 213788 320982 269800  64113  76757 214162  80976  21784
+[51] 230751  19724  20666 235497  83428 258558  67781  22635 380842  77805
+[61] 231760  19317  20299 140488  14177 110829 212391  54388 193003 230119
+[71] 320790  30959  60367 258610 258590  22634
+
+$GO.0050794$commonGenePositions
+ [1]   94   97  281  282  295  297  317  331  364  375  420  432  495  528
+[15]  531  532  565  579  588  625  638  735  785  790  813  869 1278 1319
+[29] 1406 1420 1489 1562 1586 1615 1635 1653 1663 1671 1708 1759 1794 1805
+[43] 1828 1848 1865 1915 1978 2004 2010 2016 2054 2077 2087 2148 2240 2269
+[57] 2273 2358 2424 2429 2439 2456 2525 2580 2612 2744 2755 2798 2835 2842
+[71] 2878 2893 2925 2992 3209 3216
+
+
+$GO.0043229
+$GO.0043229$dataSetID
+[1] &quot;GO:0043229&quot;
+
+$GO.0043229$dataSetName
+[1] &quot;intracellular organelle&quot;
+
+$GO.0043229$dataSetDescription
+[1] &quot;Organized structure of distinctive morphology and function, occurring within the cell. Includes the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton. Excludes the plasma membrane.&quot;
+
+$GO.0043229$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0043229$enrichmentP
+[1] 1.370919e-23
+
+$GO.0043229$commonGeneEntrez
+ [1] 215280  15379  26356  18996  72333  14897  12295  17311 242466 277939
+[11]  56613 240921 320923  19017 218490  57315  74068  18441  71602  54635
+[21] 243548  22526  14160  14067 319653 243538 231201 243634  11731  11839
+[31]  54393 353047 231452  64934 213765  75725  13349  18703  60510 244650
+[41] 223642  21823  30046  78896 236904  80718 208583  21952 269800  18150
+[51]  66942  64113  66125  56735  76757 214162  80976  71562  19724  20666
+[61] 235497  67781  75777  77805  19317 320869 140488  76895  19193 212391
+[71]  54388 230119 320790  30959  59310 108012 234373  22634
+
+$GO.0043229$commonGenePositions
+ [1]   75   94   97  281  282  297  304  317  331  420  432  533  561  565
+[15]  579  588  674  735  785  790  805  833  869  895 1071 1136 1167 1256
+[29] 1291 1319 1406 1420 1449 1489 1559 1562 1615 1635 1653 1663 1671 1704
+[43] 1708 1710 1759 1794 1805 1856 1865 1897 1909 1915 1941 1947 1978 2004
+[57] 2010 2067 2077 2087 2148 2273 2418 2429 2456 2497 2580 2646 2648 2755
+[71] 2798 2842 2878 2893 2927 2998 3116 3216
+
+
+$GO.0005515
+$GO.0005515$dataSetID
+[1] &quot;GO:0005515&quot;
+
+$GO.0005515$dataSetName
+[1] &quot;protein binding&quot;
+
+$GO.0005515$dataSetDescription
+[1] &quot;Interacting selectively and non-covalently with any protein or protein complex (a complex of two or more proteins that may include other nonprotein molecules).&quot;
+
+$GO.0005515$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.MF&quot;
+
+$GO.0005515$enrichmentP
+[1] 3.815666e-23
+
+$GO.0005515$commonGeneEntrez
+ [1] 215280  26356  18996  72333  14459  14897  12295  17311  53902 277939
+[11]  56613  21949  22420  30878 240921 320923  19017  16181  74068  18441
+[21]  18679  71602  54635 243548  19158 243634  14563  11839  54393 353047
+[31]  64934 244310  57257  13349  18703  60510 244646 223642  21823  80718
+[41] 320982  21952 269800  18150  64113  76757 214162  80976  21784 235497
+[51]  76441  13510  83428 192663  77805  19317  20299 140488  14177  76895
+[61]  19193 110829 212391 193003 320790  59310 108012  22634
+
+$GO.0005515$commonGenePositions
+ [1]   75   97  281  282  295  297  304  317  375  420  432  528  531  532
+[15]  533  561  565  638  674  735  752  785  790  805  813 1256 1278 1319
+[29] 1406 1420 1489 1528 1586 1615 1635 1653 1667 1671 1704 1794 1848 1856
+[43] 1865 1897 1915 1978 2004 2010 2016 2148 2174 2234 2240 2247 2429 2456
+[57] 2525 2580 2612 2646 2648 2744 2755 2835 2878 2927 2998 3216
+
+
+$GO.0050896
+$GO.0050896$dataSetID
+[1] &quot;GO:0050896&quot;
+
+$GO.0050896$dataSetName
+[1] &quot;response to stimulus&quot;
+
+$GO.0050896$dataSetDescription
+[1] &quot;Any process that results in a change in state or activity of a cell or an organism (in terms of movement, secretion, enzyme production, gene expression, etc.) as a result of a stimulus. The process begins with detection of the stimulus and ends with a change in state or activity or the cell or organism.&quot;
+
+$GO.0050896$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0050896$enrichmentP
+[1] 7.452242e-22
+
+$GO.0050896$commonGeneEntrez
+ [1] 215280  15379  18996  14459  14897  12295  17311  53902 277939  56613
+[11] 239134  21949  22420  30878  19017 258740  16181  18441  71602  54635
+[21]  19158  14160  14067  14563  11731  11839  54393 353047 231452  75725
+[31]  57257 246080  13349  18703 244650 244646 223642  21823 192188  78896
+[41] 236904 208583 213788 320982  21952  64113  76757 171228 214162  21784
+[51]  19724  20666 235497  83428 192663 258558  67781  20299  14177 110829
+[61] 193003 320790  60367 258610 108012  16192 258590
+
+$GO.0050896$commonGenePositions
+ [1]   75   94  281  295  297  304  317  375  420  432  495  528  531  532
+[15]  565  625  638  735  785  790  813  869  895 1278 1291 1319 1406 1420
+[29] 1449 1562 1586 1595 1615 1635 1663 1667 1671 1704 1709 1710 1759 1805
+[43] 1828 1848 1856 1915 1978 1991 2004 2016 2077 2087 2148 2240 2247 2269
+[57] 2273 2525 2612 2744 2835 2878 2925 2992 2998 3125 3209
+
+
+$GO.0043227
+$GO.0043227$dataSetID
+[1] &quot;GO:0043227&quot;
+
+$GO.0043227$dataSetName
+[1] &quot;membrane-bounded organelle&quot;
+
+$GO.0043227$dataSetDescription
+[1] &quot;Organized structure of distinctive morphology and function, bounded by a single or double lipid bilayer membrane. Includes the nucleus, mitochondria, plastids, vacuoles, and vesicles. Excludes the plasma membrane.&quot;
+
+$GO.0043227$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0043227$enrichmentP
+[1] 7.489262e-22
+
+$GO.0043227$commonGeneEntrez
+ [1] 215280  15379  26356  18996  72333  14897  12295 242466  56613 240921
+[11]  19017 218490  57315  16181  18441  71602  54635 243548  22526  14160
+[21]  14067 319653 231201 243634  11731  11839  54393 353047 231452  64934
+[31] 213765  75725  57257  13349  18703  60510 244650 244646 223642  21823
+[41]  30046  78896 236904  80718 208583 269800  18150  66942  64113  66125
+[51]  56735  76757 214162  80976  71562  19724  20666 235497  76441  13510
+[61]  67781  77805  19317 320869 140488  76895  19193 212391  54388 230119
+[71] 320790  30959  59310 108012 234373  22634
+
+$GO.0043227$commonGenePositions
+ [1]   75   94   97  281  282  297  304  331  432  533  565  579  588  638
+[15]  735  785  790  805  833  869  895 1071 1167 1256 1291 1319 1406 1420
+[29] 1449 1489 1559 1562 1586 1615 1635 1653 1663 1667 1671 1704 1708 1710
+[43] 1759 1794 1805 1865 1897 1909 1915 1941 1947 1978 2004 2010 2067 2077
+[57] 2087 2148 2174 2234 2273 2429 2456 2497 2580 2646 2648 2755 2798 2842
+[71] 2878 2893 2927 2998 3116 3216
+
+
+$GO.0051179
+$GO.0051179$dataSetID
+[1] &quot;GO:0051179&quot;
+
+$GO.0051179$dataSetName
+[1] &quot;localization&quot;
+
+$GO.0051179$dataSetDescription
+[1] &quot;Any process in which a cell, a substance, or a cellular entity, such as a protein complex or organelle, is transported, tethered to or otherwise maintained in a specific location. In the case of substances, localization may also be achieved via selective degradation.&quot;
+
+$GO.0051179$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0051179$enrichmentP
+[1] 1.162834e-20
+
+$GO.0051179$commonGeneEntrez
+ [1] 215280  15379  26356  18996  72333  12295  17311 277939  16530  30878
+[11]  19017 218490  57315  16181  18441  71602  54635  12724 319653 243634
+[21]  14563  54393 353047 231452  64934  57257  18703  60510 244646 223642
+[31]  21823 192188  80718 213788 320982 269800  64113  76757 214162  80976
+[41] 230751  20666  83428 319848  19317  20299 140488  76895 110829 193003
+[51] 320790  30959 108012
+
+$GO.0051179$commonGenePositions
+ [1]   75   94   97  281  282  304  317  420  488  532  565  579  588  638
+[15]  735  785  790  878 1071 1256 1278 1406 1420 1449 1489 1586 1635 1653
+[29] 1667 1671 1704 1709 1794 1828 1848 1865 1915 1978 2004 2010 2054 2087
+[43] 2240 2263 2456 2525 2580 2646 2744 2835 2878 2893 2998
+
+
+$GO.0005737
+$GO.0005737$dataSetID
+[1] &quot;GO:0005737&quot;
+
+$GO.0005737$dataSetName
+[1] &quot;cytoplasm&quot;
+
+$GO.0005737$dataSetDescription
+[1] &quot;All of the contents of a cell excluding the plasma membrane and nucleus, but including other subcellular structures.&quot;
+
+$GO.0005737$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0005737$enrichmentP
+[1] 6.135854e-19
+
+$GO.0005737$commonGeneEntrez
+ [1] 215280  18996  72333  14897  12295  17311  53902 277939  56613 239134
+[11]  30878 240921 320923  19017 218490  16181  74068  18441  18679  71602
+[21]  54635 243548  19158  14160  14067 319653 243538  11731  11839  54393
+[31] 353047  64934 213765  57257  13349  18703  60510 244650  21823 192188
+[41]  78896  80718 320982  21952  18150  66942  64113  56735  76757 214162
+[51]  80976  21784  71562  20666  67781  75777 268747  19317  75645 320869
+[61] 140488  76895  19193 110829  30959  59310 108012  22634
+
+$GO.0005737$commonGenePositions
+ [1]   75  281  282  297  304  317  375  420  432  495  532  533  561  565
+[15]  579  638  674  735  752  785  790  805  813  869  895 1071 1136 1291
+[29] 1319 1406 1420 1489 1559 1586 1615 1635 1653 1663 1704 1709 1710 1794
+[43] 1848 1856 1897 1909 1915 1947 1978 2004 2010 2016 2067 2087 2273 2418
+[57] 2431 2456 2477 2497 2580 2646 2648 2744 2893 2927 2998 3216
+
+
+$GO.0016020
+$GO.0016020$dataSetID
+[1] &quot;GO:0016020&quot;
+
+$GO.0016020$dataSetName
+[1] &quot;membrane&quot;
+
+$GO.0016020$dataSetDescription
+[1] &quot;A lipid bilayer along with all the proteins and protein complexes embedded in it an attached to it.&quot;
+
+$GO.0016020$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0016020$enrichmentP
+[1] 7.45324e-19
+
+$GO.0016020$commonGeneEntrez
+ [1] 331524  72333  12295  17311  16530 239134  21949 240921 320923 258740
+[11]  18441  18679  54635 243548  19158  14160  12724  14067 329872 319653
+[21] 241520 243634  14563  11839 213603  54393 353047  19289 215654  64934
+[31] 244310  57257  13349  18703  60510 244650 244646  21823 192188  80718
+[41] 213788 320982  66942  64113  76757 171228  80976 230751  13510 192663
+[51] 319848 258558  67781  22635 268747 231760  14177  76895 110829 193003
+[61]  60367 258610 108012  16192 258590
+
+$GO.0016020$commonGenePositions
+ [1]  191  282  304  317  488  495  528  533  561  625  735  752  790  805
+[15]  813  869  878  895 1013 1071 1084 1256 1278 1319 1358 1406 1420 1448
+[29] 1452 1489 1528 1586 1615 1635 1653 1663 1667 1704 1709 1794 1828 1848
+[43] 1909 1915 1978 1991 2010 2054 2234 2247 2263 2269 2273 2358 2431 2439
+[57] 2612 2646 2744 2835 2925 2992 2998 3125 3209
+
+
+$GO.0051234
+$GO.0051234$dataSetID
+[1] &quot;GO:0051234&quot;
+
+$GO.0051234$dataSetName
+[1] &quot;establishment of localization&quot;
+
+$GO.0051234$dataSetDescription
+[1] &quot;Any process that localizes a substance or cellular component. This may occur via movement, tethering or selective degradation.&quot;
+
+$GO.0051234$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0051234$enrichmentP
+[1] 1.420725e-18
+
+$GO.0051234$commonGeneEntrez
+ [1] 215280  26356  12295  16530  30878  19017 218490  57315  16181  18441
+[11]  71602  12724 319653 243634  14563  54393 353047 231452  57257  18703
+[21]  60510 244646 223642  21823 192188  80718 213788 320982 269800  64113
+[31]  76757 214162  80976 230751  20666  83428 319848  19317 140488  76895
+[41] 110829 193003 320790  30959 108012
+
+$GO.0051234$commonGenePositions
+ [1]   75   97  304  488  532  565  579  588  638  735  785  878 1071 1256
+[15] 1278 1406 1420 1449 1586 1635 1653 1667 1671 1704 1709 1794 1828 1848
+[29] 1865 1915 1978 2004 2010 2054 2087 2240 2263 2456 2580 2646 2744 2835
+[43] 2878 2893 2998
+
+
+$GO.0032501
+$GO.0032501$dataSetID
+[1] &quot;GO:0032501&quot;
+
+$GO.0032501$dataSetName
+[1] &quot;multicellular organismal process&quot;
+
+$GO.0032501$dataSetDescription
+[1] &quot;Any biological process, occurring at the level of a multicellular organism, pertinent to its function.&quot;
+
+$GO.0032501$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0032501$enrichmentP
+[1] 2.00965e-18
+
+$GO.0032501$commonGeneEntrez
+ [1]  15379  18996  72333  14897  17311 277939  21949  22420  30878  19017
+[11] 218490 258740  16181  74068  18441  71602  54635 243548  19158  14160
+[21]  12724  14067 329872  14563  11839  54393 353047  19289  75725  57257
+[31]  13349  18703 244646  21823 192188 213788  21952  56735  76757 171228
+[41] 214162  21784  20666 235497  76441  83428 258558  19317  14177 110829
+[51]  54388 193003 320790  30959 258610 108012  16192 258590  22634
+
+$GO.0032501$commonGenePositions
+ [1]   94  281  282  297  317  420  528  531  532  565  579  625  638  674
+[15]  735  785  790  805  813  869  878  895 1013 1278 1319 1406 1420 1448
+[29] 1562 1586 1615 1635 1667 1704 1709 1828 1856 1947 1978 1991 2004 2016
+[43] 2087 2148 2174 2240 2269 2456 2612 2744 2798 2835 2878 2893 2992 2998
+[57] 3125 3209 3216
+
+
+$GO.0006810
+$GO.0006810$dataSetID
+[1] &quot;GO:0006810&quot;
+
+$GO.0006810$dataSetName
+[1] &quot;transport&quot;
+
+$GO.0006810$dataSetDescription
+[1] &quot;The directed movement of substances (such as macromolecules, small molecules, ions) or cellular components (such as complexes and organelles) into, out of or within a cell, or between cells, or within a multicellular organism by means of some agent such as a transporter, pore or motor protein.&quot;
+
+$GO.0006810$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0006810$enrichmentP
+[1] 3.195472e-18
+
+$GO.0006810$commonGeneEntrez
+ [1] 215280  26356  12295  16530  30878  19017 218490  57315  16181  18441
+[11]  71602  12724 319653 243634  14563  54393 353047 231452  57257  18703
+[21]  60510 244646 223642  21823 192188  80718 213788 320982 269800  64113
+[31]  76757 214162  80976 230751  20666  83428 319848  19317 140488  76895
+[41] 193003 320790  30959 108012
+
+$GO.0006810$commonGenePositions
+ [1]   75   97  304  488  532  565  579  588  638  735  785  878 1071 1256
+[15] 1278 1406 1420 1449 1586 1635 1653 1667 1671 1704 1709 1794 1828 1848
+[29] 1865 1915 1978 2004 2010 2054 2087 2240 2263 2456 2580 2646 2835 2878
+[43] 2893 2998
+
+
+$GO.0007154
+$GO.0007154$dataSetID
+[1] &quot;GO:0007154&quot;
+
+$GO.0007154$dataSetName
+[1] &quot;cell communication&quot;
+
+$GO.0007154$dataSetDescription
+[1] &quot;Any process that mediates interactions between a cell and its surroundings. Encompasses interactions such as signaling or attachment between one cell and another cell, between a cell and an extracellular matrix, or between a cell and any other aspect of its environment.&quot;
+
+$GO.0007154$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0007154$enrichmentP
+[1] 1.313473e-17
+
+$GO.0007154$commonGeneEntrez
+ [1]  15379  18996  14459  12295  17311  53902 277939  56613 239134  22420
+[11]  30878  19017 258740  16181  18441  71602  54635  19158  14160 329872
+[21]  14563  11839  54393 353047 244310  75725  57257  13349  18703  60510
+[31] 244650 223642  21823 208583 213788 320982  64113  76757 214162  80976
+[41]  20666 235497  83428 258558  20299  14177 110829 193003 320790  60367
+[51] 258610 258590
+
+$GO.0007154$commonGenePositions
+ [1]   94  281  295  304  317  375  420  432  495  531  532  565  625  638
+[15]  735  785  790  813  869 1013 1278 1319 1406 1420 1528 1562 1586 1615
+[29] 1635 1653 1663 1671 1704 1805 1828 1848 1915 1978 2004 2010 2087 2148
+[43] 2240 2269 2525 2612 2744 2835 2878 2925 2992 3209
+
+
+$GO.0006725
+$GO.0006725$dataSetID
+[1] &quot;GO:0006725&quot;
+
+$GO.0006725$dataSetName
+[1] &quot;cellular aromatic compound metabolic process&quot;
+
+$GO.0006725$dataSetDescription
+[1] &quot;The chemical reactions and pathways involving aromatic compounds, any organic compound characterized by one or more planar rings, each of which contains conjugated double bonds and delocalized pi electrons, as carried out by individual cells.&quot;
+
+$GO.0006725$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0006725$enrichmentP
+[1] 1.513507e-17
+
+$GO.0006725$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132  56613 239134  21949
+[11]  22420  19017 218490  57315  74068  18441  54635  14563  11839  54393
+[21]  64934  75725 223642  21823  30046 236904 269800  18150  66942  66125
+[31] 214162  71562  19724  20666 235497  67781  77805  19317  19193 110829
+[41] 212391  54388 230119 320790  30959 234373  22634
+
+$GO.0006725$commonGenePositions
+ [1]   94   97  281  297  317  331  364  432  495  528  531  565  579  588
+[15]  674  735  790 1278 1319 1406 1489 1562 1671 1704 1708 1759 1865 1897
+[29] 1909 1941 2004 2067 2077 2087 2148 2273 2429 2456 2648 2744 2755 2798
+[43] 2842 2878 2893 3116 3216
+
+
+$GO.0043231
+$GO.0043231$dataSetID
+[1] &quot;GO:0043231&quot;
+
+$GO.0043231$dataSetName
+[1] &quot;intracellular membrane-bounded organelle&quot;
+
+$GO.0043231$dataSetDescription
+[1] &quot;Organized structure of distinctive morphology and function, bounded by a single or double lipid bilayer membrane and occurring within the cell. Includes the nucleus, mitochondria, plastids, vacuoles, and vesicles. Excludes the plasma membrane.&quot;
+
+$GO.0043231$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0043231$enrichmentP
+[1] 2.61619e-17
+
+$GO.0043231$commonGeneEntrez
+ [1]  15379  26356  18996  72333  14897  12295 242466  56613 240921  19017
+[11] 218490  57315  18441  54635 243548  22526  14160  14067 319653 231201
+[21] 243634  11731  11839  54393 353047 231452  64934 213765  75725 244650
+[31] 223642  21823  30046 236904  80718 208583 269800  18150  66942  64113
+[41]  66125  76757 214162  80976  71562  19724  20666 235497  67781  77805
+[51]  19317 320869 140488  76895  19193 212391  54388 230119 320790  30959
+[61]  59310 108012 234373  22634
+
+$GO.0043231$commonGenePositions
+ [1]   94   97  281  282  297  304  331  432  533  565  579  588  735  790
+[15]  805  833  869  895 1071 1167 1256 1291 1319 1406 1420 1449 1489 1559
+[29] 1562 1663 1671 1704 1708 1759 1794 1805 1865 1897 1909 1915 1941 1978
+[43] 2004 2010 2067 2077 2087 2148 2273 2429 2456 2497 2580 2646 2648 2755
+[57] 2798 2842 2878 2893 2927 2998 3116 3216
+
+
+$GO.0005634
+$GO.0005634$dataSetID
+[1] &quot;GO:0005634&quot;
+
+$GO.0005634$dataSetName
+[1] &quot;nucleus&quot;
+
+$GO.0005634$dataSetDescription
+[1] &quot;A membrane-bounded organelle of eukaryotic cells in which chromosomes are housed and replicated. In most cells, the nucleus contains all of the cell&#39;s chromosomes except the organellar chromosomes, and is the site of RNA synthesis and processing. In some species, or in specialized cell types, RNA metabolism or DNA replication may be absent.&quot;
+
+$GO.0005634$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0005634$enrichmentP
+[1] 2.91499e-17
+
+$GO.0005634$commonGeneEntrez
+ [1]  15379  26356  18996  72333  14897 242466  56613 240921  19017 218490
+[11]  57315  54635 243548  22526 231201 243634  11731  11839 353047 231452
+[21]  64934 213765  75725 244650 223642  21823  30046 236904 208583 269800
+[31]  18150  66942  64113  66125 214162  71562  19724  20666 235497  67781
+[41]  77805  19317 320869 140488  76895 212391  54388 230119 320790  30959
+[51] 234373  22634
+
+$GO.0005634$commonGenePositions
+ [1]   94   97  281  282  297  331  432  533  565  579  588  790  805  833
+[15] 1167 1256 1291 1319 1420 1449 1489 1559 1562 1663 1671 1704 1708 1759
+[29] 1805 1865 1897 1909 1915 1941 2004 2067 2077 2087 2148 2273 2429 2456
+[43] 2497 2580 2646 2755 2798 2842 2878 2893 3116 3216
+
+
+$GO.0023052
+$GO.0023052$dataSetID
+[1] &quot;GO:0023052&quot;
+
+$GO.0023052$dataSetName
+[1] &quot;signaling&quot;
+
+$GO.0023052$dataSetDescription
+[1] &quot;The entirety of a process in which information is transmitted within a biological system. This process begins with an active signal and ends when a cellular response has been triggered.&quot;
+
+$GO.0023052$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0023052$enrichmentP
+[1] 4.689208e-17
+
+$GO.0023052$commonGeneEntrez
+ [1]  15379  18996  14459  12295  17311  53902 277939  56613 239134  22420
+[11]  30878  19017 258740  16181  18441  71602  54635  19158  14160  14563
+[21]  11839  54393 353047 244310  75725  57257  13349  18703  60510 244650
+[31] 223642  21823 208583 213788 320982  64113  76757 214162  80976  20666
+[41] 235497  83428 258558  20299  14177 110829 193003 320790  60367 258610
+[51] 258590
+
+$GO.0023052$commonGenePositions
+ [1]   94  281  295  304  317  375  420  432  495  531  532  565  625  638
+[15]  735  785  790  813  869 1278 1319 1406 1420 1528 1562 1586 1615 1635
+[29] 1653 1663 1671 1704 1805 1828 1848 1915 1978 2004 2010 2087 2148 2240
+[43] 2269 2525 2612 2744 2835 2878 2925 2992 3209
+
+
+$GO.1901360
+$GO.1901360$dataSetID
+[1] &quot;GO:1901360&quot;
+
+$GO.1901360$dataSetName
+[1] &quot;organic cyclic compound metabolic process&quot;
+
+$GO.1901360$dataSetDescription
+[1] &quot;The chemical reactions and pathways involving organic cyclic compound.&quot;
+
+$GO.1901360$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.1901360$enrichmentP
+[1] 5.62363e-17
+
+$GO.1901360$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132  56613 239134  21949
+[11]  22420  19017 218490  57315  74068  18441  54635  14563  11839  54393
+[21]  64934  75725 223642  21823  30046 236904 269800  18150  66942  66125
+[31] 214162  71562  19724  20666 235497  67781  77805  19317  19193 110829
+[41] 212391  54388 230119 320790  30959 234373  22634
+
+$GO.1901360$commonGenePositions
+ [1]   94   97  281  297  317  331  364  432  495  528  531  565  579  588
+[15]  674  735  790 1278 1319 1406 1489 1562 1671 1704 1708 1759 1865 1897
+[29] 1909 1941 2004 2067 2077 2087 2148 2273 2429 2456 2648 2744 2755 2798
+[43] 2842 2878 2893 3116 3216
+
+
+$GO.0046483
+$GO.0046483$dataSetID
+[1] &quot;GO:0046483&quot;
+
+$GO.0046483$dataSetName
+[1] &quot;heterocycle metabolic process&quot;
+
+$GO.0046483$dataSetDescription
+[1] &quot;The chemical reactions and pathways involving heterocyclic compounds, those with a cyclic molecular structure and at least two different atoms in the ring (or rings).&quot;
+
+$GO.0046483$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0046483$enrichmentP
+[1] 5.662844e-17
+
+$GO.0046483$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132  56613 239134  21949
+[11]  22420  19017 218490  57315  74068  18441  54635  14563  11839  54393
+[21]  64934  75725 223642  30046 236904 269800  18150  66942  66125 214162
+[31]  71562  19724  20666 235497  67781  77805  19317  19193 110829 212391
+[41]  54388 230119 320790  30959 234373  22634
+
+$GO.0046483$commonGenePositions
+ [1]   94   97  281  297  317  331  364  432  495  528  531  565  579  588
+[15]  674  735  790 1278 1319 1406 1489 1562 1671 1708 1759 1865 1897 1909
+[29] 1941 2004 2067 2077 2087 2148 2273 2429 2456 2648 2744 2755 2798 2842
+[43] 2878 2893 3116 3216
+
+
+$GO.0051716
+$GO.0051716$dataSetID
+[1] &quot;GO:0051716&quot;
+
+$GO.0051716$dataSetName
+[1] &quot;cellular response to stimulus&quot;
+
+$GO.0051716$dataSetDescription
+[1] &quot;Any process that results in a change in state or activity of a cell (in terms of movement, secretion, enzyme production, gene expression, etc.) as a result of a stimulus. The process begins with detection of the stimulus by a cell and ends with a change in state or activity or the cell.&quot;
+
+$GO.0051716$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0051716$enrichmentP
+[1] 1.300422e-16
+
+$GO.0051716$commonGeneEntrez
+ [1]  15379  18996  14459  14897  12295  17311  53902 277939  56613 239134
+[11]  22420  30878  19017 258740  16181  18441  71602  54635  19158  14160
+[21]  14563  11731  11839  54393 353047 231452  75725  57257  13349  18703
+[31] 244650 244646 223642  78896 236904 208583 213788 320982  64113  76757
+[41] 214162  20666 235497  83428 192663 258558  20299  14177 110829 193003
+[51]  60367 258610  16192 258590
+
+$GO.0051716$commonGenePositions
+ [1]   94  281  295  297  304  317  375  420  432  495  531  532  565  625
+[15]  638  735  785  790  813  869 1278 1291 1319 1406 1420 1449 1562 1586
+[29] 1615 1635 1663 1667 1671 1710 1759 1805 1828 1848 1915 1978 2004 2087
+[43] 2148 2240 2247 2269 2525 2612 2744 2835 2925 2992 3125 3209
+
+
+$GO.0090304
+$GO.0090304$dataSetID
+[1] &quot;GO:0090304&quot;
+
+$GO.0090304$dataSetName
+[1] &quot;nucleic acid metabolic process&quot;
+
+$GO.0090304$dataSetDescription
+[1] &quot;Any cellular metabolic process involving nucleic acids.&quot;
+
+$GO.0090304$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0090304$enrichmentP
+[1] 3.235539e-16
+
+$GO.0090304$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132  56613  21949  22420
+[11]  19017 218490  57315  74068  18441  54635  14563  11839  64934  75725
+[21] 223642  30046 236904 269800  18150  66942  66125 214162  19724  20666
+[31] 235497  67781  77805  19317 110829 212391  54388 230119 320790  30959
+[41] 234373  22634
+
+$GO.0090304$commonGenePositions
+ [1]   94   97  281  297  317  331  364  432  528  531  565  579  588  674
+[15]  735  790 1278 1319 1489 1562 1671 1708 1759 1865 1897 1909 1941 2004
+[29] 2077 2087 2148 2273 2429 2456 2744 2755 2798 2842 2878 2893 3116 3216
+
+
+$GO.0034641
+$GO.0034641$dataSetID
+[1] &quot;GO:0034641&quot;
+
+$GO.0034641$dataSetName
+[1] &quot;cellular nitrogen compound metabolic process&quot;
+
+$GO.0034641$dataSetDescription
+[1] &quot;The chemical reactions and pathways involving various organic and inorganic nitrogenous compounds, as carried out by individual cells.&quot;
+
+$GO.0034641$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0034641$enrichmentP
+[1] 6.345993e-16
+
+$GO.0034641$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132  56613 239134  21949
+[11]  22420  19017 218490  57315  74068  18441  54635  14563  11839  54393
+[21]  64934  75725 223642  30046 236904 269800  18150  66942  66125 214162
+[31]  71562  19724  20666 235497  67781  77805  19317 140488  19193 110829
+[41] 212391  54388 230119 320790  30959 234373  22634
+
+$GO.0034641$commonGenePositions
+ [1]   94   97  281  297  317  331  364  432  495  528  531  565  579  588
+[15]  674  735  790 1278 1319 1406 1489 1562 1671 1708 1759 1865 1897 1909
+[29] 1941 2004 2067 2077 2087 2148 2273 2429 2456 2580 2648 2744 2755 2798
+[43] 2842 2878 2893 3116 3216
+
+
+$GO.0044237
+$GO.0044237$dataSetID
+[1] &quot;GO:0044237&quot;
+
+$GO.0044237$dataSetName
+[1] &quot;cellular metabolic process&quot;
+
+$GO.0044237$dataSetDescription
+[1] &quot;The chemical reactions and pathways by which individual cells transform chemical substances.&quot;
+
+$GO.0044237$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0044237$enrichmentP
+[1] 6.505542e-16
+
+$GO.0044237$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132  56613 239134  21949
+[11]  22420  30878  19017 218490  57315  16181  74068  18441  18679  54635
+[21] 231201  14563  11839  54393 353047  64934  75725  57257 244650 223642
+[31]  21823  30046  78896 236904 208583 213788 269800  18150  66942  66125
+[41] 214162  71562  19724  20666 235497  67781  77805 231760  19317  20299
+[51] 140488  19193 110829 212391  54388 230119 320790  30959 234373  22634
+
+$GO.0044237$commonGenePositions
+ [1]   94   97  281  297  317  331  364  432  495  528  531  532  565  579
+[15]  588  638  674  735  752  790 1167 1278 1319 1406 1420 1489 1562 1586
+[29] 1663 1671 1704 1708 1710 1759 1805 1828 1865 1897 1909 1941 2004 2067
+[43] 2077 2087 2148 2273 2429 2439 2456 2525 2580 2648 2744 2755 2798 2842
+[57] 2878 2893 3116 3216
+
+
+$GO.0006139
+$GO.0006139$dataSetID
+[1] &quot;GO:0006139&quot;
+
+$GO.0006139$dataSetName
+[1] &quot;nucleobase-containing compound metabolic process&quot;
+
+$GO.0006139$dataSetDescription
+[1] &quot;Any cellular metabolic process involving nucleobases, nucleosides, nucleotides and nucleic acids.&quot;
+
+$GO.0006139$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0006139$enrichmentP
+[1] 6.846819e-16
+
+$GO.0006139$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132  56613 239134  21949
+[11]  22420  19017 218490  57315  74068  18441  54635  14563  11839  54393
+[21]  64934  75725 223642  30046 236904 269800  18150  66942  66125 214162
+[31]  19724  20666 235497  67781  77805  19317 110829 212391  54388 230119
+[41] 320790  30959 234373  22634
+
+$GO.0006139$commonGenePositions
+ [1]   94   97  281  297  317  331  364  432  495  528  531  565  579  588
+[15]  674  735  790 1278 1319 1406 1489 1562 1671 1708 1759 1865 1897 1909
+[29] 1941 2004 2077 2087 2148 2273 2429 2456 2744 2755 2798 2842 2878 2893
+[43] 3116 3216
+
+
+$GO.0008152
+$GO.0008152$dataSetID
+[1] &quot;GO:0008152&quot;
+
+$GO.0008152$dataSetName
+[1] &quot;metabolic process&quot;
+
+$GO.0008152$dataSetDescription
+[1] &quot;The chemical reactions and pathways, including anabolism and catabolism, by which living organisms transform chemical substances. Metabolic processes typically transform small molecules, but also include macromolecular processes such as DNA repair and replication, and protein synthesis and degradation.&quot;
+
+$GO.0008152$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0008152$enrichmentP
+[1] 1.689689e-15
+
+$GO.0008152$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132 277939  56613 239134
+[11]  21949  22420  30878  19017 218490  57315  16181  74068  18441  18679
+[21]  71602  54635 231201  14563  11839  54393 353047  64934  75725  57257
+[31] 244650 223642  21823  30046 192188  78896 236904 208583 213788 269800
+[41]  18150  66942  66125 214162  71562  19724  20666 235497  67781  77805
+[51] 231760  19317  20299 140488  19193 110829 212391  54388 230119 320790
+[61]  30959 234373  22634
+
+$GO.0008152$commonGenePositions
+ [1]   94   97  281  297  317  331  364  420  432  495  528  531  532  565
+[15]  579  588  638  674  735  752  785  790 1167 1278 1319 1406 1420 1489
+[29] 1562 1586 1663 1671 1704 1708 1709 1710 1759 1805 1828 1865 1897 1909
+[43] 1941 2004 2067 2077 2087 2148 2273 2429 2439 2456 2525 2580 2648 2744
+[57] 2755 2798 2842 2878 2893 3116 3216
+
+
+$GO.0006807
+$GO.0006807$dataSetID
+[1] &quot;GO:0006807&quot;
+
+$GO.0006807$dataSetName
+[1] &quot;nitrogen compound metabolic process&quot;
+
+$GO.0006807$dataSetDescription
+[1] &quot;The chemical reactions and pathways involving organic or inorganic compounds that contain nitrogen.&quot;
+
+$GO.0006807$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0006807$enrichmentP
+[1] 5.949472e-15
+
+$GO.0006807$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132 277939  56613 239134
+[11]  21949  22420  19017 218490  57315  16181  74068  18441  18679  71602
+[21]  54635 231201  14563  11839  54393  64934  75725 244650 223642  21823
+[31]  30046  78896 236904 208583 269800  18150  66942  66125 214162  71562
+[41]  19724  20666 235497  67781  77805  19317  20299 140488  19193 110829
+[51] 212391  54388 230119 320790  30959 234373  22634
+
+$GO.0006807$commonGenePositions
+ [1]   94   97  281  297  317  331  364  420  432  495  528  531  565  579
+[15]  588  638  674  735  752  785  790 1167 1278 1319 1406 1489 1562 1663
+[29] 1671 1704 1708 1710 1759 1805 1865 1897 1909 1941 2004 2067 2077 2087
+[43] 2148 2273 2429 2456 2525 2580 2648 2744 2755 2798 2842 2878 2893 3116
+[57] 3216
+
+
+$GO.0071944
+$GO.0071944$dataSetID
+[1] &quot;GO:0071944&quot;
+
+$GO.0071944$dataSetName
+[1] &quot;cell periphery&quot;
+
+$GO.0071944$dataSetDescription
+[1] &quot;The part of a cell encompassing the cell cortex, the plasma membrane, and any external encapsulating structures.&quot;
+
+$GO.0071944$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0071944$enrichmentP
+[1] 6.777597e-15
+
+$GO.0071944$commonGeneEntrez
+ [1]  72333  12295  17311  16530 239134  18441  18679  71602  54635 243548
+[11]  19158  14160  12724 243634  14563  54393 215654 244310  57257  18703
+[21]  60510 244650 244646  21823 192188  80718 213788 320982  76757 171228
+[31]  80976 230751  13510 192663 319848  22635 268747 231760  14177  76895
+[41] 110829 193003
+
+$GO.0071944$commonGenePositions
+ [1]  282  304  317  488  495  735  752  785  790  805  813  869  878 1256
+[15] 1278 1406 1452 1528 1586 1635 1653 1663 1667 1704 1709 1794 1828 1848
+[29] 1978 1991 2010 2054 2234 2247 2263 2358 2431 2439 2612 2646 2744 2835
+
+
+$GO.0071704
+$GO.0071704$dataSetID
+[1] &quot;GO:0071704&quot;
+
+$GO.0071704$dataSetName
+[1] &quot;organic substance metabolic process&quot;
+
+$GO.0071704$dataSetDescription
+[1] &quot;The chemical reactions and pathways involving an organic substance, any molecular entity containing carbon.&quot;
+
+$GO.0071704$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0071704$enrichmentP
+[1] 1.181535e-14
+
+$GO.0071704$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132 277939  56613 239134
+[11]  21949  22420  30878  19017 218490  57315  16181  74068  18441  18679
+[21]  54635 231201  14563  11839  54393  64934  75725  57257 244650 223642
+[31]  21823  30046 192188  78896 236904 208583 213788 269800  18150  66942
+[41]  66125 214162  71562  19724  20666 235497  67781  77805  19317  20299
+[51] 140488  19193 110829 212391  54388 230119 320790  30959 234373  22634
+
+$GO.0071704$commonGenePositions
+ [1]   94   97  281  297  317  331  364  420  432  495  528  531  532  565
+[15]  579  588  638  674  735  752  790 1167 1278 1319 1406 1489 1562 1586
+[29] 1663 1671 1704 1708 1709 1710 1759 1805 1828 1865 1897 1909 1941 2004
+[43] 2067 2077 2087 2148 2273 2429 2456 2525 2580 2648 2744 2755 2798 2842
+[57] 2878 2893 3116 3216
+
+
+$GO.0019222
+$GO.0019222$dataSetID
+[1] &quot;GO:0019222&quot;
+
+$GO.0019222$dataSetName
+[1] &quot;regulation of metabolic process&quot;
+
+$GO.0019222$dataSetDescription
+[1] &quot;Any process that modulates the frequency, rate or extent of the chemical reactions and pathways within a cell or an organism.&quot;
+
+$GO.0019222$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0019222$enrichmentP
+[1] 1.292064e-14
+
+$GO.0019222$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132 277939  56613  21949
+[11]  22420  30878  19017 218490  16181  74068  18441  54635  14563  11839
+[21]  54393  75725  57257 223642  30046 192188 236904 213788 269800 214162
+[31]  19724  20666 235497  67781  77805 231760  19317  20299 140488 110829
+[41] 212391  54388 230119 320790  30959  22634
+
+$GO.0019222$commonGenePositions
+ [1]   94   97  281  297  317  331  364  420  432  528  531  532  565  579
+[15]  638  674  735  790 1278 1319 1406 1562 1586 1671 1708 1709 1759 1828
+[29] 1865 2004 2077 2087 2148 2273 2429 2439 2456 2525 2580 2744 2755 2798
+[43] 2842 2878 2893 3216
+
+
+$GO.0005886
+$GO.0005886$dataSetID
+[1] &quot;GO:0005886&quot;
+
+$GO.0005886$dataSetName
+[1] &quot;plasma membrane&quot;
+
+$GO.0005886$dataSetDescription
+[1] &quot;The membrane surrounding a cell that separates the cell from its external environment. It consists of a phospholipid bilayer and associated proteins.&quot;
+
+$GO.0005886$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0005886$enrichmentP
+[1] 1.514958e-14
+
+$GO.0005886$commonGeneEntrez
+ [1]  72333  12295  17311  16530 239134  18441  18679  54635 243548  19158
+[11]  14160  12724 243634  14563  54393 215654 244310  57257  18703  60510
+[21] 244650 244646  21823 192188  80718 213788 320982  76757 171228  80976
+[31] 230751  13510 192663 319848  22635 268747 231760  14177  76895 110829
+[41] 193003
+
+$GO.0005886$commonGenePositions
+ [1]  282  304  317  488  495  735  752  790  805  813  869  878 1256 1278
+[15] 1406 1452 1528 1586 1635 1653 1663 1667 1704 1709 1794 1828 1848 1978
+[29] 1991 2010 2054 2234 2247 2263 2358 2431 2439 2612 2646 2744 2835
+
+
+$GO.0044238
+$GO.0044238$dataSetID
+[1] &quot;GO:0044238&quot;
+
+$GO.0044238$dataSetName
+[1] &quot;primary metabolic process&quot;
+
+$GO.0044238$dataSetDescription
+[1] &quot;The chemical reactions and pathways involving those compounds which are formed as a part of the normal anabolic and catabolic processes. These processes take place in most, if not all, cells of the organism.&quot;
+
+$GO.0044238$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0044238$enrichmentP
+[1] 1.97153e-14
+
+$GO.0044238$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132 277939  56613 239134
+[11]  21949  22420  19017 218490  57315  16181  74068  18441  18679  54635
+[21] 231201  14563  11839  54393  64934  75725  57257 244650 223642  21823
+[31]  30046  78896 236904 208583 213788 269800  18150  66942  66125 214162
+[41]  71562  19724  20666 235497  67781  77805  19317  20299 140488  19193
+[51] 110829 212391  54388 230119 320790  30959 234373  22634
+
+$GO.0044238$commonGenePositions
+ [1]   94   97  281  297  317  331  364  420  432  495  528  531  565  579
+[15]  588  638  674  735  752  790 1167 1278 1319 1406 1489 1562 1586 1663
+[29] 1671 1704 1708 1710 1759 1805 1828 1865 1897 1909 1941 2004 2067 2077
+[43] 2087 2148 2273 2429 2456 2525 2580 2648 2744 2755 2798 2842 2878 2893
+[57] 3116 3216
+
+
+$GO.0044260
+$GO.0044260$dataSetID
+[1] &quot;GO:0044260&quot;
+
+$GO.0044260$dataSetName
+[1] &quot;cellular macromolecule metabolic process&quot;
+
+$GO.0044260$dataSetDescription
+[1] &quot;The chemical reactions and pathways involving macromolecules, any molecule of high relative molecular mass, the structure of which essentially comprises the multiple repetition of units derived, actually or conceptually, from molecules of low relative molecular mass, as carried out by individual cells.&quot;
+
+$GO.0044260$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0044260$enrichmentP
+[1] 3.649394e-14
+
+$GO.0044260$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132  56613  21949  22420
+[11]  30878  19017 218490  57315  16181  74068  18441  18679  54635 231201
+[21]  14563  11839  64934  75725 244650 223642  30046  78896 236904 208583
+[31] 269800  18150  66942  66125 214162  19724  20666 235497  67781  77805
+[41]  19317  20299 140488 110829 212391  54388 230119 320790  30959 234373
+[51]  22634
+
+$GO.0044260$commonGenePositions
+ [1]   94   97  281  297  317  331  364  432  528  531  532  565  579  588
+[15]  638  674  735  752  790 1167 1278 1319 1489 1562 1663 1671 1708 1710
+[29] 1759 1805 1865 1897 1909 1941 2004 2077 2087 2148 2273 2429 2456 2525
+[43] 2580 2744 2755 2798 2842 2878 2893 3116 3216
+
+
+$GO.0043170
+$GO.0043170$dataSetID
+[1] &quot;GO:0043170&quot;
+
+$GO.0043170$dataSetName
+[1] &quot;macromolecule metabolic process&quot;
+
+$GO.0043170$dataSetDescription
+[1] &quot;The chemical reactions and pathways involving macromolecules, any molecule of high relative molecular mass, the structure of which essentially comprises the multiple repetition of units derived, actually or conceptually, from molecules of low relative molecular mass.&quot;
+
+$GO.0043170$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0043170$enrichmentP
+[1] 4.563177e-14
+
+$GO.0043170$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132 277939  56613  21949
+[11]  22420  30878  19017 218490  57315  16181  74068  18441  18679  54635
+[21] 231201  14563  11839  64934  75725 244650 223642  30046 192188  78896
+[31] 236904 208583 213788 269800  18150  66942  66125 214162  19724  20666
+[41] 235497  67781  77805  19317  20299 140488 110829 212391  54388 230119
+[51] 320790  30959 234373  22634
+
+$GO.0043170$commonGenePositions
+ [1]   94   97  281  297  317  331  364  420  432  528  531  532  565  579
+[15]  588  638  674  735  752  790 1167 1278 1319 1489 1562 1663 1671 1708
+[29] 1709 1710 1759 1805 1828 1865 1897 1909 1941 2004 2077 2087 2148 2273
+[43] 2429 2456 2525 2580 2744 2755 2798 2842 2878 2893 3116 3216
+
+
+$GO.0060255
+$GO.0060255$dataSetID
+[1] &quot;GO:0060255&quot;
+
+$GO.0060255$dataSetName
+[1] &quot;regulation of macromolecule metabolic process&quot;
+
+$GO.0060255$dataSetDescription
+[1] &quot;Any process that modulates the frequency, rate or extent of the chemical reactions and pathways involving macromolecules, any molecule of high relative molecular mass, the structure of which essentially comprises the multiple repetition of units derived, actually or conceptually, from molecules of low relative molecular mass.&quot;
+
+$GO.0060255$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0060255$enrichmentP
+[1] 8.687235e-14
+
+$GO.0060255$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132 277939  56613  21949
+[11]  22420  30878  19017 218490  16181  74068  18441  54635  14563  11839
+[21]  75725 223642  30046 192188 236904 213788 269800 214162  19724  20666
+[31] 235497  67781  77805  19317  20299 140488 110829 212391  54388 230119
+[41] 320790  30959  22634
+
+$GO.0060255$commonGenePositions
+ [1]   94   97  281  297  317  331  364  420  432  528  531  532  565  579
+[15]  638  674  735  790 1278 1319 1562 1671 1708 1709 1759 1828 1865 2004
+[29] 2077 2087 2148 2273 2429 2456 2525 2580 2744 2755 2798 2842 2878 2893
+[43] 3216
+
+
+$GO.0007165
+$GO.0007165$dataSetID
+[1] &quot;GO:0007165&quot;
+
+$GO.0007165$dataSetName
+[1] &quot;signal transduction&quot;
+
+$GO.0007165$dataSetDescription
+[1] &quot;The cellular process in which a signal is conveyed to trigger a change in the activity or state of a cell. Signal transduction begins with reception of a signal (e.g. a ligand binding to a receptor or receptor activation by a stimulus such as light), or for signal transduction in the absence of ligand, signal-withdrawal or the activity of a constitutively active receptor. Signal transduction ends with regulation of a downstream cellular process, e.g. regulation of transcription or regulation of a metabolic process. Signal transduction covers signaling from receptors located on the surface of the cell and signaling via molecules located within the cell. For signaling between cells, signal transduction is restricted to events at and within the receiving cell.&quot;
+
+$GO.0007165$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0007165$enrichmentP
+[1] 8.706795e-14
+
+$GO.0007165$commonGeneEntrez
+ [1]  15379  18996  14459  17311  53902 277939  56613 239134  22420  30878
+[11]  19017 258740  16181  18441  71602  54635  19158  14160  14563  11839
+[21]  54393 353047  75725  57257  13349  18703 244650 223642 208583 213788
+[31] 320982  64113  76757  20666 235497  83428 258558  20299  14177 110829
+[41] 193003  60367 258610 258590
+
+$GO.0007165$commonGenePositions
+ [1]   94  281  295  317  375  420  432  495  531  532  565  625  638  735
+[15]  785  790  813  869 1278 1319 1406 1420 1562 1586 1615 1635 1663 1671
+[29] 1805 1828 1848 1915 1978 2087 2148 2240 2269 2525 2612 2744 2835 2925
+[43] 2992 3209
+
+
+$GO.0016070
+$GO.0016070$dataSetID
+[1] &quot;GO:0016070&quot;
+
+$GO.0016070$dataSetName
+[1] &quot;RNA metabolic process&quot;
+
+$GO.0016070$dataSetDescription
+[1] &quot;The cellular chemical reactions and pathways involving RNA, ribonucleic acid, one of the two main type of nucleic acid, consisting of a long, unbranched macromolecule formed from ribonucleotides joined in 3&#39;,5&#39;-phosphodiester linkage.&quot;
+
+$GO.0016070$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0016070$enrichmentP
+[1] 2.594765e-13
+
+$GO.0016070$commonGeneEntrez
+ [1]  15379  26356  18996 242466 387132  56613  21949  22420  19017 218490
+[11]  57315  74068  18441  14563  64934  75725 223642  30046 269800  18150
+[21]  66942  66125 214162  19724  20666 235497  67781  19317 110829 212391
+[31]  54388 230119 320790  30959 234373  22634
+
+$GO.0016070$commonGenePositions
+ [1]   94   97  281  331  364  432  528  531  565  579  588  674  735 1278
+[15] 1489 1562 1671 1708 1865 1897 1909 1941 2004 2077 2087 2148 2273 2456
+[29] 2744 2755 2798 2842 2878 2893 3116 3216
+
+
+$GO.0031323
+$GO.0031323$dataSetID
+[1] &quot;GO:0031323&quot;
+
+$GO.0031323$dataSetName
+[1] &quot;regulation of cellular metabolic process&quot;
+
+$GO.0031323$dataSetDescription
+[1] &quot;Any process that modulates the frequency, rate or extent of the chemical reactions and pathways by which individual cells transform chemical substances.&quot;
+
+$GO.0031323$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0031323$enrichmentP
+[1] 4.467736e-13
+
+$GO.0031323$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132  56613  21949  22420
+[11]  30878  19017 218490  16181  18441  54635  14563  11839  54393  75725
+[21]  57257  30046 236904 213788 269800 214162  19724  20666 235497  67781
+[31]  77805 231760  19317  20299 140488 110829 212391  54388 230119 320790
+[41]  30959  22634
+
+$GO.0031323$commonGenePositions
+ [1]   94   97  281  297  317  331  364  432  528  531  532  565  579  638
+[15]  735  790 1278 1319 1406 1562 1586 1708 1759 1828 1865 2004 2077 2087
+[29] 2148 2273 2429 2439 2456 2525 2580 2744 2755 2798 2842 2878 2893 3216
+
+
+$GO.0048522
+$GO.0048522$dataSetID
+[1] &quot;GO:0048522&quot;
+
+$GO.0048522$dataSetName
+[1] &quot;positive regulation of cellular process&quot;
+
+$GO.0048522$dataSetDescription
+[1] &quot;Any process that activates or increases the frequency, rate or extent of a cellular process, any of those that are carried out at the cellular level, but are not necessarily restricted to a single cell. For example, cell communication occurs among more than one cell, but occurs at the cellular level.&quot;
+
+$GO.0048522$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0048522$enrichmentP
+[1] 4.746101e-13
+
+$GO.0048522$commonGeneEntrez
+ [1]  15379  26356  18996  72333  17311 242466  56613  21949  22420  30878
+[11]  19017  57315  16181  18441  54635  14160  14563  11839  54393 353047
+[21]  57257  60510 223642  30046  80718 269800  64113  76757 214162 230751
+[31]  20666 235497  83428  67781  19317  20299  14177 110829 320790  22634
+
+$GO.0048522$commonGenePositions
+ [1]   94   97  281  282  317  331  432  528  531  532  565  588  638  735
+[15]  790  869 1278 1319 1406 1420 1586 1653 1671 1708 1794 1865 1915 1978
+[29] 2004 2054 2087 2148 2240 2273 2456 2525 2612 2744 2878 3216
+
+
+$GO.0048518
+$GO.0048518$dataSetID
+[1] &quot;GO:0048518&quot;
+
+$GO.0048518$dataSetName
+[1] &quot;positive regulation of biological process&quot;
+
+$GO.0048518$dataSetDescription
+[1] &quot;Any process that activates or increases the frequency, rate or extent of a biological process. Biological processes are regulated by many means; examples include the control of gene expression, protein modification or interaction with a protein or substrate molecule.&quot;
+
+$GO.0048518$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0048518$enrichmentP
+[1] 6.352116e-13
+
+$GO.0048518$commonGeneEntrez
+ [1] 215280  15379  26356  18996  72333  17311 242466  56613  21949  22420
+[11]  30878  19017  57315  16181  18441  54635  14160  14563  11839  54393
+[21] 353047  57257  60510 223642  30046  80718 269800  64113  76757 214162
+[31] 230751  20666 235497  83428  67781  19317  20299  14177 110829 193003
+[41] 320790  22634
+
+$GO.0048518$commonGenePositions
+ [1]   75   94   97  281  282  317  331  432  528  531  532  565  588  638
+[15]  735  790  869 1278 1319 1406 1420 1586 1653 1671 1708 1794 1865 1915
+[29] 1978 2004 2054 2087 2148 2240 2273 2456 2525 2612 2744 2835 2878 3216
+
+
+$GO.0019219
+$GO.0019219$dataSetID
+[1] &quot;GO:0019219&quot;
+
+$GO.0019219$dataSetName
+[1] &quot;regulation of nucleobase-containing compound metabolic process&quot;
+
+$GO.0019219$dataSetDescription
+[1] &quot;Any cellular process that modulates the frequency, rate or extent of the chemical reactions and pathways involving nucleobases, nucleosides, nucleotides and nucleic acids.&quot;
+
+$GO.0019219$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0019219$enrichmentP
+[1] 6.438567e-13
+
+$GO.0019219$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132  56613  21949  22420
+[11]  19017 218490  18441  54635  14563  11839  54393  75725  30046 236904
+[21] 269800 214162  19724  20666 235497  67781  77805  19317 110829 212391
+[31]  54388 230119 320790  22634
+
+$GO.0019219$commonGenePositions
+ [1]   94   97  281  297  317  331  364  432  528  531  565  579  735  790
+[15] 1278 1319 1406 1562 1708 1759 1865 2004 2077 2087 2148 2273 2429 2456
+[29] 2744 2755 2798 2842 2878 3216
+
+
+$GO.0080090
+$GO.0080090$dataSetID
+[1] &quot;GO:0080090&quot;
+
+$GO.0080090$dataSetName
+[1] &quot;regulation of primary metabolic process&quot;
+
+$GO.0080090$dataSetDescription
+[1] &quot;Any process that modulates the frequency, rate or extent of the chemical reactions and pathways within a cell or an organism involving those compounds formed as a part of the normal anabolic and catabolic processes. These processes take place in most, if not all, cells of the organism.&quot;
+
+$GO.0080090$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0080090$enrichmentP
+[1] 9.154936e-13
+
+$GO.0080090$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132 277939  56613  21949
+[11]  22420  19017 218490  16181  18441  54635  14563  11839  54393  75725
+[21]  57257  30046 236904 213788 269800 214162  19724  20666 235497  67781
+[31]  77805  19317  20299 140488 110829 212391  54388 230119 320790  30959
+[41]  22634
+
+$GO.0080090$commonGenePositions
+ [1]   94   97  281  297  317  331  364  420  432  528  531  565  579  638
+[15]  735  790 1278 1319 1406 1562 1586 1708 1759 1828 1865 2004 2077 2087
+[29] 2148 2273 2429 2456 2525 2580 2744 2755 2798 2842 2878 2893 3216
+
+
+$GO.0043167
+$GO.0043167$dataSetID
+[1] &quot;GO:0043167&quot;
+
+$GO.0043167$dataSetName
+[1] &quot;ion binding&quot;
+
+$GO.0043167$dataSetDescription
+[1] &quot;Interacting selectively and non-covalently with ions, charged atoms or groups of atoms.&quot;
+
+$GO.0043167$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.MF&quot;
+
+$GO.0043167$enrichmentP
+[1] 1.658184e-12
+
+$GO.0043167$commonGeneEntrez
+ [1]  26356  14897  56613 239134 329972  18441 231045  71602 243548  19158
+[11]  14067 329872  11731 353047 215654  75725  57257  60510 244650 244646
+[21] 223642  21823  30046 192188  80718 208583 320982  21952  66942 214162
+[31]  80976  13510  67781  77805 110829 193003 230119 320790  30959  59310
+
+$GO.0043167$commonGenePositions
+ [1]   97  297  432  495  497  735  768  785  805  813  895 1013 1291 1420
+[15] 1452 1562 1586 1653 1663 1667 1671 1704 1708 1709 1794 1805 1848 1856
+[29] 1909 2004 2010 2234 2273 2429 2744 2835 2842 2878 2893 2927
+
+
+$GO.0007275
+$GO.0007275$dataSetID
+[1] &quot;GO:0007275&quot;
+
+$GO.0007275$dataSetName
+[1] &quot;multicellular organism development&quot;
+
+$GO.0007275$dataSetDescription
+[1] &quot;The biological process whose specific outcome is the progression of a multicellular organism over time from an initial condition (e.g. a zygote or a young adult) to a later condition (e.g. a multicellular animal or an aged adult).&quot;
+
+$GO.0007275$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0007275$enrichmentP
+[1] 1.74954e-12
+
+$GO.0007275$commonGeneEntrez
+ [1]  15379  18996  72333  14897  17311 277939  21949  22420  19017 218490
+[11]  16181  74068  18441  71602  54635 243548  19158  14160  12724 329872
+[21]  14563  11839  75725  57257  21823  21952  56735 214162  20666 235497
+[31]  76441  19317  14177 110829  54388 320790  30959 108012  22634
+
+$GO.0007275$commonGenePositions
+ [1]   94  281  282  297  317  420  528  531  565  579  638  674  735  785
+[15]  790  805  813  869  878 1013 1278 1319 1562 1586 1704 1856 1947 2004
+[29] 2087 2148 2174 2456 2612 2744 2798 2878 2893 2998 3216
+
+
+$GO.0071840
+$GO.0071840$dataSetID
+[1] &quot;GO:0071840&quot;
+
+$GO.0071840$dataSetName
+[1] &quot;cellular component organization or biogenesis&quot;
+
+$GO.0071840$dataSetDescription
+[1] &quot;A process that results in the biosynthesis of constituent macromolecules, assembly, arrangement of constituent parts, or disassembly of a cellular component.&quot;
+
+$GO.0071840$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0071840$enrichmentP
+[1] 2.073499e-12
+
+$GO.0071840$commonGeneEntrez
+ [1] 215280  15379  18996  72333  14897  12295 242466 277939  56613  30878
+[11] 320923  19017  57315  74068  71602  54635 243548  19158  11839 353047
+[21] 231452  64934 244310  57257  60510 208583  18150  64113  56735  76757
+[31] 214162  80976 230751 235497  76441 380842  77805  19317  76895 110829
+[41]  54388 320790
+
+$GO.0071840$commonGenePositions
+ [1]   75   94  281  282  297  304  331  420  432  532  561  565  588  674
+[15]  785  790  805  813 1319 1420 1449 1489 1528 1586 1653 1805 1897 1915
+[29] 1947 1978 2004 2010 2054 2148 2174 2424 2429 2456 2646 2744 2798 2878
+
+
+$GO.0031326
+$GO.0031326$dataSetID
+[1] &quot;GO:0031326&quot;
+
+$GO.0031326$dataSetName
+[1] &quot;regulation of cellular biosynthetic process&quot;
+
+$GO.0031326$dataSetDescription
+[1] &quot;Any process that modulates the frequency, rate or extent of the chemical reactions and pathways resulting in the formation of substances, carried out by individual cells.&quot;
+
+$GO.0031326$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0031326$enrichmentP
+[1] 2.362694e-12
+
+$GO.0031326$commonGeneEntrez
+ [1]  15379  26356  18996  17311 242466 387132  56613  21949  22420  19017
+[11] 218490  18441  54635  14563  11839  54393  75725  30046 269800 214162
+[21]  19724  20666 235497  67781  77805  19317 140488 110829 212391  54388
+[31] 230119 320790  30959  22634
+
+$GO.0031326$commonGenePositions
+ [1]   94   97  281  317  331  364  432  528  531  565  579  735  790 1278
+[15] 1319 1406 1562 1708 1865 2004 2077 2087 2148 2273 2429 2456 2580 2744
+[29] 2755 2798 2842 2878 2893 3216
+
+
+$GO.0032502
+$GO.0032502$dataSetID
+[1] &quot;GO:0032502&quot;
+
+$GO.0032502$dataSetName
+[1] &quot;developmental process&quot;
+
+$GO.0032502$dataSetDescription
+[1] &quot;A biological process whose specific outcome is the progression of an integrated living unit: an anatomical structure (which may be a subcellular structure, cell, tissue, or organ), or organism over time from an initial condition to a later condition.&quot;
+
+$GO.0032502$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0032502$enrichmentP
+[1] 2.763135e-12
+
+$GO.0032502$commonGeneEntrez
+ [1]  15379  18996  72333  14897  17311 277939  21949  22420  19017 218490
+[11]  16181  74068  18441  71602  54635 243548  19158  14160  12724 329872
+[21]  14563  11839  54393  75725  57257  21823  78896  21952  56735 214162
+[31]  21784  20666 235497  76441  19317  14177 110829  54388 320790  30959
+[41] 108012  22634
+
+$GO.0032502$commonGenePositions
+ [1]   94  281  282  297  317  420  528  531  565  579  638  674  735  785
+[15]  790  805  813  869  878 1013 1278 1319 1406 1562 1586 1704 1710 1856
+[29] 1947 2004 2016 2087 2148 2174 2456 2612 2744 2798 2878 2893 2998 3216
+
+
+$GO.0010556
+$GO.0010556$dataSetID
+[1] &quot;GO:0010556&quot;
+
+$GO.0010556$dataSetName
+[1] &quot;regulation of macromolecule biosynthetic process&quot;
+
+$GO.0010556$dataSetDescription
+[1] &quot;Any process that modulates the rate, frequency or extent of the chemical reactions and pathways resulting in the formation of a macromolecule, any molecule of high relative molecular mass, the structure of which essentially comprises the multiple repetition of units derived, actually or conceptually, from molecules of low relative molecular mass.&quot;
+
+$GO.0010556$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0010556$enrichmentP
+[1] 3.066811e-12
+
+$GO.0010556$commonGeneEntrez
+ [1]  15379  26356  18996  17311 242466 387132  56613  21949  22420  19017
+[11] 218490  18441  54635  14563  11839  75725  30046 269800 214162  19724
+[21]  20666 235497  67781  77805  19317 140488 110829 212391  54388 230119
+[31] 320790  30959  22634
+
+$GO.0010556$commonGenePositions
+ [1]   94   97  281  317  331  364  432  528  531  565  579  735  790 1278
+[15] 1319 1562 1708 1865 2004 2077 2087 2148 2273 2429 2456 2580 2744 2755
+[29] 2798 2842 2878 2893 3216
+
+
+$GO.0009889
+$GO.0009889$dataSetID
+[1] &quot;GO:0009889&quot;
+
+$GO.0009889$dataSetName
+[1] &quot;regulation of biosynthetic process&quot;
+
+$GO.0009889$dataSetDescription
+[1] &quot;Any process that modulates the frequency, rate or extent of the chemical reactions and pathways resulting in the formation of substances.&quot;
+
+$GO.0009889$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0009889$enrichmentP
+[1] 3.568013e-12
+
+$GO.0009889$commonGeneEntrez
+ [1]  15379  26356  18996  17311 242466 387132  56613  21949  22420  19017
+[11] 218490  18441  54635  14563  11839  54393  75725  30046 269800 214162
+[21]  19724  20666 235497  67781  77805  19317 140488 110829 212391  54388
+[31] 230119 320790  30959  22634
+
+$GO.0009889$commonGenePositions
+ [1]   94   97  281  317  331  364  432  528  531  565  579  735  790 1278
+[15] 1319 1406 1562 1708 1865 2004 2077 2087 2148 2273 2429 2456 2580 2744
+[29] 2755 2798 2842 2878 2893 3216
+
+
+$GO.0016043
+$GO.0016043$dataSetID
+[1] &quot;GO:0016043&quot;
+
+$GO.0016043$dataSetName
+[1] &quot;cellular component organization&quot;
+
+$GO.0016043$dataSetDescription
+[1] &quot;A process that results in the assembly, arrangement of constituent parts, or disassembly of a cellular component.&quot;
+
+$GO.0016043$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0016043$enrichmentP
+[1] 3.604452e-12
+
+$GO.0016043$commonGeneEntrez
+ [1] 215280  15379  18996  72333  14897  12295 242466 277939  56613  30878
+[11] 320923  19017  57315  74068  71602  54635 243548  19158  11839 353047
+[21] 231452  64934 244310  57257  60510 208583  64113  56735  76757 214162
+[31]  80976 230751 235497  76441 380842  77805  19317  76895 110829  54388
+[41] 320790
+
+$GO.0016043$commonGenePositions
+ [1]   75   94  281  282  297  304  331  420  432  532  561  565  588  674
+[15]  785  790  805  813 1319 1420 1449 1489 1528 1586 1653 1805 1915 1947
+[29] 1978 2004 2010 2054 2148 2174 2424 2429 2456 2646 2744 2798 2878
+
+
+$GO.0071705
+$GO.0071705$dataSetID
+[1] &quot;GO:0071705&quot;
+
+$GO.0071705$dataSetName
+[1] &quot;nitrogen compound transport&quot;
+
+$GO.0071705$dataSetDescription
+[1] &quot;The directed movement of nitrogen-containing compounds into, out of or within a cell, or between cells, by means of some agent such as a transporter or pore.&quot;
+
+$GO.0071705$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0071705$enrichmentP
+[1] 4.92902e-12
+
+$GO.0071705$commonGeneEntrez
+ [1] 215280  26356  12295  30878 218490  57315  16181  18441  14563  54393
+[11] 353047 231452  60510 223642  21823 213788 269800 230751  83428  19317
+[21] 140488  76895 320790  30959 108012
+
+$GO.0071705$commonGenePositions
+ [1]   75   97  304  532  579  588  638  735 1278 1406 1420 1449 1653 1671
+[15] 1704 1828 1865 2054 2240 2456 2580 2646 2878 2893 2998
+
+
+$GO.2000112
+$GO.2000112$dataSetID
+[1] &quot;GO:2000112&quot;
+
+$GO.2000112$dataSetName
+[1] &quot;regulation of cellular macromolecule biosynthetic process&quot;
+
+$GO.2000112$dataSetDescription
+[1] &quot;Any process that modulates the frequency, rate or extent of cellular macromolecule biosynthetic process.&quot;
+
+$GO.2000112$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.2000112$enrichmentP
+[1] 7.538047e-12
+
+$GO.2000112$commonGeneEntrez
+ [1]  15379  26356  18996  17311 242466  56613  21949  22420  19017 218490
+[11]  18441  54635  14563  11839  75725  30046 269800 214162  19724  20666
+[21] 235497  67781  77805  19317 140488 110829 212391  54388 230119 320790
+[31]  30959  22634
+
+$GO.2000112$commonGenePositions
+ [1]   94   97  281  317  331  432  528  531  565  579  735  790 1278 1319
+[15] 1562 1708 1865 2004 2077 2087 2148 2273 2429 2456 2580 2744 2755 2798
+[29] 2842 2878 2893 3216
+
+
+$GO.0051171
+$GO.0051171$dataSetID
+[1] &quot;GO:0051171&quot;
+
+$GO.0051171$dataSetName
+[1] &quot;regulation of nitrogen compound metabolic process&quot;
+
+$GO.0051171$dataSetDescription
+[1] &quot;Any process that modulates the frequency, rate or extent of the chemical reactions and pathways involving nitrogen or nitrogenous compounds.&quot;
+
+$GO.0051171$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0051171$enrichmentP
+[1] 8.644784e-12
+
+$GO.0051171$commonGeneEntrez
+ [1]  15379  26356  18996  14897  17311 242466 387132 277939  56613  21949
+[11]  22420  19017 218490  16181  18441  54635  14563  11839  54393  75725
+[21]  30046 236904 269800 214162  19724  20666 235497  67781  77805  19317
+[31]  20299 140488 110829 212391  54388 230119 320790  30959  22634
+
+$GO.0051171$commonGenePositions
+ [1]   94   97  281  297  317  331  364  420  432  528  531  565  579  638
+[15]  735  790 1278 1319 1406 1562 1708 1759 1865 2004 2077 2087 2148 2273
+[29] 2429 2456 2525 2580 2744 2755 2798 2842 2878 2893 3216
+
+
+$GO.0010467
+$GO.0010467$dataSetID
+[1] &quot;GO:0010467&quot;
+
+$GO.0010467$dataSetName
+[1] &quot;gene expression&quot;
+
+$GO.0010467$dataSetDescription
+[1] &quot;The process in which a gene&#39;s sequence is converted into a mature gene product or products (proteins or RNA). This includes the production of an RNA transcript as well as any processing to produce a mature RNA product or an mRNA or circRNA (for protein-coding genes) and the translation of that mRNA or circRNA into protein. Protein maturation is included when required to form an active form of a product from an inactive precursor form.&quot;
+
+$GO.0010467$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0010467$enrichmentP
+[1] 1.96881e-11
+
+$GO.0010467$commonGeneEntrez
+ [1]  15379  26356  18996 242466 277939  56613  21949  22420  19017 218490
+[11]  57315  74068  18441  14563  64934  75725 223642  30046 192188 269800
+[21]  18150  66125 214162  19724  20666 235497  67781  19317 140488 110829
+[31] 212391  54388 230119 320790  30959 234373  22634
+
+$GO.0010467$commonGenePositions
+ [1]   94   97  281  331  420  432  528  531  565  579  588  674  735 1278
+[15] 1489 1562 1671 1708 1709 1865 1897 1941 2004 2077 2087 2148 2273 2456
+[29] 2580 2744 2755 2798 2842 2878 2893 3116 3216
+
+
+$GO.0048856
+$GO.0048856$dataSetID
+[1] &quot;GO:0048856&quot;
+
+$GO.0048856$dataSetName
+[1] &quot;anatomical structure development&quot;
+
+$GO.0048856$dataSetDescription
+[1] &quot;The biological process whose specific outcome is the progression of an anatomical structure from an initial condition to its mature state. This process begins with the formation of the structure and ends with the mature structure, whatever form that may be including its natural destruction. An anatomical structure is any biological entity that occupies space and is distinguished from its surroundings. Anatomical structures can be macroscopic such as a carpel, or microscopic such as an acrosome.&quot;
+
+$GO.0048856$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0048856$enrichmentP
+[1] 2.106172e-11
+
+$GO.0048856$commonGeneEntrez
+ [1]  15379  18996  72333  14897  17311 277939  21949  22420  19017 218490
+[11]  16181  74068  18441  71602  54635 243548  19158  14160  12724 329872
+[21]  14563  11839  75725  57257  21823  21952  56735 214162  20666 235497
+[31]  76441  19317  14177 110829  54388 320790  30959 108012  22634
+
+$GO.0048856$commonGenePositions
+ [1]   94  281  282  297  317  420  528  531  565  579  638  674  735  785
+[15]  790  805  813  869  878 1013 1278 1319 1562 1586 1704 1856 1947 2004
+[29] 2087 2148 2174 2456 2612 2744 2798 2878 2893 2998 3216
+
+
+$GO.0051641
+$GO.0051641$dataSetID
+[1] &quot;GO:0051641&quot;
+
+$GO.0051641$dataSetName
+[1] &quot;cellular localization&quot;
+
+$GO.0051641$dataSetDescription
+[1] &quot;A cellular localization process whereby a substance or cellular entity, such as a protein complex or organelle, is transported to, and/or maintained in, a specific location within a cell including the localization of substances or cellular entities to the cell membrane.&quot;
+
+$GO.0051641$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0051641$enrichmentP
+[1] 2.403032e-11
+
+$GO.0051641$commonGeneEntrez
+ [1] 215280  26356  12295 277939  57315  18441 319653  14563 353047 231452
+[11]  64934  18703  60510 223642  21823  80718 320982 269800  64113  76757
+[21]  80976 230751  76895 320790  30959 108012
+
+$GO.0051641$commonGenePositions
+ [1]   75   97  304  420  588  735 1071 1278 1420 1449 1489 1635 1653 1671
+[15] 1704 1794 1848 1865 1915 1978 2010 2054 2646 2878 2893 2998
+
+
+$GO.0044422
+$GO.0044422$dataSetID
+[1] &quot;GO:0044422&quot;
+
+$GO.0044422$dataSetName
+[1] &quot;organelle part&quot;
+
+$GO.0044422$dataSetDescription
+[1] &quot;Any constituent part of an organelle, an organized structure of distinctive morphology and function. Includes constituent parts of the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton, but excludes the plasma membrane.&quot;
+
+$GO.0044422$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0044422$enrichmentP
+[1] 4.280869e-11
+
+$GO.0044422$commonGeneEntrez
+ [1] 215280  18996  72333  14897 277939  56613 240921  19017  57315  71602
+[11]  22526  14160 319653 243634  54393 353047 231452  64934  18703  60510
+[21] 244650 223642  21823  80718 208583  21952  18150  66942  64113  66125
+[31]  56735  76757 214162  19724 235497  67781  77805  75645  76895 212391
+[41]  54388  30959 234373  22634
+
+$GO.0044422$commonGenePositions
+ [1]   75  281  282  297  420  432  533  565  588  785  833  869 1071 1256
+[15] 1406 1420 1449 1489 1635 1653 1663 1671 1704 1794 1805 1856 1897 1909
+[29] 1915 1941 1947 1978 2004 2077 2148 2273 2429 2477 2646 2755 2798 2893
+[43] 3116 3216
+
+
+$GO.0044425
+$GO.0044425$dataSetID
+[1] &quot;GO:0044425&quot;
+
+$GO.0044425$dataSetName
+[1] &quot;membrane part&quot;
+
+$GO.0044425$dataSetDescription
+[1] &quot;Any constituent part of a membrane, a double layer of lipid molecules that encloses all cells, and, in eukaryotes, many organelles; may be a single or double lipid bilayer; also includes associated proteins.&quot;
+
+$GO.0044425$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0044425$enrichmentP
+[1] 5.892847e-11
+
+$GO.0044425$commonGeneEntrez
+ [1] 331524  12295  17311  16530  21949 258740  18441 243548  14160  12724
+[11] 329872 319653 241520 243634  11839 213603  54393  19289 215654 244310
+[21]  13349  18703  60510 244650 244646  21823 192188  80718 213788  76757
+[31] 171228  80976  13510 192663 319848 258558  22635  76895 193003  60367
+[41] 258610 108012  16192 258590
+
+$GO.0044425$commonGenePositions
+ [1]  191  304  317  488  528  625  735  805  869  878 1013 1071 1084 1256
+[15] 1319 1358 1406 1448 1452 1528 1615 1635 1653 1663 1667 1704 1709 1794
+[29] 1828 1978 1991 2010 2234 2247 2263 2269 2358 2646 2835 2925 2992 2998
+[43] 3125 3209
+
+
+$GO.0009059
+$GO.0009059$dataSetID
+[1] &quot;GO:0009059&quot;
+
+$GO.0009059$dataSetName
+[1] &quot;macromolecule biosynthetic process&quot;
+
+$GO.0009059$dataSetDescription
+[1] &quot;The chemical reactions and pathways resulting in the formation of a macromolecule, any molecule of high relative molecular mass, the structure of which essentially comprises the multiple repetition of units derived, actually or conceptually, from molecules of low relative molecular mass.&quot;
+
+$GO.0009059$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0009059$enrichmentP
+[1] 9.174523e-11
+
+$GO.0009059$commonGeneEntrez
+ [1]  15379  26356  18996  17311 242466 387132  56613  21949  22420  19017
+[11] 218490  18441  54635  14563  11839  75725  30046 269800  18150 214162
+[21]  19724  20666 235497  67781  77805  19317 140488 110829 212391  54388
+[31] 230119 320790  30959  22634
+
+$GO.0009059$commonGenePositions
+ [1]   94   97  281  317  331  364  432  528  531  565  579  735  790 1278
+[15] 1319 1562 1708 1865 1897 2004 2077 2087 2148 2273 2429 2456 2580 2744
+[29] 2755 2798 2842 2878 2893 3216
+
+
+$GO.0044249
+$GO.0044249$dataSetID
+[1] &quot;GO:0044249&quot;
+
+$GO.0044249$dataSetName
+[1] &quot;cellular biosynthetic process&quot;
+
+$GO.0044249$dataSetDescription
+[1] &quot;The chemical reactions and pathways resulting in the formation of substances, carried out by individual cells.&quot;
+
+$GO.0044249$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0044249$enrichmentP
+[1] 9.37672e-11
+
+$GO.0044249$commonGeneEntrez
+ [1]  15379  26356  18996  17311 242466 387132  56613 239134  21949  22420
+[11]  19017 218490  18441  54635  14563  11839  54393  75725  21823  30046
+[21] 269800  18150 214162  19724  20666 235497  67781  77805  19317 140488
+[31] 110829 212391  54388 230119 320790  30959  22634
+
+$GO.0044249$commonGenePositions
+ [1]   94   97  281  317  331  364  432  495  528  531  565  579  735  790
+[15] 1278 1319 1406 1562 1704 1708 1865 1897 2004 2077 2087 2148 2273 2429
+[29] 2456 2580 2744 2755 2798 2842 2878 2893 3216
+
+
+$GO.0071702
+$GO.0071702$dataSetID
+[1] &quot;GO:0071702&quot;
+
+$GO.0071702$dataSetName
+[1] &quot;organic substance transport&quot;
+
+$GO.0071702$dataSetDescription
+[1] &quot;The directed movement of organic substances into, out of or within a cell, or between cells, or within a multicellular organism by means of some agent such as a transporter or pore. An organic substance is a molecular entity that contains carbon.&quot;
+
+$GO.0071702$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0071702$enrichmentP
+[1] 1.250595e-10
+
+$GO.0071702$commonGeneEntrez
+ [1] 215280  26356  12295  30878 218490  57315  16181  18441  14563  54393
+[11] 353047 231452  60510 223642  21823 213788 269800 230751  83428  19317
+[21] 140488  76895 320790  30959 108012
+
+$GO.0071702$commonGenePositions
+ [1]   75   97  304  532  579  588  638  735 1278 1406 1420 1449 1653 1671
+[15] 1704 1828 1865 2054 2240 2456 2580 2646 2878 2893 2998
+
+
+$GO.0051049
+$GO.0051049$dataSetID
+[1] &quot;GO:0051049&quot;
+
+$GO.0051049$dataSetName
+[1] &quot;regulation of transport&quot;
+
+$GO.0051049$dataSetDescription
+[1] &quot;Any process that modulates the frequency, rate or extent of the directed movement of substances (such as macromolecules, small molecules, ions) into, out of or within a cell, or between cells, by means of some agent such as a transporter or pore.&quot;
+
+$GO.0051049$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0051049$enrichmentP
+[1] 1.364448e-10
+
+$GO.0051049$commonGeneEntrez
+ [1] 215280  12295  16530  30878  19017  57315  16181  18441  12724  54393
+[11]  60510 223642  80718 269800  76757 214162  80976 230751  20666  83428
+[21] 193003 320790
+
+$GO.0051049$commonGenePositions
+ [1]   75  304  488  532  565  588  638  735  878 1406 1653 1671 1794 1865
+[15] 1978 2004 2010 2054 2087 2240 2835 2878
+
+
+$GO.1901576
+$GO.1901576$dataSetID
+[1] &quot;GO:1901576&quot;
+
+$GO.1901576$dataSetName
+[1] &quot;organic substance biosynthetic process&quot;
+
+$GO.1901576$dataSetDescription
+[1] &quot;The chemical reactions and pathways resulting in the formation of an organic substance, any molecular entity containing carbon.&quot;
+
+$GO.1901576$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.1901576$enrichmentP
+[1] 1.572294e-10
+
+$GO.1901576$commonGeneEntrez
+ [1]  15379  26356  18996  17311 242466 387132  56613 239134  21949  22420
+[11]  19017 218490  18441  54635  14563  11839  54393  75725  21823  30046
+[21] 269800  18150 214162  19724  20666 235497  67781  77805  19317 140488
+[31] 110829 212391  54388 230119 320790  30959  22634
+
+$GO.1901576$commonGenePositions
+ [1]   94   97  281  317  331  364  432  495  528  531  565  579  735  790
+[15] 1278 1319 1406 1562 1704 1708 1865 1897 2004 2077 2087 2148 2273 2429
+[29] 2456 2580 2744 2755 2798 2842 2878 2893 3216
+
+
+$GO.0034645
+$GO.0034645$dataSetID
+[1] &quot;GO:0034645&quot;
+
+$GO.0034645$dataSetName
+[1] &quot;cellular macromolecule biosynthetic process&quot;
+
+$GO.0034645$dataSetDescription
+[1] &quot;The chemical reactions and pathways resulting in the formation of a macromolecule, any molecule of high relative molecular mass, the structure of which essentially comprises the multiple repetition of units derived, actually or conceptually, from molecules of low relative molecular mass, carried out by individual cells.&quot;
+
+$GO.0034645$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0034645$enrichmentP
+[1] 1.962484e-10
+
+$GO.0034645$commonGeneEntrez
+ [1]  15379  26356  18996  17311 242466  56613  21949  22420  19017 218490
+[11]  18441  54635  14563  11839  75725  30046 269800  18150 214162  19724
+[21]  20666 235497  67781  77805  19317 140488 110829 212391  54388 230119
+[31] 320790  30959  22634
+
+$GO.0034645$commonGenePositions
+ [1]   94   97  281  317  331  432  528  531  565  579  735  790 1278 1319
+[15] 1562 1708 1865 1897 2004 2077 2087 2148 2273 2429 2456 2580 2744 2755
+[29] 2798 2842 2878 2893 3216
+
+
+$GO.0044446
+$GO.0044446$dataSetID
+[1] &quot;GO:0044446&quot;
+
+$GO.0044446$dataSetName
+[1] &quot;intracellular organelle part&quot;
+
+$GO.0044446$dataSetDescription
+[1] &quot;A constituent part of an intracellular organelle, an organized structure of distinctive morphology and function, occurring within the cell. Includes constituent parts of the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton but excludes the plasma membrane.&quot;
+
+$GO.0044446$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.CC&quot;
+
+$GO.0044446$enrichmentP
+[1] 1.963059e-10
+
+$GO.0044446$commonGeneEntrez
+ [1] 215280  18996  72333  14897 277939  56613 240921  19017  57315  71602
+[11]  22526  14160 319653 243634  54393 353047 231452  64934  18703  60510
+[21] 223642  21823  80718 208583  21952  18150  66942  64113  66125  56735
+[31]  76757 214162  19724 235497  67781  77805  76895 212391  54388  30959
+[41] 234373  22634
+
+$GO.0044446$commonGenePositions
+ [1]   75  281  282  297  420  432  533  565  588  785  833  869 1071 1256
+[15] 1406 1420 1449 1489 1635 1653 1671 1704 1794 1805 1856 1897 1909 1915
+[29] 1941 1947 1978 2004 2077 2148 2273 2429 2646 2755 2798 2893 3116 3216
+
+
+$GO.0006996
+$GO.0006996$dataSetID
+[1] &quot;GO:0006996&quot;
+
+$GO.0006996$dataSetName
+[1] &quot;organelle organization&quot;
+
+$GO.0006996$dataSetDescription
+[1] &quot;A process that is carried out at the cellular level which results in the assembly, arrangement of constituent parts, or disassembly of an organelle within a cell. An organelle is an organized structure of distinctive morphology and function. Includes the nucleus, mitochondria, plastids, vacuoles, vesicles, ribosomes and the cytoskeleton. Excludes the plasma membrane.&quot;
+
+$GO.0006996$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0006996$enrichmentP
+[1] 2.138912e-10
+
+$GO.0006996$commonGeneEntrez
+ [1] 215280  15379  72333  14897 242466 277939  56613 320923  19017  57315
+[11]  74068 231452  64934  57257  60510 208583  64113  56735  76757 214162
+[21]  80976 230751 235497  76441 380842  77805  76895  54388 320790
+
+$GO.0006996$commonGenePositions
+ [1]   75   94  282  297  331  420  432  561  565  588  674 1449 1489 1586
+[15] 1653 1805 1915 1947 1978 2004 2010 2054 2148 2174 2424 2429 2646 2798
+[29] 2878
+
+
+$GO.0009058
+$GO.0009058$dataSetID
+[1] &quot;GO:0009058&quot;
+
+$GO.0009058$dataSetName
+[1] &quot;biosynthetic process&quot;
+
+$GO.0009058$dataSetDescription
+[1] &quot;The chemical reactions and pathways resulting in the formation of substances; typically the energy-requiring part of metabolism in which simpler substances are transformed into more complex ones.&quot;
+
+$GO.0009058$dataSetGroups
+[1] &quot;GO&quot;    &quot;GO.BP&quot;
+
+$GO.0009058$enrichmentP
+[1] 2.360986e-10
+
+$GO.0009058$commonGeneEntrez
+ [1]  15379  26356  18996  17311 242466 387132  56613 239134  21949  22420
+[11]  19017 218490  18441  54635  14563  11839  54393  75725  21823  30046
+[21] 269800  18150 214162  19724  20666 235497  67781  77805  19317 140488
+[31] 110829 212391  54388 230119 320790  30959  22634
+
+$GO.0009058$commonGenePositions
+ [1]   94   97  281  317  331  364  432  495  528  531  565  579  735  790
+[15] 1278 1319 1406 1562 1704 1708 1865 1897 2004 2077 2087 2148 2273 2429
+[29] 2456 2580 2744 2755 2798 2842 2878 2893 3216</code></pre>
+<pre class="r"><code># Make set with all enriched GO terms
+
+GO_per_set &lt;- cbind(GOenr$enrichmentTable$class, GOenr$enrichmentTable$dataSetID,  GOenr$enrichmentTable$dataSetName, GOenr$enrichmentTable$FDR)
+
+tail(GO_per_set)</code></pre>
+<pre><code>        [,1]        [,2]        
+[2921,] &quot;turquoise&quot; &quot;GO:0001775&quot;
+[2922,] &quot;turquoise&quot; &quot;GO:0000323&quot;
+[2923,] &quot;turquoise&quot; &quot;GO:0005764&quot;
+[2924,] &quot;turquoise&quot; &quot;GO:0000976&quot;
+[2925,] &quot;turquoise&quot; &quot;GO:2001233&quot;
+[2926,] &quot;turquoise&quot; &quot;GO:0031401&quot;
+        [,3]                                                           
+[2921,] &quot;cell activation&quot;                                              
+[2922,] &quot;lytic vacuole&quot;                                                
+[2923,] &quot;lysosome&quot;                                                     
+[2924,] &quot;transcription regulatory region sequence-specific DNA binding&quot;
+[2925,] &quot;regulation of apoptotic signaling pathway&quot;                    
+[2926,] &quot;positive regulation of protein modification process&quot;          
+        [,4]                  
+[2921,] &quot;2.34046600266067e-08&quot;
+[2922,] &quot;2.53397401340616e-08&quot;
+[2923,] &quot;2.53397401340616e-08&quot;
+[2924,] &quot;3.0746712548868e-08&quot; 
+[2925,] &quot;3.09749464261323e-08&quot;
+[2926,] &quot;3.09749464261323e-08&quot;</code></pre>
+<pre class="r"><code>colnames(GO_per_set) &lt;- c(&quot;Module&quot;, &quot;GO term&quot;, &quot;GO process&quot;, &quot;FDR&quot;)
+
+# Pull the top (most significant) for each module
+
+top_GO_per_module &lt;- GO_per_set[!duplicated(GO_per_set[,1]), ]
+colnames(top_GO_per_module) &lt;- c(&quot;Module&quot;, &quot;GO term&quot;, &quot;GO process&quot;, &quot;FDR&quot;)</code></pre>
+<p>As expected, the most enriched GO terms for each module are extremely general (e.g. “cell part”). As we decrease in significance, we get more specific/likely informative ones (e.g. “positive regulation of protein modification process”).</p>
+</div>
+</div>
+<div id="network-visualization" class="section level1">
+<h1>Network visualization</h1>
+<pre class="r"><code>nGenes = ncol(datExpr)
+nSamples = nrow(datExpr)
+
+
+# Calculate topological overlap anew: this could be done more efficiently by saving the TOM
+# calculated during module detection, but let us do it again here.
+dissTOM = 1-TOMsimilarityFromExpr(datExpr, power = 6);</code></pre>
+<pre><code>TOM calculation: adjacency..
+..will use 8 parallel threads.
+ Fraction of slow calculations: 0.396402
+..connectivity..
+..matrix multiplication (system BLAS)..
+..normalization..
+..done.</code></pre>
+<pre class="r"><code># Transform dissTOM with a power to make moderately strong connections more visible in the heatmap
+plotTOM = dissTOM^7;
+# Set diagonal to NA for a nicer plot
+diag(plotTOM) = NA;
+# Call the plot function
+sizeGrWindow(9,9)
+TOMplot(plotTOM, geneTree, moduleColors, main = &quot;Network heatmap plot, all genes&quot;)</code></pre>
+<pre class="r"><code>nSelect = 400
+# For reproducibility, we set the random seed
+set.seed(10);
+select = sample(nGenes, size = nSelect);
+selectTOM = dissTOM[select, select];
+# There&#39;s no simple way of restricting a clustering tree to a subset of genes, so we must re-cluster.
+selectTree = hclust(as.dist(selectTOM), method = &quot;average&quot;)
+selectColors = moduleColors[select];
+# Open a graphical window
+sizeGrWindow(9,9)
+# Taking the dissimilarity to a power, say 10, makes the plot more informative by effectively changing 
+# the color palette; setting the diagonal to NA also improves the clarity of the plot
+plotDiss = selectTOM^7;
+diag(plotDiss) = NA;
+TOMplot(plotDiss, selectTree, selectColors, main = &quot;Network heatmap plot, selected genes&quot;)</code></pre>
+<pre class="r"><code># Recalculate module eigengenes
+MEs = moduleEigengenes(datExpr, moduleColors)$eigengenes
+# Isolate weight from the clinical traits
+weight = as.data.frame(datTraits$weight_g);
+names(weight) = &quot;weight&quot;
+# Add the weight to existing module eigengenes
+MET = orderMEs(cbind(MEs, weight))
+# Plot the relationships among the eigengenes and the trait
+sizeGrWindow(5,7.5);
+par(cex = 0.9)
+plotEigengeneNetworks(MET, &quot;&quot;, marDendro = c(0,4,1,2), marHeatmap = c(3,4,1,2), cex.lab = 0.8, xLabelsAngle
+= 90)
+
+# Plot the dendrogram
+sizeGrWindow(6,6);
+par(cex = 1.0)
+plotEigengeneNetworks(MET, &quot;Eigengene dendrogram&quot;, marDendro = c(0,4,2,0),
+                      plotHeatmaps = FALSE)
+# Plot the heatmap matrix (note: this plot will overwrite the dendrogram plot)
+par(cex = 1.0)
+plotEigengeneNetworks(MET, &quot;Eigengene adjacency heatmap&quot;, marHeatmap = c(3,4,2,2),
+                      plotDendrograms = FALSE, xLabelsAngle = 90)</code></pre>
+<!-- Insert the session information into the document -->
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.4.3 (2017-11-30)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: OS X El Capitan 10.11.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] parallel  stats4    stats     graphics  grDevices utils     datasets 
+[8] methods   base     
+
+other attached packages:
+ [1] org.Mm.eg.db_3.5.0    anRichment_0.82-1     GO.db_3.5.0          
+ [4] AnnotationDbi_1.40.0  IRanges_2.12.0        S4Vectors_0.16.0     
+ [7] Biobase_2.38.0        BiocGenerics_0.24.0   WGCNA_1.63           
+[10] fastcluster_1.1.24    dynamicTreeCut_1.63-1
+
+loaded via a namespace (and not attached):
+ [1] robust_0.4-18         Rcpp_0.12.15          mvtnorm_1.0-7        
+ [4] lattice_0.20-35       rprojroot_1.3-2       digest_0.6.15        
+ [7] foreach_1.4.4         plyr_1.8.4            backports_1.1.2      
+[10] acepack_1.4.1         pcaPP_1.9-73          RSQLite_2.0          
+[13] evaluate_0.10.1       ggplot2_2.2.1         pillar_1.1.0         
+[16] rlang_0.1.6           lazyeval_0.2.1        rstudioapi_0.7       
+[19] data.table_1.10.4-3   blob_1.1.0            rpart_4.1-12         
+[22] Matrix_1.2-13         checkmate_1.8.5       preprocessCore_1.40.0
+[25] rmarkdown_1.9         splines_3.4.3         stringr_1.3.0        
+[28] foreign_0.8-69        htmlwidgets_1.0       bit_1.1-12           
+[31] munsell_0.4.3         compiler_3.4.3        pkgconfig_2.0.1      
+[34] base64enc_0.1-3       htmltools_0.3.6       nnet_7.3-12          
+[37] tibble_1.4.2          gridExtra_2.3         htmlTable_1.11.2     
+[40] Hmisc_4.1-1           codetools_0.2-15      matrixStats_0.53.1   
+[43] rrcov_1.4-3           MASS_7.3-48           grid_3.4.3           
+[46] gtable_0.2.0          DBI_0.7               git2r_0.21.0         
+[49] magrittr_1.5          scales_0.5.0          stringi_1.1.7        
+[52] impute_1.52.0         doParallel_1.0.11     latticeExtra_0.6-28  
+[55] robustbase_0.92-8     Formula_1.2-2         RColorBrewer_1.1-2   
+[58] iterators_1.0.9       tools_3.4.3           bit64_0.9-7          
+[61] DEoptimR_1.0-8        fit.models_0.5-14     survival_2.41-3      
+[64] yaml_2.1.18           colorspace_1.3-2      cluster_2.0.6        
+[67] memoise_1.1.0         knitr_1.20           </code></pre>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+    This <a href="http://rmarkdown.rstudio.com">R Markdown</a> site was created with <a href="https://github.com/jdblischak/workflowr">workflowr</a>
+</p>
+<hr>
+
+<!-- To enable disqus, uncomment the section below and provide your disqus_shortname -->
+
+<!-- disqus
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'rmarkdown'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
