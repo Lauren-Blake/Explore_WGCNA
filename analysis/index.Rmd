@@ -5,4 +5,4 @@ output:
     toc: false
 ---
 
-The goal of this website is to explore the software used in weighted gene co-expression network analysis ([WGCNA])(https://www.degruyter.com/downloadpdf/j/sagmb.2005.4.issue-1/sagmb.2005.4.1.1128/sagmb.2005.4.1.1128.pdf).
+The goal of this website is to explore the software used in weighted gene co-expression network analysis, (WGCNA)[https://www.degruyter.com/downloadpdf/j/sagmb.2005.4.issue-1/sagmb.2005.4.1.1128/sagmb.2005.4.1.1128.pdf].
