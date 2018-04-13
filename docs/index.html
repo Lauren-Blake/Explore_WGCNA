@@ -215,19 +215,21 @@ div.section {
 </div>
 
 
-<p>The goal of this website is to explore the software used in weighted gene co-expression network analysis, <a href="https://www.degruyter.com/downloadpdf/j/sagmb.2005.4.issue-1/sagmb.2005.4.1.1128/sagmb.2005.4.1.1128.pdf">WGCNA</a>.</p>
-<p>Briefly, this software is designed to find connections between multiple genes, based on their gene expression. WGCNA provides a framework for constructing co-expression networks. In gene co-expression networks, each gene is represented by a node. In weighted gene networks, the strength of the connection is based on the similiarity of their gene expression (as measured by the Pearson correlation matrix). To read more about calculating gene co-expression networks, see the theory papers <a href="https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/">here</a>. There is also interest in integrating gene co-expression network data with other traits, such as weight.</p>
+<p>The goal of this website is to explore the software used in weighted gene co-expression network analysis, <a href="https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/">WGCNA</a>.</p>
+<p>Briefly, this software is designed to find connections between multiple genes, based on their gene expression. WGCNA provides a framework for constructing co-expression networks. In gene co-expression networks, each gene is represented by a node. In weighted gene networks, the strength of the connection is based on the similiarity of their gene expression (as measured by the Pearson correlation matrix). To read more about calculating gene co-expression networks, see the theory papers <a href="https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/">here</a>. In addition to characterizing gene co-expression networks, there is also interest in integrating these networks with data from other traits, such as weight.</p>
 <p>In the <a href="https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/">first WGCNA tutorial in R</a>, I analyzed a dataset of microarray-based gene expression measurements from 135 female mice. In addition to microarray data from each of the mice, there are also 25 body and metabolic-related traits, such as weight and glucose level. I am interested in identifying which genes/group of genes contribute most to each of these traits. For an overview of this process and a typical workflow, see <a href="https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/Simulated-00-Background.pdf">this short paper</a>.</p>
+<p>Below is code that I ran as part of tutorial 1. Most of the code was taken from the R scripts provided by the WGCNA authors, but most of the annotation outside of the code chunks is my own.</p>
 <ul>
-<li><p>To see the data input and cleaning click <a href="https://lauren-blake.github.io/Explore_WGCNA/Tutorial_1.html">here</a></p></li>
-<li>To see the clustering based on the gene expression values of the mice, click [here]</li>
-<li><p>To see how a co-expression network is created, click [here]</p></li>
-<li><p>To see the final clusters of highly interconnected genes (“modules”), click [here]</p></li>
-<li><p>To see preliminary analysis between traits and the gene modules, click [here]. Note: This topic is covered in greater depth in tutorials 2 and 3.</p></li>
-<li><p>To look for enrichment, e.g. Gene Ontology terms, in the modules, click [here]</p></li>
-<li><p>To see other plots created during this tutorial, click [here]</p></li>
+<li><p>To see the data input and cleaning, click <a href="https://lauren-blake.github.io/Explore_WGCNA/Tutorial_1.html">here</a>.</p></li>
+<li><p>To see clustering based on the gene expression values of the mice, click <a href="https://lauren-blake.github.io/Explore_WGCNA/Tutorial_1.html#sample_clustering">here</a>.</p></li>
+<li><p>To see the clinical data for each mouse, click <a href="https://lauren-blake.github.io/Explore_WGCNA/Tutorial_1.html#add_the_clinical_data">here</a>.</p></li>
+<li><p>To see how a co-expression network is created, click <a href="https://lauren-blake.github.io/Explore_WGCNA/Tutorial_1.html#gene_expression_network_construction_and_module_detection">here</a>.</p></li>
+<li><p>To see the final clusters of highly interconnected genes (“modules”), click <a href="https://lauren-blake.github.io/Explore_WGCNA/Tutorial_1.html#cluster_and_merge_modules_based_on_eigengenes">here</a>.</p></li>
+<li><p>To see preliminary analysis between traits and the gene modules, click <a href="https://lauren-blake.github.io/Explore_WGCNA/Tutorial_1.html#begin_to_study_relationships_between_traits_and_modules">here</a>. Note: This topic is covered in greater depth in tutorials 2 and 3.</p></li>
+<li><p>To look for enrichment, e.g. Gene Ontology terms, in the modules, click <a href="https://lauren-blake.github.io/Explore_WGCNA/Tutorial_1.html#integrate_the_network_analysis_with_functional_enrichment">here</a>.</p></li>
+<li><p>To see other plots created during this tutorial, click <a href="https://lauren-blake.github.io/Explore_WGCNA/Tutorial_1.html#additional_visualizations">here</a>.</p></li>
 </ul>
-<p>Future plans: Complete the <a href="https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/">second WGCNA tutorial</a>. It covers directly comparing co-expression networks and traits for 2 or more datasets, e.g. case-control, before-after treatment as well as more visualizations.</p>
+<p>Future plans: Complete the <a href="https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/">second WGCNA tutorial</a>. It covers comparing co-expression networks across 2 or more datasets, e.g. case-control, before-after treatment, etc. as well as futher integrating these networks with other data.</p>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see
