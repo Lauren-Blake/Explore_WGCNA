@@ -11,7 +11,6 @@ Briefly, this software is designed to find connections between multiple genes, b
 
 In the [first WGCNA tutorial in R](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/), I analyzed a dataset of microarray-based gene expression measurements from 135 female mice. In addition to microarray data from each of the mice, there are also 25 body and metabolic-related traits, such as weight and glucose level. I am interested in identifying which genes/group of genes contribute most to each of these traits. For an overview of this process and a typical workflow, see [this short paper](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/Simulated-00-Background.pdf). 
 
-For the 
 * To see the data input and cleaning click [here](https://lauren-blake.github.io/Explore_WGCNA/Tutorial_1.html)
 
 * To see the clustering based on the gene expression values of the mice, click [here]
@@ -25,5 +24,5 @@ For the
 
 * To see other plots created during this tutorial, click [here]
 
-To do: The [second WGCNA tutorial](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/), covers directly comparing co-expression networks and traits for 2 or more datasets, e.g. case-control, before-after treatment. 
+Future plans: Complete the [second WGCNA tutorial](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/). It covers directly comparing co-expression networks and traits for 2 or more datasets, e.g. case-control, before-after treatment as well as more visualizations. 
 
