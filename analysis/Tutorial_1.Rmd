@@ -1,5 +1,5 @@
 ---
-title: "Tutorial_1"
+title: "Tutorial 1"
 author: "Lauren Blake"
 date: 2018-04-11
 output: html_document
@@ -28,14 +28,15 @@ knitr::read_chunk("chunks.R")
 
 # Introduction
 
-The goal of this script is to install the WGCNA package and then to explore [tutorial 1]https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html. According to the website, "the first tutorial guides the reader through an analysis of a single empirical gene expression data set."
+The goal of this script is to install the WGCNA package and then to explore [tutorial 1](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html). According to the website, "the first tutorial guides the reader through an analysis of a single empirical gene expression data set."
 
-Note: Most of the code below was taken from the R scripts also provided by the WGCNA authors and can be found on the tutorial [website]https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html. Most of the annotation outside of the code chunks is my own. 
+Note: Most of the code below was taken from the R scripts also provided by the WGCNA authors and can be found on the tutorial [website](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html). Most of the annotation outside of the code chunks is my own. 
 
 Note: The networks, modules, etc. below were build using parameters given in the tutorial. I will need to spend time learning about these parameters and exploring the robustness of these parameters. 
 
-# Data input and cleaning, including re-formatting the data for consensus analysis. 
+# Data input and cleaning
 
+**This includes re-formatting the data for analysis with the gene expression levels and the traits.** 
 
 ```{r}
 # Display the current working directory
@@ -68,7 +69,7 @@ rownames(datExpr0) = names(femData)[-c(1:8)];
 
 ```
 
-Here, we have microarray data from 135 female mouse liver samples and 3600 genes/microarray positions. 
+**Here, we have microarray data from 135 female mouse liver samples and 3600 genes/microarray positions.** 
 
 ## Filter samples and genes with too many missing entries
 
@@ -88,23 +89,19 @@ if (!gsg$allOK)
 }
 
 ```
-Our samples are ok. 
+**All of uur samples passed this filtering step.**
 
-# Sample clustering (based on gene expression data)
+# Sample clustering
+
+This clustering is based on gene expression data for each sample. 
 
 ```{r}
 sampleTree = hclust(dist(datExpr0), method = "average");
-# Plot the sample tree: Open a graphic output window of size 12 by 9 inches
-# The user should change the dimensions if the window is too large or too small.
-sizeGrWindow(12,9)
-#pdf(file = "Plots/sampleClustering.pdf", width = 12, height = 9);
-par(cex = 0.6);
-par(mar = c(0,4,2,0))
 plot(sampleTree, main = "Sample clustering to detect outliers", sub="", xlab="", cex.lab = 1.5, 
      cex.axis = 1.5, cex.main = 2)
 
 # Plot a line to show the cut
-abline(h = 15, col = "red");
+abline(h = 15, col = "red")
 # Determine cluster under the line
 clust = cutreeStatic(sampleTree, cutHeight = 15, minSize = 10)
 table(clust)
@@ -114,20 +111,20 @@ datExpr = datExpr0[keepSamples, ]
 nGenes = ncol(datExpr)
 nSamples = nrow(datExpr)
 ```
-134/135 samples do not have evidence of being outliers. 
+**134/135 samples do not have evidence of being outliers.**
 
-## Add the clinical data
+# Add the clinical data
 
 ```{r}
 traitData = read.csv("../data/ClinicalTraits.csv");
 dim(traitData)
-names(traitData)
+
 
 # remove columns that hold information we do not need.
 allTraits = traitData[, -c(31, 16)];
 allTraits = allTraits[, c(2, 11:36) ];
 dim(allTraits)
-names(allTraits)
+
 
 # Form a data frame analogous to expression data that will hold the clinical traits.
 
@@ -137,9 +134,11 @@ datTraits = allTraits[traitRows, -1];
 rownames(datTraits) = allTraits[traitRows, 1];
 
 dim(datTraits)
-collectGarbage()
+
+names(datTraits)
+
 ```
-There are 30 metabolic traits. 
+**There are 25 traits, many of which are related to weight and metabolism.**
 
 ## Cluster samples with gene expression and make heatmap of the clinical traits
 
@@ -156,9 +155,9 @@ plotDendroAndColors(sampleTree2, traitColors,
 save(datExpr, datTraits, file = "../data/FemaleLiver-01-dataInput.RData")
 ```
 
-# Network construction and module detection
+**Legend: white means low, red means high, grey means missing entry**
 
-
+# Gene expression network construction and module detection
 
 ```{r}
 # Load the data saved in the previous section
@@ -169,22 +168,19 @@ powers = c(c(1:10), seq(from = 12, to=20, by=2))
 # Call the network topology analysis function
 sft = pickSoftThreshold(datExpr, powerVector = powers, verbose = 5)
 # Plot the results:
-sizeGrWindow(9, 5)
-par(mfrow = c(1,2));
-cex1 = 0.9;
 # Scale-free topology fit index as a function of the soft-thresholding power
 plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
      xlab="Soft Threshold (power)",ylab="Scale Free Topology Model Fit,signed R^2",type="n",
      main = paste("Scale independence"));
 text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
-     labels=powers,cex=cex1,col="red");
+     labels=powers,col="red");
 # this line corresponds to using an R^2 cut-off of h
 abline(h=0.90,col="red")
 # Mean connectivity as a function of the soft-thresholding power
 plot(sft$fitIndices[,1], sft$fitIndices[,5],
      xlab="Soft Threshold (power)",ylab="Mean Connectivity", type="n",
      main = paste("Mean connectivity"))
-text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=cex1,col="red")
+text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers,col="red")
 
 softPower = 6;
 adjacency = adjacency(datExpr, power = softPower)
@@ -199,13 +195,12 @@ dissTOM = 1-TOM
 ```{r}
 geneTree = hclust(as.dist(dissTOM), method = "average");
 # Plot the resulting clustering tree (dendrogram)
-sizeGrWindow(12,9)
 plot(geneTree, xlab="", sub="", main = "Gene clustering on TOM-based dissimilarity",
      labels = FALSE, hang = 0.04)
 
 ```
 
-## Divide into modules
+## Partion genes with similar gene expression into modules
 
 ```{r}
 # We like large modules, so we set the minimum module size relatively high:
@@ -222,7 +217,6 @@ table(dynamicMods)
 dynamicColors = labels2colors(dynamicMods)
 table(dynamicColors)
 # Plot the dendrogram and colors underneath
-sizeGrWindow(8,6)
 plotDendroAndColors(geneTree, dynamicColors, "Dynamic Tree Cut",
                     dendroLabels = FALSE, hang = 0.03,
                     addGuide = TRUE, guideHang = 0.05,
@@ -230,7 +224,9 @@ plotDendroAndColors(geneTree, dynamicColors, "Dynamic Tree Cut",
 
 ```
 
-## Calculate, cluster, and merge based on eigengenes
+**Each color represents a different module.**
+
+## Cluster and merge modules based on eigengenes
 
 ```{r}
 # Calculate eigengenes
@@ -241,7 +237,6 @@ MEDiss = 1-cor(MEs);
 # Cluster module eigengenes
 METree = hclust(as.dist(MEDiss), method = "average");
 # Plot the result
-sizeGrWindow(7, 6)
 plot(METree, main = "Clustering of module eigengenes",
      xlab = "", sub = "")
 MEDissThres = 0.25
@@ -254,7 +249,6 @@ mergedColors = merge$colors;
 # Eigengenes of the new merged modules:
 mergedMEs = merge$newMEs;
 
-sizeGrWindow(12, 9)
 #pdf(file = "Plots/geneDendro-3.pdf", wi = 9, he = 6)
 plotDendroAndColors(geneTree, cbind(dynamicColors, mergedColors),
                     c("Dynamic Tree Cut", "Merged dynamic"),
@@ -273,7 +267,9 @@ save(MEs, moduleLabels, moduleColors, geneTree, file = "../data/FemaleLiver-02-n
 
 ```
 
-# Study relationships between triats and modules using eigengene networks
+**Each color represents a different merged module.**
+
+# Begin to study relationships between traits and modules
 
 ```{r}
 # Load the expression and trait data saved in the first part
@@ -293,32 +289,34 @@ MEs = orderMEs(MEs0)
 moduleTraitCor = cor(MEs, datTraits, use = "p");
 moduleTraitPvalue = corPvalueStudent(moduleTraitCor, nSamples);
 
-sizeGrWindow(10,6)
-# Will display correlations and their p-values
-textMatrix =  paste(signif(moduleTraitCor, 2), "\n(",
-                           signif(moduleTraitPvalue, 1), ")", sep = "");
+
+# Will display correlations. For space reasons, we will not display the p values of the correlations. 
+textMatrix =  signif(moduleTraitCor, 2)
+textMatrix = formatC(moduleTraitCor, digits = 2, format = "f")
+
 dim(textMatrix) = dim(moduleTraitCor)
-par(mar = c(6, 8.5, 3, 3));
+
 # Display the correlation values within a heatmap plot
 labeledHeatmap(Matrix = moduleTraitCor,
                xLabels = names(datTraits),
                yLabels = names(MEs),
-               ySymbols = names(MEs),
+               ySymbols = NULL,
                colorLabels = FALSE,
-               colors = greenWhiteRed(50),
+               colors = blueWhiteRed(50),
                textMatrix = textMatrix,
                setStdMargins = FALSE,
                cex.text = 0.5,
-               zlim = c(-1,1),
-               main = paste("Module-trait relationships"))
+               zlim = c(-1,1), 
+               main = paste("Gene Expression Module- Trait relationships"), ylab = "Gene Expression-Based Modules")
 ```
 
-# Find key drivers in interesting modules 
 
-In this example, we will identify the key genes in the brown module. 
+# Begin to explore key gene drivers in interesting modules 
+
+In this example, we will identify the key genes for weight in the brown module. 
 ```{r}
 # Define variable weight containing the weight column of datTrait
-weight = as.data.frame(datTraits$weight_g);
+weight = as.data.frame(datTraits$weight_g)
 names(weight) = "weight"
 # names (colors) of the modules
 modNames = substring(names(MEs), 3)
@@ -342,14 +340,30 @@ moduleGenes = moduleColors==module;
 
 
 # Identify genes in the brown module
-names(datExpr)[moduleColors=="brown"]
+#names(datExpr)[moduleColors=="brown"]
 ```
 These are all genes that were assigned to the brown module (based on gene expression values across the mice samples). 
 
 ## Identify genes in the brown module that are significant for body weight
 ```{r}
-sizeGrWindow(7, 7);
-par(mfrow = c(1,1));
+
+verboseScatterplot(abs(geneModuleMembership[moduleGenes, column]),
+                   abs(geneTraitSignificance[moduleGenes, 1]),
+                   xlab = paste("Module Membership in", module, "module"),
+                   ylab = "Gene significance for body weight",
+                   main = paste("Module membership vs. gene significance\n"),
+                   cex.main = 1.2, cex.lab = 1.2, cex.axis = 1.2, col = module)
+
+
+
+```
+
+```{r}
+module = "blue"
+column = match(module, modNames);
+moduleGenes = moduleColors==module;
+
+
 verboseScatterplot(abs(geneModuleMembership[moduleGenes, column]),
                    abs(geneTraitSignificance[moduleGenes, 1]),
                    xlab = paste("Module Membership in", module, "module"),
@@ -358,9 +372,35 @@ verboseScatterplot(abs(geneModuleMembership[moduleGenes, column]),
                    cex.main = 1.2, cex.lab = 1.2, cex.axis = 1.2, col = module)
 ```
 
-## Annotate the genes in the brown module
 
 ```{r}
+module = "black"
+column = match(module, modNames);
+moduleGenes = moduleColors==module;
+
+
+verboseScatterplot(abs(geneModuleMembership[moduleGenes, column]),
+                   abs(geneTraitSignificance[moduleGenes, 1]),
+                   xlab = paste("Module Membership in", module, "module"),
+                   ylab = "Gene significance for body weight",
+                   main = paste("Module membership vs. gene significance\n"),
+                   cex.main = 1.2, cex.lab = 1.2, cex.axis = 1.2, col = module)
+
+```
+
+**Overall, the genes in different modules have different relationships to body weight. In future tutorials, I will extract the modules/genes in each module that are most related to each trait of interest.**
+
+
+
+# Integrate the network analysis with functional enrichment 
+
+**Begin by annotating the genes in the brown module.**
+
+```{r}
+module = "brown"
+column = match(module, modNames);
+moduleGenes = moduleColors==module;
+
 annot = read.csv(file = "../data/GeneAnnotation.csv");
 dim(annot)
 names(annot)
@@ -392,11 +432,15 @@ for (mod in 1:ncol(geneModuleMembership))
 geneOrder = order(geneInfo0$moduleColor, -abs(geneInfo0$GS.weight));
 geneInfo = geneInfo0[geneOrder, ]
 
+head(geneInfo)
+
 # Save the file
 write.csv(geneInfo, file = "../data/geneInfo.csv")
 ```
 
-# Integrate the network analysis with functional enrichment/GO analysis
+## Perform GO enrichment for each module
+
+**Note: Since the function GoEnrichmentAnalysis is defunction, per the author's suggestion, we are using the function enrichmentAnalysis from the package "AnRichment" from the same authors. For more information about this package, go [here](https://labs.genetics.ucla.edu/horvath/htdocs/CoexpressionNetwork/GeneAnnotation/Tutorials/anRichment-Tutorial1.pdf).** 
 
 ```{r}
 # Load the expression and trait data saved in the first part
@@ -428,14 +472,12 @@ for (module in intModules)
               row.names = FALSE, col.names = FALSE)
 }
 # As background in the enrichment analysis, we will use all probes in the analysis.
-fileName = paste("LocusLinkIDs-all.txt", sep="");
+fileName = paste("../data/LocusLinkIDs-all.txt", sep="");
 write.table(as.data.frame(allLLIDs), file = fileName,
             row.names = FALSE, col.names = FALSE)
 ```
 
-## Perform GO enrichment
 
-Note: Since the function GoEnrichmentAnalysis is defunction, per the author's suggestion, we are using the function enrichmentAnalysis from the package "AnRichment" from the same authors. For more information about this package, https://labs.genetics.ucla.edu/horvath/htdocs/CoexpressionNetwork/GeneAnnotation/Tutorials/anRichment-Tutorial1.pdf. 
 ```{r}
 # Use the GO collection for mouse GO terms. 
 GOcollection = buildGOcollection(organism = "mouse")
@@ -469,10 +511,11 @@ colnames(GO_per_set) <- c("Module", "GO term", "GO process", "FDR")
 top_GO_per_module <- GO_per_set[!duplicated(GO_per_set[,1]), ]
 colnames(top_GO_per_module) <- c("Module", "GO term", "GO process", "FDR")
 ```
-As expected, the most enriched GO terms for each module are extremely general (e.g. "cell part"). As we decrease in significance, we get more specific/likely informative ones (e.g. "positive regulation of protein modification process").
+**As expected, the most enriched GO terms for each module are extremely general (e.g. "cell part"). As we decrease in significance, we get more specific/likely informative ones (e.g. "positive regulation of protein modification process").**
 
-# Network visualization
+# Additional visualizations
 
+**These are additional plots recommended by the WGCNA authors. I am working to get information that will make these plots more intuitive.**
 ```{r}
 nGenes = ncol(datExpr)
 nSamples = nrow(datExpr)
@@ -510,7 +553,12 @@ TOMplot(plotDiss, selectTree, selectColors, main = "Network heatmap plot, select
 
 ```
 
+## Which gene co-expression network best explains one of the traits, weight?
+
+**Based on the clustering below, it is co-expression network represented by the color green.**
 ```{r}
+# Additional visualizations
+
 # Recalculate module eigengenes
 MEs = moduleEigengenes(datExpr, moduleColors)$eigengenes
 # Isolate weight from the clinical traits
@@ -519,18 +567,18 @@ names(weight) = "weight"
 # Add the weight to existing module eigengenes
 MET = orderMEs(cbind(MEs, weight))
 # Plot the relationships among the eigengenes and the trait
-sizeGrWindow(5,7.5);
-par(cex = 0.9)
+#sizeGrWindow(5,7.5);
+#par(cex = 0.9)
 plotEigengeneNetworks(MET, "", marDendro = c(0,4,1,2), marHeatmap = c(3,4,1,2), cex.lab = 0.8, xLabelsAngle
 = 90)
 
 # Plot the dendrogram
-sizeGrWindow(6,6);
-par(cex = 1.0)
+#sizeGrWindow(6,6);
+#par(cex = 1.0)
 plotEigengeneNetworks(MET, "Eigengene dendrogram", marDendro = c(0,4,2,0),
                       plotHeatmaps = FALSE)
 # Plot the heatmap matrix (note: this plot will overwrite the dendrogram plot)
-par(cex = 1.0)
+#par(cex = 1.0)
 plotEigengeneNetworks(MET, "Eigengene adjacency heatmap", marHeatmap = c(3,4,2,2),
                       plotDendrograms = FALSE, xLabelsAngle = 90)
 
