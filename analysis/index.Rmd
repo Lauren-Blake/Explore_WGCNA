@@ -5,12 +5,13 @@ output:
     toc: false
 ---
 
-The goal of this website is to explore the software used in weighted gene co-expression network analysis, [(WGCNA)](https://www.degruyter.com/downloadpdf/j/sagmb.2005.4.issue-1/sagmb.2005.4.1.1128/sagmb.2005.4.1.1128.pdf). 
+The goal of this website is to explore the software used in weighted gene co-expression network analysis, [WGCNA](https://www.degruyter.com/downloadpdf/j/sagmb.2005.4.issue-1/sagmb.2005.4.1.1128/sagmb.2005.4.1.1128.pdf). 
 
-Briefly, we are interested in finding connections between multiple genes, based on their gene expression. WGCNA provides a framework for constructing a co-expression network(s). In gene co-expression networks, each gene is represented by a node. In weighted gene networks, the strength of the connection is based on the similiarity of their gene expression (as measured by the Pearson correlation matrix). To read more about calculating the gene co-expression network, see the theory papers (here)[https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/]. 
+Briefly, we are interested in finding connections between multiple genes, based on their gene expression. WGCNA provides a framework for constructing a co-expression network(s). In gene co-expression networks, each gene is represented by a node. In weighted gene networks, the strength of the connection is based on the similiarity of their gene expression (as measured by the Pearson correlation matrix). To read more about calculating the gene co-expression network, see the theory papers [here](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/. 
 
 In the first (WGCNA tutorial in R)[https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/], we are analyzing a dataset of microarray-based gene expression measurements from over 130 female mice. 
     
-To see the data input and cleaning click (here)[https://lauren-blake.github.io/WGCNA/Tutorial_1.html]
+To see the data input and cleaning click (here)[./Tutorial_1.html] T
+[https://lauren-blake.github.io/WGCNA/Tutorial_1.html]
 
 
