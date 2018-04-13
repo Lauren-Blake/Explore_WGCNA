@@ -324,7 +324,7 @@ shared across the workflowr files. -->
 <p><strong>Last updated:</strong> 2018-04-12</p>
 <!-- Insert the code version (Git commit SHA1) if Git repository exists and R
  package git2r is installed -->
-<p><strong>Code version:</strong> 7c00816</p>
+<p><strong>Code version:</strong> f2a3900</p>
 <!-- Add your analysis here -->
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
@@ -3439,7 +3439,7 @@ nSamples = nrow(datExpr)
 dissTOM = 1-TOMsimilarityFromExpr(datExpr, power = 6);</code></pre>
 <pre><code>TOM calculation: adjacency..
 ..will use 8 parallel threads.
- Fraction of slow calculations: 0.396401
+ Fraction of slow calculations: 0.396403
 ..connectivity..
 ..matrix multiplication (system BLAS)..
 ..normalization..
@@ -3459,13 +3459,13 @@ selectTOM = dissTOM[select, select];
 # There&#39;s no simple way of restricting a clustering tree to a subset of genes, so we must re-cluster.
 selectTree = hclust(as.dist(selectTOM), method = &quot;average&quot;)
 selectColors = moduleColors[select];
-# Open a graphical window
-sizeGrWindow(9,9)
+
 # Taking the dissimilarity to a power, say 10, makes the plot more informative by effectively changing 
 # the color palette; setting the diagonal to NA also improves the clarity of the plot
 plotDiss = selectTOM^7;
 diag(plotDiss) = NA;
 TOMplot(plotDiss, selectTree, selectColors, main = &quot;Network heatmap plot, selected genes&quot;)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="which-gene-co-expression-network-best-explains-one-of-the-traits-weight" class="section level2">
 <h2>Which gene co-expression network best explains one of the traits, weight?</h2>
 <p><strong>Based on the clustering below, it is co-expression network represented by the color green.</strong></p>
