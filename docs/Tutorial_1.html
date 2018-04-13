@@ -13,7 +13,7 @@
 
 <meta name="date" content="2018-04-11" />
 
-<title>Tutorial_1</title>
+<title>Tutorial 1</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -310,7 +310,7 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Tutorial_1</h1>
+<h1 class="title toc-ignore">Tutorial 1</h1>
 <h4 class="author"><em>Lauren Blake</em></h4>
 <h4 class="date"><em>2018-04-11</em></h4>
 
@@ -324,16 +324,17 @@ shared across the workflowr files. -->
 <p><strong>Last updated:</strong> 2018-04-12</p>
 <!-- Insert the code version (Git commit SHA1) if Git repository exists and R
  package git2r is installed -->
-<p><strong>Code version:</strong> bcd4271</p>
+<p><strong>Code version:</strong> 4bd8ce5</p>
 <!-- Add your analysis here -->
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>The goal of this script is to install the WGCNA package and then to explore [tutorial 1]<a href="https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html" class="uri">https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html</a>. According to the website, “the first tutorial guides the reader through an analysis of a single empirical gene expression data set.”</p>
-<p>Note: Most of the code below was taken from the R scripts also provided by the WGCNA authors and can be found on the tutorial [website]<a href="https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html" class="uri">https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html</a>. Most of the annotation outside of the code chunks is my own.</p>
+<p>The goal of this script is to install the WGCNA package and then to explore <a href="https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html">tutorial 1</a>. According to the website, “the first tutorial guides the reader through an analysis of a single empirical gene expression data set.”</p>
+<p>Note: Most of the code below was taken from the R scripts also provided by the WGCNA authors and can be found on the tutorial <a href="https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html">website</a>. Most of the annotation outside of the code chunks is my own.</p>
 <p>Note: The networks, modules, etc. below were build using parameters given in the tutorial. I will need to spend time learning about these parameters and exploring the robustness of these parameters.</p>
 </div>
-<div id="data-input-and-cleaning-including-re-formatting-the-data-for-consensus-analysis." class="section level1">
-<h1>Data input and cleaning, including re-formatting the data for consensus analysis.</h1>
+<div id="data-input-and-cleaning" class="section level1">
+<h1>Data input and cleaning</h1>
+<p><strong>This includes re-formatting the data for analysis with the gene expression levels and the traits.</strong></p>
 <pre class="r"><code># Display the current working directory
 getwd()</code></pre>
 <pre><code>[1] &quot;/Users/laurenblake/Desktop/WGCNA/analysis&quot;</code></pre>
@@ -424,7 +425,7 @@ dim(datExpr0)</code></pre>
 <pre><code>[1]  135 3600</code></pre>
 <pre class="r"><code>names(datExpr0) = femData$substanceBXH;
 rownames(datExpr0) = names(femData)[-c(1:8)];</code></pre>
-<p>Here, we have microarray data from 135 female mouse liver samples and 3600 genes/microarray positions.</p>
+<p><strong>Here, we have microarray data from 135 female mouse liver samples and 3600 genes/microarray positions.</strong></p>
 <div id="filter-samples-and-genes-with-too-many-missing-entries" class="section level2">
 <h2>Filter samples and genes with too many missing entries</h2>
 <pre class="r"><code>gsg = goodSamplesGenes(datExpr0, verbose = 3);</code></pre>
@@ -442,24 +443,20 @@ rownames(datExpr0) = names(femData)[-c(1:8)];</code></pre>
   # Remove the offending genes and samples from the data:
   datExpr0 = datExpr0[gsg$goodSamples, gsg$goodGenes]
 }</code></pre>
-<p>Our samples are ok.</p>
+<p><strong>All of uur samples passed this filtering step.</strong></p>
 </div>
 </div>
-<div id="sample-clustering-based-on-gene-expression-data" class="section level1">
-<h1>Sample clustering (based on gene expression data)</h1>
+<div id="sample-clustering" class="section level1">
+<h1>Sample clustering</h1>
+<p>This clustering is based on gene expression data for each sample.</p>
 <pre class="r"><code>sampleTree = hclust(dist(datExpr0), method = &quot;average&quot;);
-# Plot the sample tree: Open a graphic output window of size 12 by 9 inches
-# The user should change the dimensions if the window is too large or too small.
-sizeGrWindow(12,9)
-#pdf(file = &quot;Plots/sampleClustering.pdf&quot;, width = 12, height = 9);
-par(cex = 0.6);
-par(mar = c(0,4,2,0))
 plot(sampleTree, main = &quot;Sample clustering to detect outliers&quot;, sub=&quot;&quot;, xlab=&quot;&quot;, cex.lab = 1.5, 
      cex.axis = 1.5, cex.main = 2)
 
 # Plot a line to show the cut
-abline(h = 15, col = &quot;red&quot;);
-# Determine cluster under the line
+abline(h = 15, col = &quot;red&quot;)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Determine cluster under the line
 clust = cutreeStatic(sampleTree, cutHeight = 15, minSize = 10)
 table(clust)</code></pre>
 <pre><code>clust
@@ -470,41 +467,18 @@ keepSamples = (clust==1)
 datExpr = datExpr0[keepSamples, ]
 nGenes = ncol(datExpr)
 nSamples = nrow(datExpr)</code></pre>
-<p>134/135 samples do not have evidence of being outliers.</p>
-<div id="add-the-clinical-data" class="section level2">
-<h2>Add the clinical data</h2>
+<p><strong>134/135 samples do not have evidence of being outliers.</strong></p>
+</div>
+<div id="add-the-clinical-data" class="section level1">
+<h1>Add the clinical data</h1>
 <pre class="r"><code>traitData = read.csv(&quot;../data/ClinicalTraits.csv&quot;);
 dim(traitData)</code></pre>
 <pre><code>[1] 361  38</code></pre>
-<pre class="r"><code>names(traitData)</code></pre>
-<pre><code> [1] &quot;X&quot;                  &quot;Mice&quot;               &quot;Number&quot;            
- [4] &quot;Mouse_ID&quot;           &quot;Strain&quot;             &quot;sex&quot;               
- [7] &quot;DOB&quot;                &quot;parents&quot;            &quot;Western_Diet&quot;      
-[10] &quot;Sac_Date&quot;           &quot;weight_g&quot;           &quot;length_cm&quot;         
-[13] &quot;ab_fat&quot;             &quot;other_fat&quot;          &quot;total_fat&quot;         
-[16] &quot;comments&quot;           &quot;X100xfat_weight&quot;    &quot;Trigly&quot;            
-[19] &quot;Total_Chol&quot;         &quot;HDL_Chol&quot;           &quot;UC&quot;                
-[22] &quot;FFA&quot;                &quot;Glucose&quot;            &quot;LDL_plus_VLDL&quot;     
-[25] &quot;MCP_1_phys&quot;         &quot;Insulin_ug_l&quot;       &quot;Glucose_Insulin&quot;   
-[28] &quot;Leptin_pg_ml&quot;       &quot;Adiponectin&quot;        &quot;Aortic.lesions&quot;    
-[31] &quot;Note&quot;               &quot;Aneurysm&quot;           &quot;Aortic_cal_M&quot;      
-[34] &quot;Aortic_cal_L&quot;       &quot;CoronaryArtery_Cal&quot; &quot;Myocardial_cal&quot;    
-[37] &quot;BMD_all_limbs&quot;      &quot;BMD_femurs_only&quot;   </code></pre>
 <pre class="r"><code># remove columns that hold information we do not need.
 allTraits = traitData[, -c(31, 16)];
 allTraits = allTraits[, c(2, 11:36) ];
 dim(allTraits)</code></pre>
 <pre><code>[1] 361  27</code></pre>
-<pre class="r"><code>names(allTraits)</code></pre>
-<pre><code> [1] &quot;Mice&quot;               &quot;weight_g&quot;           &quot;length_cm&quot;         
- [4] &quot;ab_fat&quot;             &quot;other_fat&quot;          &quot;total_fat&quot;         
- [7] &quot;X100xfat_weight&quot;    &quot;Trigly&quot;             &quot;Total_Chol&quot;        
-[10] &quot;HDL_Chol&quot;           &quot;UC&quot;                 &quot;FFA&quot;               
-[13] &quot;Glucose&quot;            &quot;LDL_plus_VLDL&quot;      &quot;MCP_1_phys&quot;        
-[16] &quot;Insulin_ug_l&quot;       &quot;Glucose_Insulin&quot;    &quot;Leptin_pg_ml&quot;      
-[19] &quot;Adiponectin&quot;        &quot;Aortic.lesions&quot;     &quot;Aneurysm&quot;          
-[22] &quot;Aortic_cal_M&quot;       &quot;Aortic_cal_L&quot;       &quot;CoronaryArtery_Cal&quot;
-[25] &quot;Myocardial_cal&quot;     &quot;BMD_all_limbs&quot;      &quot;BMD_femurs_only&quot;   </code></pre>
 <pre class="r"><code># Form a data frame analogous to expression data that will hold the clinical traits.
 
 femaleSamples = rownames(datExpr);
@@ -514,9 +488,17 @@ rownames(datTraits) = allTraits[traitRows, 1];
 
 dim(datTraits)</code></pre>
 <pre><code>[1] 134  26</code></pre>
-<pre class="r"><code>collectGarbage()</code></pre>
-<p>There are 30 metabolic traits.</p>
-</div>
+<pre class="r"><code>names(datTraits)</code></pre>
+<pre><code> [1] &quot;weight_g&quot;           &quot;length_cm&quot;          &quot;ab_fat&quot;            
+ [4] &quot;other_fat&quot;          &quot;total_fat&quot;          &quot;X100xfat_weight&quot;   
+ [7] &quot;Trigly&quot;             &quot;Total_Chol&quot;         &quot;HDL_Chol&quot;          
+[10] &quot;UC&quot;                 &quot;FFA&quot;                &quot;Glucose&quot;           
+[13] &quot;LDL_plus_VLDL&quot;      &quot;MCP_1_phys&quot;         &quot;Insulin_ug_l&quot;      
+[16] &quot;Glucose_Insulin&quot;    &quot;Leptin_pg_ml&quot;       &quot;Adiponectin&quot;       
+[19] &quot;Aortic.lesions&quot;     &quot;Aneurysm&quot;           &quot;Aortic_cal_M&quot;      
+[22] &quot;Aortic_cal_L&quot;       &quot;CoronaryArtery_Cal&quot; &quot;Myocardial_cal&quot;    
+[25] &quot;BMD_all_limbs&quot;      &quot;BMD_femurs_only&quot;   </code></pre>
+<p><strong>There are 25 traits, many of which are related to weight and metabolism.</strong></p>
 <div id="cluster-samples-with-gene-expression-and-make-heatmap-of-the-clinical-traits" class="section level2">
 <h2>Cluster samples with gene expression and make heatmap of the clinical traits</h2>
 <pre class="r"><code># Re-cluster samples
@@ -529,10 +511,11 @@ plotDendroAndColors(sampleTree2, traitColors,
                     main = &quot;Sample dendrogram and trait heatmap&quot;)</code></pre>
 <p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>save(datExpr, datTraits, file = &quot;../data/FemaleLiver-01-dataInput.RData&quot;)</code></pre>
+<p><strong>Legend: white means low, red means high, grey means missing entry</strong></p>
 </div>
 </div>
-<div id="network-construction-and-module-detection" class="section level1">
-<h1>Network construction and module detection</h1>
+<div id="gene-expression-network-construction-and-module-detection" class="section level1">
+<h1>Gene expression network construction and module detection</h1>
 <pre class="r"><code># Load the data saved in the previous section
 lnames = load(file = &quot;../data/FemaleLiver-01-dataInput.RData&quot;)
 
@@ -560,24 +543,22 @@ sft = pickSoftThreshold(datExpr, powerVector = powers, verbose = 5)</code></pre>
 14    18   0.9120 -1.240          0.973    1.39    0.1670   42.5
 15    20   0.9310 -1.210          0.977    1.14    0.0951   38.7</code></pre>
 <pre class="r"><code># Plot the results:
-sizeGrWindow(9, 5)
-par(mfrow = c(1,2));
-cex1 = 0.9;
 # Scale-free topology fit index as a function of the soft-thresholding power
 plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
      xlab=&quot;Soft Threshold (power)&quot;,ylab=&quot;Scale Free Topology Model Fit,signed R^2&quot;,type=&quot;n&quot;,
      main = paste(&quot;Scale independence&quot;));
 text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
-     labels=powers,cex=cex1,col=&quot;red&quot;);
+     labels=powers,col=&quot;red&quot;);
 # this line corresponds to using an R^2 cut-off of h
-abline(h=0.90,col=&quot;red&quot;)
-# Mean connectivity as a function of the soft-thresholding power
+abline(h=0.90,col=&quot;red&quot;)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Mean connectivity as a function of the soft-thresholding power
 plot(sft$fitIndices[,1], sft$fitIndices[,5],
      xlab=&quot;Soft Threshold (power)&quot;,ylab=&quot;Mean Connectivity&quot;, type=&quot;n&quot;,
      main = paste(&quot;Mean connectivity&quot;))
-text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=cex1,col=&quot;red&quot;)
-
-softPower = 6;
+text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers,col=&quot;red&quot;)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>softPower = 6;
 adjacency = adjacency(datExpr, power = softPower)
 
 # Turn adjacency into topological overlap
@@ -591,12 +572,12 @@ TOM = TOMsimilarity(adjacency);</code></pre>
 <h2>Hierarchical clustering with TOM (Topological Overlap Matrix)-based dissimilarity</h2>
 <pre class="r"><code>geneTree = hclust(as.dist(dissTOM), method = &quot;average&quot;);
 # Plot the resulting clustering tree (dendrogram)
-sizeGrWindow(12,9)
 plot(geneTree, xlab=&quot;&quot;, sub=&quot;&quot;, main = &quot;Gene clustering on TOM-based dissimilarity&quot;,
      labels = FALSE, hang = 0.04)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="divide-into-modules" class="section level2">
-<h2>Divide into modules</h2>
+<div id="partion-genes-with-similar-gene-expression-into-modules" class="section level2">
+<h2>Partion genes with similar gene expression into modules</h2>
 <pre class="r"><code># We like large modules, so we set the minimum module size relatively high:
 minModuleSize = 30;
 # Module identification using dynamic tree cut:
@@ -628,14 +609,15 @@ table(dynamicColors)</code></pre>
          tan    turquoise       yellow 
          102          614          257 </code></pre>
 <pre class="r"><code># Plot the dendrogram and colors underneath
-sizeGrWindow(8,6)
 plotDendroAndColors(geneTree, dynamicColors, &quot;Dynamic Tree Cut&quot;,
                     dendroLabels = FALSE, hang = 0.03,
                     addGuide = TRUE, guideHang = 0.05,
                     main = &quot;Gene dendrogram and module colors&quot;)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong>Each color represents a different module.</strong></p>
 </div>
-<div id="calculate-cluster-and-merge-based-on-eigengenes" class="section level2">
-<h2>Calculate, cluster, and merge based on eigengenes</h2>
+<div id="cluster-and-merge-modules-based-on-eigengenes" class="section level2">
+<h2>Cluster and merge modules based on eigengenes</h2>
 <pre class="r"><code># Calculate eigengenes
 MEList = moduleEigengenes(datExpr, colors = dynamicColors)
 MEs = MEList$eigengenes
@@ -644,13 +626,13 @@ MEDiss = 1-cor(MEs);
 # Cluster module eigengenes
 METree = hclust(as.dist(MEDiss), method = &quot;average&quot;);
 # Plot the result
-sizeGrWindow(7, 6)
 plot(METree, main = &quot;Clustering of module eigengenes&quot;,
      xlab = &quot;&quot;, sub = &quot;&quot;)
 MEDissThres = 0.25
 # Plot the cut line into the dendrogram
-abline(h=MEDissThres, col = &quot;red&quot;)
-# Call an automatic merging function
+abline(h=MEDissThres, col = &quot;red&quot;)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Call an automatic merging function
 merge = mergeCloseModules(datExpr, dynamicColors, cutHeight = MEDissThres, verbose = 3)</code></pre>
 <pre><code> mergeCloseModules: Merging modules whose distance is less than 0.25
    multiSetMEs: Calculating module MEs.
@@ -668,13 +650,13 @@ mergedColors = merge$colors;
 # Eigengenes of the new merged modules:
 mergedMEs = merge$newMEs;
 
-sizeGrWindow(12, 9)
 #pdf(file = &quot;Plots/geneDendro-3.pdf&quot;, wi = 9, he = 6)
 plotDendroAndColors(geneTree, cbind(dynamicColors, mergedColors),
                     c(&quot;Dynamic Tree Cut&quot;, &quot;Merged dynamic&quot;),
                     dendroLabels = FALSE, hang = 0.03,
-                    addGuide = TRUE, guideHang = 0.05)
-#dev.off()
+                    addGuide = TRUE, guideHang = 0.05)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-9-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#dev.off()
 
 # Rename to moduleColors
 moduleColors = mergedColors
@@ -684,10 +666,11 @@ moduleLabels = match(moduleColors, colorOrder)-1;
 MEs = mergedMEs;
 # Save module colors and labels for use in subsequent parts
 save(MEs, moduleLabels, moduleColors, geneTree, file = &quot;../data/FemaleLiver-02-networkConstruction-stepByStep.RData&quot;)</code></pre>
+<p><strong>Each color represents a different merged module.</strong></p>
 </div>
 </div>
-<div id="study-relationships-between-triats-and-modules-using-eigengene-networks" class="section level1">
-<h1>Study relationships between triats and modules using eigengene networks</h1>
+<div id="begin-to-study-relationships-between-traits-and-modules" class="section level1">
+<h1>Begin to study relationships between traits and modules</h1>
 <pre class="r"><code># Load the expression and trait data saved in the first part
 lnames = load(file = &quot;../data/FemaleLiver-01-dataInput.RData&quot;);
 #The variable lnames contains the names of loaded variables.
@@ -706,33 +689,32 @@ MEs = orderMEs(MEs0)
 moduleTraitCor = cor(MEs, datTraits, use = &quot;p&quot;);
 moduleTraitPvalue = corPvalueStudent(moduleTraitCor, nSamples);
 
-sizeGrWindow(10,6)
-# Will display correlations and their p-values
-textMatrix =  paste(signif(moduleTraitCor, 2), &quot;\n(&quot;,
-                           signif(moduleTraitPvalue, 1), &quot;)&quot;, sep = &quot;&quot;);
+
+# Will display correlations. For space reasons, we will not display the p values of the correlations. 
+textMatrix =  signif(moduleTraitCor, 2)
+textMatrix = formatC(moduleTraitCor, digits = 2, format = &quot;f&quot;)
+
 dim(textMatrix) = dim(moduleTraitCor)
-par(mar = c(6, 8.5, 3, 3));
+
 # Display the correlation values within a heatmap plot
 labeledHeatmap(Matrix = moduleTraitCor,
                xLabels = names(datTraits),
                yLabels = names(MEs),
-               ySymbols = names(MEs),
+               ySymbols = NULL,
                colorLabels = FALSE,
-               colors = greenWhiteRed(50),
+               colors = blueWhiteRed(50),
                textMatrix = textMatrix,
                setStdMargins = FALSE,
                cex.text = 0.5,
-               zlim = c(-1,1),
-               main = paste(&quot;Module-trait relationships&quot;))</code></pre>
-<pre><code>Warning in greenWhiteRed(50): WGCNA::greenWhiteRed: this palette is not suitable for people
-with green-red color blindness (the most common kind of color blindness).
-Consider using the function blueWhiteRed instead.</code></pre>
+               zlim = c(-1,1), 
+               main = paste(&quot;Gene Expression Module- Trait relationships&quot;), ylab = &quot;Gene Expression-Based Modules&quot;)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="find-key-drivers-in-interesting-modules" class="section level1">
-<h1>Find key drivers in interesting modules</h1>
-<p>In this example, we will identify the key genes in the brown module.</p>
+<div id="begin-to-explore-key-gene-drivers-in-interesting-modules" class="section level1">
+<h1>Begin to explore key gene drivers in interesting modules</h1>
+<p>In this example, we will identify the key genes for weight in the brown module.</p>
 <pre class="r"><code># Define variable weight containing the weight column of datTrait
-weight = as.data.frame(datTraits$weight_g);
+weight = as.data.frame(datTraits$weight_g)
 names(weight) = &quot;weight&quot;
 # names (colors) of the modules
 modNames = substring(names(MEs), 3)
@@ -756,85 +738,52 @@ moduleGenes = moduleColors==module;
 
 
 # Identify genes in the brown module
-names(datExpr)[moduleColors==&quot;brown&quot;]</code></pre>
-<pre><code>  [1] &quot;MMT00000149&quot; &quot;MMT00000283&quot; &quot;MMT00000550&quot; &quot;MMT00000701&quot; &quot;MMT00001190&quot;
-  [6] &quot;MMT00001555&quot; &quot;MMT00002022&quot; &quot;MMT00002304&quot; &quot;MMT00002597&quot; &quot;MMT00003530&quot;
- [11] &quot;MMT00003950&quot; &quot;MMT00003980&quot; &quot;MMT00004086&quot; &quot;MMT00004142&quot; &quot;MMT00004888&quot;
- [16] &quot;MMT00004979&quot; &quot;MMT00005744&quot; &quot;MMT00005990&quot; &quot;MMT00006144&quot; &quot;MMT00006263&quot;
- [21] &quot;MMT00006429&quot; &quot;MMT00006538&quot; &quot;MMT00006662&quot; &quot;MMT00006957&quot; &quot;MMT00007272&quot;
- [26] &quot;MMT00007407&quot; &quot;MMT00007435&quot; &quot;MMT00007440&quot; &quot;MMT00007878&quot; &quot;MMT00008036&quot;
- [31] &quot;MMT00009295&quot; &quot;MMT00009359&quot; &quot;MMT00009945&quot; &quot;MMT00010174&quot; &quot;MMT00010351&quot;
- [36] &quot;MMT00010888&quot; &quot;MMT00010910&quot; &quot;MMT00011143&quot; &quot;MMT00011445&quot; &quot;MMT00011731&quot;
- [41] &quot;MMT00011790&quot; &quot;MMT00011900&quot; &quot;MMT00011968&quot; &quot;MMT00012128&quot; &quot;MMT00012280&quot;
- [46] &quot;MMT00012401&quot; &quot;MMT00012409&quot; &quot;MMT00012891&quot; &quot;MMT00013033&quot; &quot;MMT00013096&quot;
- [51] &quot;MMT00013656&quot; &quot;MMT00013815&quot; &quot;MMT00013831&quot; &quot;MMT00014327&quot; &quot;MMT00014634&quot;
- [56] &quot;MMT00014725&quot; &quot;MMT00014928&quot; &quot;MMT00016194&quot; &quot;MMT00016725&quot; &quot;MMT00017539&quot;
- [61] &quot;MMT00017636&quot; &quot;MMT00018346&quot; &quot;MMT00018639&quot; &quot;MMT00019118&quot; &quot;MMT00019132&quot;
- [66] &quot;MMT00019497&quot; &quot;MMT00019554&quot; &quot;MMT00019943&quot; &quot;MMT00020565&quot; &quot;MMT00020566&quot;
- [71] &quot;MMT00020651&quot; &quot;MMT00020843&quot; &quot;MMT00021077&quot; &quot;MMT00021725&quot; &quot;MMT00021925&quot;
- [76] &quot;MMT00022137&quot; &quot;MMT00022223&quot; &quot;MMT00022622&quot; &quot;MMT00022665&quot; &quot;MMT00023085&quot;
- [81] &quot;MMT00023162&quot; &quot;MMT00023212&quot; &quot;MMT00023406&quot; &quot;MMT00023455&quot; &quot;MMT00023638&quot;
- [86] &quot;MMT00024043&quot; &quot;MMT00024332&quot; &quot;MMT00024414&quot; &quot;MMT00024533&quot; &quot;MMT00024618&quot;
- [91] &quot;MMT00024811&quot; &quot;MMT00025239&quot; &quot;MMT00025271&quot; &quot;MMT00025321&quot; &quot;MMT00025851&quot;
- [96] &quot;MMT00026215&quot; &quot;MMT00026361&quot; &quot;MMT00026530&quot; &quot;MMT00026541&quot; &quot;MMT00027108&quot;
-[101] &quot;MMT00027676&quot; &quot;MMT00028649&quot; &quot;MMT00028983&quot; &quot;MMT00029096&quot; &quot;MMT00029361&quot;
-[106] &quot;MMT00029749&quot; &quot;MMT00030264&quot; &quot;MMT00030627&quot; &quot;MMT00030705&quot; &quot;MMT00031294&quot;
-[111] &quot;MMT00031547&quot; &quot;MMT00031592&quot; &quot;MMT00032015&quot; &quot;MMT00032296&quot; &quot;MMT00033081&quot;
-[116] &quot;MMT00033582&quot; &quot;MMT00033844&quot; &quot;MMT00034010&quot; &quot;MMT00034321&quot; &quot;MMT00034683&quot;
-[121] &quot;MMT00034749&quot; &quot;MMT00034900&quot; &quot;MMT00035287&quot; &quot;MMT00035498&quot; &quot;MMT00035527&quot;
-[126] &quot;MMT00036239&quot; &quot;MMT00036275&quot; &quot;MMT00036444&quot; &quot;MMT00036701&quot; &quot;MMT00037414&quot;
-[131] &quot;MMT00037437&quot; &quot;MMT00038021&quot; &quot;MMT00038301&quot; &quot;MMT00038528&quot; &quot;MMT00040228&quot;
-[136] &quot;MMT00040558&quot; &quot;MMT00040562&quot; &quot;MMT00040999&quot; &quot;MMT00041350&quot; &quot;MMT00041468&quot;
-[141] &quot;MMT00041491&quot; &quot;MMT00041503&quot; &quot;MMT00041698&quot; &quot;MMT00041757&quot; &quot;MMT00041844&quot;
-[146] &quot;MMT00041965&quot; &quot;MMT00042003&quot; &quot;MMT00042025&quot; &quot;MMT00042479&quot; &quot;MMT00042488&quot;
-[151] &quot;MMT00042643&quot; &quot;MMT00042735&quot; &quot;MMT00044280&quot; &quot;MMT00044497&quot; &quot;MMT00044523&quot;
-[156] &quot;MMT00045146&quot; &quot;MMT00045469&quot; &quot;MMT00045533&quot; &quot;MMT00045544&quot; &quot;MMT00045670&quot;
-[161] &quot;MMT00045674&quot; &quot;MMT00045825&quot; &quot;MMT00046040&quot; &quot;MMT00046132&quot; &quot;MMT00046207&quot;
-[166] &quot;MMT00046594&quot; &quot;MMT00046867&quot; &quot;MMT00047041&quot; &quot;MMT00047053&quot; &quot;MMT00047335&quot;
-[171] &quot;MMT00047455&quot; &quot;MMT00047493&quot; &quot;MMT00047844&quot; &quot;MMT00047848&quot; &quot;MMT00047857&quot;
-[176] &quot;MMT00047884&quot; &quot;MMT00048205&quot; &quot;MMT00048288&quot; &quot;MMT00049000&quot; &quot;MMT00049225&quot;
-[181] &quot;MMT00050033&quot; &quot;MMT00050076&quot; &quot;MMT00050113&quot; &quot;MMT00050435&quot; &quot;MMT00050551&quot;
-[186] &quot;MMT00050876&quot; &quot;MMT00050978&quot; &quot;MMT00051013&quot; &quot;MMT00051300&quot; &quot;MMT00051489&quot;
-[191] &quot;MMT00052098&quot; &quot;MMT00052148&quot; &quot;MMT00052162&quot; &quot;MMT00052236&quot; &quot;MMT00053080&quot;
-[196] &quot;MMT00053249&quot; &quot;MMT00053389&quot; &quot;MMT00053515&quot; &quot;MMT00053583&quot; &quot;MMT00053732&quot;
-[201] &quot;MMT00054611&quot; &quot;MMT00054724&quot; &quot;MMT00054802&quot; &quot;MMT00054901&quot; &quot;MMT00054929&quot;
-[206] &quot;MMT00054945&quot; &quot;MMT00054967&quot; &quot;MMT00055034&quot; &quot;MMT00055129&quot; &quot;MMT00055401&quot;
-[211] &quot;MMT00055600&quot; &quot;MMT00056129&quot; &quot;MMT00056149&quot; &quot;MMT00056241&quot; &quot;MMT00056282&quot;
-[216] &quot;MMT00056768&quot; &quot;MMT00057173&quot; &quot;MMT00057391&quot; &quot;MMT00058126&quot; &quot;MMT00058475&quot;
-[221] &quot;MMT00058673&quot; &quot;MMT00058675&quot; &quot;MMT00059006&quot; &quot;MMT00059223&quot; &quot;MMT00059295&quot;
-[226] &quot;MMT00059743&quot; &quot;MMT00060205&quot; &quot;MMT00060276&quot; &quot;MMT00060366&quot; &quot;MMT00060382&quot;
-[231] &quot;MMT00060809&quot; &quot;MMT00060830&quot; &quot;MMT00061063&quot; &quot;MMT00061169&quot; &quot;MMT00061267&quot;
-[236] &quot;MMT00062170&quot; &quot;MMT00062579&quot; &quot;MMT00063950&quot; &quot;MMT00064106&quot; &quot;MMT00064144&quot;
-[241] &quot;MMT00064358&quot; &quot;MMT00065921&quot; &quot;MMT00066012&quot; &quot;MMT00066301&quot; &quot;MMT00066391&quot;
-[246] &quot;MMT00066585&quot; &quot;MMT00067321&quot; &quot;MMT00067495&quot; &quot;MMT00067556&quot; &quot;MMT00067716&quot;
-[251] &quot;MMT00067969&quot; &quot;MMT00068273&quot; &quot;MMT00068433&quot; &quot;MMT00068599&quot; &quot;MMT00068696&quot;
-[256] &quot;MMT00068980&quot; &quot;MMT00069854&quot; &quot;MMT00070151&quot; &quot;MMT00070211&quot; &quot;MMT00070300&quot;
-[261] &quot;MMT00070333&quot; &quot;MMT00070493&quot; &quot;MMT00070974&quot; &quot;MMT00071599&quot; &quot;MMT00072785&quot;
-[266] &quot;MMT00072855&quot; &quot;MMT00072866&quot; &quot;MMT00074104&quot; &quot;MMT00074235&quot; &quot;MMT00074309&quot;
-[271] &quot;MMT00074352&quot; &quot;MMT00074398&quot; &quot;MMT00074854&quot; &quot;MMT00075041&quot; &quot;MMT00075170&quot;
-[276] &quot;MMT00075201&quot; &quot;MMT00075508&quot; &quot;MMT00076216&quot; &quot;MMT00076232&quot; &quot;MMT00076251&quot;
-[281] &quot;MMT00076395&quot; &quot;MMT00076623&quot; &quot;MMT00077107&quot; &quot;MMT00077125&quot; &quot;MMT00077139&quot;
-[286] &quot;MMT00077157&quot; &quot;MMT00077178&quot; &quot;MMT00077685&quot; &quot;MMT00078059&quot; &quot;MMT00078102&quot;
-[291] &quot;MMT00078455&quot; &quot;MMT00078543&quot; &quot;MMT00078940&quot; &quot;MMT00078950&quot; &quot;MMT00079131&quot;
-[296] &quot;MMT00079520&quot; &quot;MMT00080097&quot; &quot;MMT00080406&quot; &quot;MMT00080624&quot; &quot;MMT00080630&quot;
-[301] &quot;MMT00080717&quot; &quot;MMT00080721&quot; &quot;MMT00081122&quot; &quot;MMT00081213&quot; &quot;MMT00081218&quot;
-[306] &quot;MMT00081264&quot; &quot;MMT00081880&quot; &quot;MMT00082034&quot; &quot;MMT00082126&quot; &quot;MMT00082651&quot;
-[311] &quot;MMT00082877&quot;</code></pre>
+#names(datExpr)[moduleColors==&quot;brown&quot;]</code></pre>
 <p>These are all genes that were assigned to the brown module (based on gene expression values across the mice samples).</p>
 <div id="identify-genes-in-the-brown-module-that-are-significant-for-body-weight" class="section level2">
 <h2>Identify genes in the brown module that are significant for body weight</h2>
-<pre class="r"><code>sizeGrWindow(7, 7);
-par(mfrow = c(1,1));
+<pre class="r"><code>verboseScatterplot(abs(geneModuleMembership[moduleGenes, column]),
+                   abs(geneTraitSignificance[moduleGenes, 1]),
+                   xlab = paste(&quot;Module Membership in&quot;, module, &quot;module&quot;),
+                   ylab = &quot;Gene significance for body weight&quot;,
+                   main = paste(&quot;Module membership vs. gene significance\n&quot;),
+                   cex.main = 1.2, cex.lab = 1.2, cex.axis = 1.2, col = module)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>module = &quot;blue&quot;
+column = match(module, modNames);
+moduleGenes = moduleColors==module;
+
+
 verboseScatterplot(abs(geneModuleMembership[moduleGenes, column]),
                    abs(geneTraitSignificance[moduleGenes, 1]),
                    xlab = paste(&quot;Module Membership in&quot;, module, &quot;module&quot;),
                    ylab = &quot;Gene significance for body weight&quot;,
                    main = paste(&quot;Module membership vs. gene significance\n&quot;),
                    cex.main = 1.2, cex.lab = 1.2, cex.axis = 1.2, col = module)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>module = &quot;black&quot;
+column = match(module, modNames);
+moduleGenes = moduleColors==module;
+
+
+verboseScatterplot(abs(geneModuleMembership[moduleGenes, column]),
+                   abs(geneTraitSignificance[moduleGenes, 1]),
+                   xlab = paste(&quot;Module Membership in&quot;, module, &quot;module&quot;),
+                   ylab = &quot;Gene significance for body weight&quot;,
+                   main = paste(&quot;Module membership vs. gene significance\n&quot;),
+                   cex.main = 1.2, cex.lab = 1.2, cex.axis = 1.2, col = module)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong>Overall, the genes in different modules have different relationships to body weight. In future tutorials, I will extract the modules/genes in each module that are most related to each trait of interest.</strong></p>
 </div>
-<div id="annotate-the-genes-in-the-brown-module" class="section level2">
-<h2>Annotate the genes in the brown module</h2>
-<pre class="r"><code>annot = read.csv(file = &quot;../data/GeneAnnotation.csv&quot;);
+</div>
+<div id="integrate-the-network-analysis-with-functional-enrichment" class="section level1">
+<h1>Integrate the network analysis with functional enrichment</h1>
+<p><strong>Begin by annotating the genes in the brown module.</strong></p>
+<pre class="r"><code>module = &quot;brown&quot;
+column = match(module, modNames);
+moduleGenes = moduleColors==module;
+
+annot = read.csv(file = &quot;../data/GeneAnnotation.csv&quot;);
 dim(annot)</code></pre>
 <pre><code>[1] 23388    34</code></pre>
 <pre class="r"><code>names(annot)</code></pre>
@@ -884,12 +833,82 @@ for (mod in 1:ncol(geneModuleMembership))
 geneOrder = order(geneInfo0$moduleColor, -abs(geneInfo0$GS.weight));
 geneInfo = geneInfo0[geneOrder, ]
 
-# Save the file
+head(geneInfo)</code></pre>
+<pre><code>            substanceBXH    geneSymbol LocusLinkID moduleColor  GS.weight
+MMT00030014  MMT00030014 9130422G05Rik       66819       black -0.5797950
+MMT00035294  MMT00035294      BC010552      213603       black  0.4608253
+MMT00074983  MMT00074983          Gpx4       14779       black  0.4432473
+MMT00030149  MMT00030149          Gpx4       14779       black  0.4189853
+MMT00007987  MMT00007987          Gpx4       14779       black  0.4094111
+MMT00042811  MMT00042811          Pigr       18703       black -0.4016482
+             p.GS.weight MM.magenta p.MM.magenta  MM.purple  p.MM.purple
+MMT00030014 2.125494e-13 -0.5549815 3.438475e-12 -0.5512728 5.111937e-12
+MMT00035294 2.106843e-08  0.5054773 4.687405e-10  0.5193470 1.280101e-10
+MMT00074983 8.165953e-08  0.5947134 3.549372e-14  0.6373045 1.242206e-16
+MMT00030149 4.692800e-07  0.5689374 7.393799e-13  0.6202276 1.329847e-15
+MMT00007987 9.018789e-07  0.5510731 5.221561e-12  0.5583696 2.383227e-12
+MMT00042811 1.509430e-06 -0.4809395 4.058886e-09 -0.5319936 3.720844e-11
+            MM.midnightblue p.MM.midnightblue   MM.green   p.MM.green
+MMT00030014      -0.4839750      3.136216e-09 -0.2782032 1.134863e-03
+MMT00035294       0.3860561      4.086282e-06  0.2352532 6.214330e-03
+MMT00074983       0.2411187      5.007772e-03  0.3642264 1.516448e-05
+MMT00030149       0.2387445      5.468347e-03  0.3460945 4.201271e-05
+MMT00007987       0.3009564      4.101444e-04  0.2414181 4.952235e-03
+MMT00042811      -0.4744367      6.993629e-09 -0.2684587 1.710938e-03
+              MM.black   p.MM.black MM.turquoise p.MM.turquoise
+MMT00030014  0.5017235 6.594666e-10    0.4529226   3.910730e-08
+MMT00035294 -0.5730351 4.643778e-13   -0.5169581   1.607498e-10
+MMT00074983 -0.5854960 1.084155e-13   -0.3548666   2.586062e-05
+MMT00030149 -0.5823211 1.579853e-13   -0.3647036   1.475074e-05
+MMT00007987 -0.6524544 1.334562e-17   -0.2793583   1.079882e-03
+MMT00042811  0.5793294 2.244356e-13    0.2166351   1.193131e-02
+                 MM.cyan    p.MM.cyan    MM.blue    p.MM.blue  MM.grey60
+MMT00030014 -0.326190162 1.199166e-04 -0.1813395 3.600175e-02  0.1189024
+MMT00035294  0.422410947 3.696319e-07  0.3756367 7.731764e-06 -0.2045969
+MMT00074983  0.196206451 2.308004e-02  0.2875542 7.545757e-04 -0.2315546
+MMT00030149  0.194859694 2.405783e-02  0.2888851 7.111835e-04 -0.2568688
+MMT00007987  0.356264831 2.390397e-05  0.5234320 8.636305e-11 -0.2311251
+MMT00042811  0.007611576 9.304441e-01 -0.1424382 1.006363e-01  0.4388719
+             p.MM.grey60 MM.lightcyan p.MM.lightcyan MM.royalblue
+MMT00030014 1.711995e-01  -0.28741053   0.0007594034    0.3370396
+MMT00035294 1.772406e-02   0.15431482   0.0750322094   -0.5728978
+MMT00074983 7.102181e-03   0.04174570   0.6319934336   -0.3848510
+MMT00030149 2.734989e-03   0.02760477   0.7515358206   -0.4077315
+MMT00007987 7.212232e-03   0.02901792   0.7392627566   -0.4648604
+MMT00042811 1.130773e-07  -0.04993357   0.5666682377    0.2428837
+            p.MM.royalblue      MM.grey p.MM.grey MM.darkgreen
+MMT00030014   6.830386e-05 -0.140364649 0.1057413   0.05205909
+MMT00035294   4.717194e-13  0.142221395 0.1011609  -0.10660602
+MMT00074983   4.404013e-06  0.015268846 0.8609979  -0.13203061
+MMT00030149   1.009301e-06  0.005678271 0.9480821  -0.11172000
+MMT00007987   1.526960e-08  0.021564010 0.8046671  -0.07999121
+MMT00042811   4.688186e-03 -0.016252612 0.8521410   0.12909818
+            p.MM.darkgreen     MM.pink   p.MM.pink   MM.salmon p.MM.salmon
+MMT00030014      0.5502490 -0.27398344 0.001358142  0.08515411   0.3279391
+MMT00035294      0.2202026  0.30024435 0.000423962  0.06052297   0.4872574
+MMT00074983      0.1283322  0.20908148 0.015330428 -0.01677004   0.8474899
+MMT00030149      0.1987350  0.23420897 0.006454404 -0.01273465   0.8838905
+MMT00007987      0.3582193  0.03426783 0.694261923 -0.02529043   0.7717691
+MMT00042811      0.1371080 -0.22307233 0.009575641  0.03635921   0.6766176
+            MM.greenyellow p.MM.greenyellow MM.lightgreen p.MM.lightgreen
+MMT00030014  -0.0001808971       0.99834486   -0.02324890       0.7897463
+MMT00035294   0.1680142302       0.05231873    0.01975180       0.8207942
+MMT00074983  -0.0206252821       0.81301115   -0.05260653       0.5460579
+MMT00030149  -0.0019002493       0.98261474   -0.03843569       0.6592709
+MMT00007987  -0.0361345787       0.67850459   -0.04574199       0.5997112
+MMT00042811   0.1069841155       0.21856127   -0.09018670       0.3000532
+              MM.darkred p.MM.darkred   MM.brown   p.MM.brown
+MMT00030014  0.096612799    0.2667852  0.4388297 1.134305e-07
+MMT00035294 -0.003927328    0.9640783 -0.5268738 6.173766e-11
+MMT00074983 -0.047729988    0.5839319 -0.3842532 4.570170e-06
+MMT00030149 -0.051793917    0.5522847 -0.4041729 1.278471e-06
+MMT00007987 -0.070092458    0.4209537 -0.4169993 5.382791e-07
+MMT00042811  0.097778954    0.2610280  0.4905595 1.776925e-09</code></pre>
+<pre class="r"><code># Save the file
 write.csv(geneInfo, file = &quot;../data/geneInfo.csv&quot;)</code></pre>
-</div>
-</div>
-<div id="integrate-the-network-analysis-with-functional-enrichmentgo-analysis" class="section level1">
-<h1>Integrate the network analysis with functional enrichment/GO analysis</h1>
+<div id="perform-go-enrichment-for-each-module" class="section level2">
+<h2>Perform GO enrichment for each module</h2>
+<p><strong>Note: Since the function GoEnrichmentAnalysis is defunction, per the author’s suggestion, we are using the function enrichmentAnalysis from the package “AnRichment” from the same authors. For more information about this package, go <a href="https://labs.genetics.ucla.edu/horvath/htdocs/CoexpressionNetwork/GeneAnnotation/Tutorials/anRichment-Tutorial1.pdf">here</a>.</strong></p>
 <pre class="r"><code># Load the expression and trait data saved in the first part
 lnames = load(file = &quot;../data/FemaleLiver-01-dataInput.RData&quot;)
 #The variable lnames contains the names of loaded variables.
@@ -920,12 +939,9 @@ for (module in intModules)
               row.names = FALSE, col.names = FALSE)
 }
 # As background in the enrichment analysis, we will use all probes in the analysis.
-fileName = paste(&quot;LocusLinkIDs-all.txt&quot;, sep=&quot;&quot;);
+fileName = paste(&quot;../data/LocusLinkIDs-all.txt&quot;, sep=&quot;&quot;);
 write.table(as.data.frame(allLLIDs), file = fileName,
             row.names = FALSE, col.names = FALSE)</code></pre>
-<div id="perform-go-enrichment" class="section level2">
-<h2>Perform GO enrichment</h2>
-<p>Note: Since the function GoEnrichmentAnalysis is defunction, per the author’s suggestion, we are using the function enrichmentAnalysis from the package “AnRichment” from the same authors. For more information about this package, <a href="https://labs.genetics.ucla.edu/horvath/htdocs/CoexpressionNetwork/GeneAnnotation/Tutorials/anRichment-Tutorial1.pdf" class="uri">https://labs.genetics.ucla.edu/horvath/htdocs/CoexpressionNetwork/GeneAnnotation/Tutorials/anRichment-Tutorial1.pdf</a>.</p>
 <pre class="r"><code># Use the GO collection for mouse GO terms. 
 GOcollection = buildGOcollection(organism = &quot;mouse&quot;)</code></pre>
 <pre><code>Loading required package: org.Mm.eg.db</code></pre>
@@ -3408,11 +3424,12 @@ tail(GO_per_set)</code></pre>
 
 top_GO_per_module &lt;- GO_per_set[!duplicated(GO_per_set[,1]), ]
 colnames(top_GO_per_module) &lt;- c(&quot;Module&quot;, &quot;GO term&quot;, &quot;GO process&quot;, &quot;FDR&quot;)</code></pre>
-<p>As expected, the most enriched GO terms for each module are extremely general (e.g. “cell part”). As we decrease in significance, we get more specific/likely informative ones (e.g. “positive regulation of protein modification process”).</p>
+<p><strong>As expected, the most enriched GO terms for each module are extremely general (e.g. “cell part”). As we decrease in significance, we get more specific/likely informative ones (e.g. “positive regulation of protein modification process”).</strong></p>
 </div>
 </div>
-<div id="network-visualization" class="section level1">
-<h1>Network visualization</h1>
+<div id="additional-visualizations" class="section level1">
+<h1>Additional visualizations</h1>
+<p><strong>These are additional plots recommended by the WGCNA authors. I am working to get information that will make these plots more intuitive.</strong></p>
 <pre class="r"><code>nGenes = ncol(datExpr)
 nSamples = nrow(datExpr)
 
@@ -3422,7 +3439,7 @@ nSamples = nrow(datExpr)
 dissTOM = 1-TOMsimilarityFromExpr(datExpr, power = 6);</code></pre>
 <pre><code>TOM calculation: adjacency..
 ..will use 8 parallel threads.
- Fraction of slow calculations: 0.396402
+ Fraction of slow calculations: 0.396401
 ..connectivity..
 ..matrix multiplication (system BLAS)..
 ..normalization..
@@ -3449,7 +3466,12 @@ sizeGrWindow(9,9)
 plotDiss = selectTOM^7;
 diag(plotDiss) = NA;
 TOMplot(plotDiss, selectTree, selectColors, main = &quot;Network heatmap plot, selected genes&quot;)</code></pre>
-<pre class="r"><code># Recalculate module eigengenes
+<div id="which-gene-co-expression-network-best-explains-one-of-the-traits-weight" class="section level2">
+<h2>Which gene co-expression network best explains one of the traits, weight?</h2>
+<p><strong>Based on the clustering below, it is co-expression network represented by the color green.</strong></p>
+<pre class="r"><code># Additional visualizations
+
+# Recalculate module eigengenes
 MEs = moduleEigengenes(datExpr, moduleColors)$eigengenes
 # Isolate weight from the clinical traits
 weight = as.data.frame(datTraits$weight_g);
@@ -3457,20 +3479,22 @@ names(weight) = &quot;weight&quot;
 # Add the weight to existing module eigengenes
 MET = orderMEs(cbind(MEs, weight))
 # Plot the relationships among the eigengenes and the trait
-sizeGrWindow(5,7.5);
-par(cex = 0.9)
+#sizeGrWindow(5,7.5);
+#par(cex = 0.9)
 plotEigengeneNetworks(MET, &quot;&quot;, marDendro = c(0,4,1,2), marHeatmap = c(3,4,1,2), cex.lab = 0.8, xLabelsAngle
-= 90)
-
-# Plot the dendrogram
-sizeGrWindow(6,6);
-par(cex = 1.0)
+= 90)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Plot the dendrogram
+#sizeGrWindow(6,6);
+#par(cex = 1.0)
 plotEigengeneNetworks(MET, &quot;Eigengene dendrogram&quot;, marDendro = c(0,4,2,0),
-                      plotHeatmaps = FALSE)
-# Plot the heatmap matrix (note: this plot will overwrite the dendrogram plot)
-par(cex = 1.0)
+                      plotHeatmaps = FALSE)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-20-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Plot the heatmap matrix (note: this plot will overwrite the dendrogram plot)
+#par(cex = 1.0)
 plotEigengeneNetworks(MET, &quot;Eigengene adjacency heatmap&quot;, marHeatmap = c(3,4,2,2),
                       plotDendrograms = FALSE, xLabelsAngle = 90)</code></pre>
+<p><img src="figure/Tutorial_1.Rmd/unnamed-chunk-20-3.png" width="672" style="display: block; margin: auto;" /></p>
 <!-- Insert the session information into the document -->
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 3.4.3 (2017-11-30)
@@ -3518,6 +3542,7 @@ loaded via a namespace (and not attached):
 [61] DEoptimR_1.0-8        fit.models_0.5-14     survival_2.41-3      
 [64] yaml_2.1.18           colorspace_1.3-2      cluster_2.0.6        
 [67] memoise_1.1.0         knitr_1.20           </code></pre>
+</div>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
