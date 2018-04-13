@@ -543,8 +543,7 @@ selectTOM = dissTOM[select, select];
 # There's no simple way of restricting a clustering tree to a subset of genes, so we must re-cluster.
 selectTree = hclust(as.dist(selectTOM), method = "average")
 selectColors = moduleColors[select];
-# Open a graphical window
-sizeGrWindow(9,9)
+
 # Taking the dissimilarity to a power, say 10, makes the plot more informative by effectively changing 
 # the color palette; setting the diagonal to NA also improves the clarity of the plot
 plotDiss = selectTOM^7;
