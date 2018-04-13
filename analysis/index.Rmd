@@ -11,7 +11,6 @@ Briefly, we are interested in finding connections between multiple genes, based 
 
 In the first [WGCNA tutorial in R](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/), we are analyzing a dataset of microarray-based gene expression measurements from over 130 female mice. 
     
-To see the data input and cleaning click [here](./Tutorial_1.Rmd) T
-[https://lauren-blake.github.io/WGCNA/Tutorial_1.html]
+To see the data input and cleaning click [here](https://lauren-blake.github.io/WGCNA/Tutorial_1.html)
 
 
