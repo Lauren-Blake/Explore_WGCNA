@@ -31,5 +31,5 @@ Below is code that I ran as part of tutorial 1. Most of the code was taken from 
 
 * To see other plots created during this tutorial, click [here](https://lauren-blake.github.io/Explore_WGCNA/Tutorial_1.html#additional_visualizations).
 
-Future plans: Complete the [second WGCNA tutorial](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/). This tutorial covers comparing co-expression networks across 2 or more datasets-- such as case-control datasets, before-after treatment comparisons, etc.-- as well as further integrating these networks with clinical data. 
+Future plans: Complete the [second WGCNA tutorial](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/). This tutorial covers comparing co-expression networks across 2 or more datasets, such as case-control datasets, before-after treatment comparisons, etc. It also covers integration of these networks with clinical data in more depth. 
 
